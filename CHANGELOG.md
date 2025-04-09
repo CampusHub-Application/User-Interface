@@ -1,3 +1,8 @@
+## 1.1.4 Dashboard Header Finishing
+
+-   Added icons component for reuse
+-   Finished slicing header for Dashboard
+
 ## 1.1.3 Added 1/4 Base Dashboard Page
 
 -   Base dashboard UI made based on Natha's Design @ https://www.figma.com/design/LzB6oKLbkXXDNERQ0fJzJE/TBC?node-id=0-1&t=7BErKKXjAwJn26PZ-1

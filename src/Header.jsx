@@ -10,12 +10,15 @@ function DashboardHeader() {
                 <input
                     type="text"
                     placeholder="Search Here"
+                    className="active:outline-none focus:outline-none"
                 />
                 <button type="submit" className="flex items-center justify-center h-5 w-5">
                     <SearchIcon />
                 </button>
             </form>
-            <img src={null} className="object-cover rounded-full h-8 w-8 border-1" />
+            <a className="rounded-full" href="/dashboard"> {/* change href later */}
+                <img src={null} className="object-cover rounded-full h-9 w-9 border-1 border-gray-400" />
+            </a>
         </div>
     );
 }

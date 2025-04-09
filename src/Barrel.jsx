@@ -20,6 +20,6 @@ export { default as Homepage } from './Homepage.jsx';
 export { default as Dashboard } from './Dashboard.jsx';
 export { default as Header } from './Header.jsx';
 export { 
-    default as logo,
+    default as Logo,
     SearchIcon,
 } from './Icons.jsx';

@@ -1,5 +1,10 @@
 function MainLogo() {
-
+    return (
+        <h1 className="text-3xl font-bold text-gray-800 flex flex-initial justify-center py-3">
+            Campus
+            <span className="px-2 ms-1 bg-blue-500 text-white rounded-md">Hub</span>
+        </h1>
+    )
 }
 
 function SearchIcon() {
