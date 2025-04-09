@@ -1,4 +1,4 @@
-function App() {
+function Homepage() {
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-gray-600">
       TEST
@@ -6,4 +6,4 @@ function App() {
   )
 }
 
-export default App
+export default Homepage

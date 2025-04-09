@@ -1,3 +1,9 @@
+## 1.1.3 Added 1/4 Base Dashboard Page
+
+-   Base dashboard UI made based on Natha's Design @ https://www.figma.com/design/LzB6oKLbkXXDNERQ0fJzJE/TBC?node-id=0-1&t=7BErKKXjAwJn26PZ-1
+-   Implemented barrel module for react components
+-   Added Search Bar and Avatar for Dashboard Header
+
 ## 1.1.2 Added Unified Changelog documentation (on top of git, cause why not)
 
 -   Added CHANGELOG.md

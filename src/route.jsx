@@ -1,21 +1,31 @@
+// React Components import
 import {
   createBrowserRouter,
   RouterProvider,
-} from "react-router";
+  StrictMode,
+  createRoot,
+  Homepage,
+  Dashboard,
+} from './Barrel.jsx'
 
-
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
+// CSS import (tailwind)
 import './index.css'
-import App from './Barrel.jsx'
 
+// React Routes
 const router = createBrowserRouter([
   {
+    // Main Homepage Route
     path: "/",
-    Component: App,
+    Component: Homepage,
+  }, 
+  {
+    // Dashboard Route
+    path: "/dashboard",
+    Component: Dashboard,
   },
 ]);
 
+// Render the application
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <RouterProvider router={router} />
