@@ -17,9 +17,4 @@ Copy .env.example as .env (Fill environment variables accordingly)
 
 Run these commands:
 npm install
-
-## Changes made from initial template
-
--   Added tailwindcss & tailwindcss/vite npm package
--   Removed custom css in index.css, replaced w/ tailwindcss import
--   Added vite environment (TO AVOID HARDCODING THINGS >:( )
+npm run dev
