@@ -1,20 +1,23 @@
-# React + Vite
+# React + Vite + Tailwind
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Based on minimal react + vite template w/ tailwind@vite installed
 
-Currently, two official plugins are available:
-
--   [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
--   [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
 
 ## Guide to Running Project Locally
 
-Copy .env.example as .env (Fill environment variables accordingly)
+### Prerequisites
 
-Run these commands:
-npm install
-npm run dev
+-   [node.js](https://nodejs.org/en) and/or [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) installed
+-   [git](https://git-scm.com/downloads) installed
+
+---
+
+### Steps
+
+1. [Clone project](#react--vite--tailwind)
+2. Copy .env.example as .env (Fill environment variables accordingly)
+3. Run these commands:
+    1. $ npm install
+    2. $ npm run dev
+    3. Open in browser

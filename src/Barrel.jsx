@@ -8,7 +8,10 @@ export {
 }
 
 // React components exports
-export { StrictMode } from 'react'
+export { 
+    StrictMode,
+    useState,
+} from 'react'
 export { createRoot } from 'react-dom/client'
 export { 
     createBrowserRouter,
@@ -22,4 +25,13 @@ export { default as Header } from './Header.jsx';
 export { 
     default as Logo,
     SearchIcon,
-} from './Icons.jsx';
+    SidebarMenuBase as Menu,
+} from './Particles.jsx';
+
+// Configuration for multiple components
+export {
+    dashboardHeaderPadding as headerPadding,
+} from './UIConfig.jsx';
+
+// Assets export
+export { default as reactLogo } from './assets/react.svg';

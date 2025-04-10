@@ -1,3 +1,11 @@
+## 1.1.5 Base Dashboard Page Tweaks
+
+-   Added small tweaks for logo component size customization
+-   Added Button in sidebar w/ useState & animation
+-   Renamed File 'Icons.jsx' into 'Particles.jsx'
+-   Added UIConfig to configure multiple components settings
+-   Updated README.md w/ better message
+
 ## 1.1.4 Dashboard Header Finishing
 
 -   Added icons component for reuse
