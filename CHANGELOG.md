@@ -1,3 +1,10 @@
+## 1.2.3 Finished First Dashboard Menu for Admin
+
+-   Added [React-Icons](https://www.npmjs.com/package/react-icons) package
+-   Added GPT-generated Dropdown Button & Table Rows lol
+-   Tested for Responsivity
+-   No Functionality tho :v
+
 ## 1.2.2 Torture by making flexbox responsive
 
 -   See title

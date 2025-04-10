@@ -1,5 +1,10 @@
 import {
     headerPadding,
+    useState,
+    useEffect,
+    useRef,
+    FaEdit,
+    RiDeleteBin5Line,
 } from './barrel_module/Barrel.jsx'
 
 function MainLogo({textsize, margin}) {
@@ -25,7 +30,7 @@ function SearchIcon() {
 function SidebarMenuBase({menuName, iconUrl, isActive, setActive}) {
     return (
         <button 
-            className={"flex flex-row items-center mb-2 mx-5 px-5 py-2 active:bg-blue-300/10 hover:scale-110 hover:bg-blue-300/20 rounded-md transition-all duration-200 ease-in-out " + (isActive ? "bg-blue-300/30" : "hover:scale-110 bg-blue-10") }
+            className={"flex flex-row items-center mb-2 mx-5 px-5 py-2 active:bg-blue-300/20 hover:scale-110 hover:bg-blue-300/10 rounded-md transition-all duration-200 ease-in-out " + (isActive ? "bg-blue-300/10" : "hover:scale-110 bg-blue-10") }
             onClick={setActive} 
             >
                 
@@ -35,11 +40,139 @@ function SidebarMenuBase({menuName, iconUrl, isActive, setActive}) {
     )
 }
 
+function DropdownButton({ label = "Options", items = [] }) {
+    const [open, setOpen] = useState(false);
+    const dropdownRef = useRef(null);
+
+    // Close dropdown if clicked outside
+    useEffect(() => {
+        function handleClickOutside(e) {
+        if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+            setOpen(false);
+        }
+        }
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
+
+    return (
+        <div className="relative inline-block text-left" ref={dropdownRef}>
+        <button
+            onClick={() => setOpen(!open)}
+            className="inline-flex justify-center items-center w-full px-4 py-2 text-sm font-medium border border-gray-300 rounded-md hover:bg-gray-300/20 transition"
+        >
+            {label}
+            <svg
+                className="ml-2 w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                >
+                <path d="M19 9l-7 7-7-7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+        </button>
+
+        {open && (
+            <div className="absolute right-0 z-10 mt-2 w-48 bg-white border border-gray-300 rounded-md shadow-lg">
+            {items.map((item, idx) => (
+                <button
+                key={idx}
+                onClick={() => {
+                    setOpen(false);
+                    item.onClick();
+                }}
+                className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
+                >
+                {item.label}
+                </button>
+            ))}
+            </div>
+        )}
+        </div>
+    );
+}
+
+function UserTableRow({ user}) {
+    const [selected, setSelected] = useState([]);
+
+    return (
+        <tr className="border-b border-gray-200 hover:bg-gray-50 transition">
+            {/* Checkbox */}
+            <td className="px-4 py-3">
+            <input
+                type="checkbox"
+                onChange={(e) => {
+                    if (e.target.checked) {
+                        setSelected(prev => [...prev, user.id]);
+                    } else {
+                        setSelected(prev => prev.filter(id => id !== user.id));
+                    }
+                }}
+                className="form-checkbox h-4 w-4 text-blue-600"
+            />
+            </td>
+
+            {/* Avatar & Name */}
+            <td className="py-3 pe-3 text-start">
+            <div className="flex items-center gap-3">
+                <img
+                src={user.avatarUrl}
+                // alt={user.name}
+                className="w-10 h-10 rounded-full object-cover border border-gray-300"
+                />
+                <span className="font-medium text-gray-800 truncate">{user.name}</span>
+            </div>
+            </td>
+
+            {/* Email */}
+            <td className="py-3 pe-3 text-gray-700 text-start truncate">{user.email}</td>
+
+            {/* Password */}
+            <td className="py-3 pe-3 text-gray-500 font-mono truncate max-w-[150px] text-start">
+                {user.password}
+            </td>
+
+            {/* Status */}
+            <td className="py-3 pe-3 text-start">
+            <span
+                className={`inline-block px-2 py-1 text-xs rounded-full font-semibold ${
+                user.status === "Admin"
+                    ? "bg-green-100 text-green-800"
+                    : "bg-red-100 text-red-700"
+                }`}
+            >
+                {user.status}
+            </span>
+            </td>
+
+            {/* Action Buttons */}
+            <td className="py-3 text-right space-x-2">
+            <button
+                onClick={() => null}
+                className="text-black hover:text-blue-800 transition px-3 py-3 me-3 border border-gray-300 rounded-md"
+            >
+                <FaEdit className='text-xl'/>
+            </button>
+            <button
+                onClick={() => null}
+                className="text-red-600 hover:text-red-800 transition px-3 py-3 me-3 border border-gray-300 rounded-md"
+            >
+                <RiDeleteBin5Line className='text-xl' />
+            </button>
+            </td>
+        </tr>
+    );
+}
+
+// Mock icon URL
 const mockIcon = ".../assets/react.svg"
 
 export default MainLogo
 export { 
     SearchIcon,
     SidebarMenuBase,
+    DropdownButton,
+    UserTableRow,
     mockIcon
 }

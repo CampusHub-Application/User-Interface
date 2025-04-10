@@ -15,22 +15,37 @@ export {
 export { 
     StrictMode,
     useState,
+    useEffect,
+    useRef,
 } from 'react'
-export { createRoot } from 'react-dom/client'
+
 export { 
     createBrowserRouter,
     RouterProvider
 } from 'react-router';
+
+export {
+    FaEdit,
+} from 'react-icons/fa'
+
+export { 
+    RiDeleteBin5Line, 
+} from "react-icons/ri";
+
+export { createRoot } from 'react-dom/client'
 
 // Other components exports
 export { default as Homepage } from '../../pages/Homepage/Homepage.jsx';
 export { default as Dashboard } from '../../pages/Dashboard/Dashboard.jsx';
 export { default as Header } from '../Dashboard/Header.jsx';
 export { default as Sidebar } from '../Dashboard/Sidebar.jsx';
+export { default as AdminDashboardUI } from '../../pages/Dashboard/Admin/AdminDashboardMenu.jsx'
 export { 
     default as Logo,
     SearchIcon,
     SidebarMenuBase as Menu,
+    DropdownButton,
+    UserTableRow as Row,
 } from '../Particles.jsx';
 
 // Configuration for multiple components

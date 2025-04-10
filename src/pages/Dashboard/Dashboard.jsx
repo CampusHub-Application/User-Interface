@@ -1,28 +1,39 @@
 import { 
+    useState,
     Header,
-    Sidebar
+    Sidebar,
+    AdminDashboardUI,
+    ADMIN_MODE,
 } from '../../components/barrel_module/Barrel.jsx'
 
 function Dashboard() {
+    const [activeMenu, setActiveMenu] = ADMIN_MODE ? useState("AdminDashboard") : useState("Dashboard");
+
     return (
         <>
             <div className="flex flex-row bg-white h-full">
-                <Sidebar />
+                <Sidebar activeMenu={activeMenu} setActiveMenu={setActiveMenu} />
                 <div className="flex flex-col flex-auto h-fit">
                     <Header />
-                    <ActiveContent />
+                    <ActiveContent activeMenu={activeMenu}/>
                 </div>
             </div>
         </>
     )
 }
 
-function ActiveContent() {
+function ActiveContent({ activeMenu }) {
+    const menuComponentMap = {
+        Dashboard: null,
+        Photo: null,
+        Profile: null,
+        AdminDashboard: <AdminDashboardUI />,
+        AdminProfile: null
+    };
+
     return (
-        <div className="flex flex-col basis-1 flex-auto h-fit px-5 py-5">
-            <p>TEST</p>
-            <p>TEST</p>
-            <p>TEST</p>
+        <div className="flex flex-col basis-1 flex-auto h-fit px-8 py-10">
+            {menuComponentMap[activeMenu] || <p>No content found.</p>}
         </div>
     )
 }
