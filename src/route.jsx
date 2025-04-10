@@ -6,7 +6,7 @@ import {
   createRoot,
   Homepage,
   Dashboard,
-} from './Barrel.jsx'
+} from './components/barrel_module/Barrel.jsx';
 
 // CSS import (tailwind)
 import './index.css'

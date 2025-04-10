@@ -2,7 +2,7 @@ import {
     SearchIcon,
     API,
     headerPadding
-} from "./Barrel.jsx";
+} from "./barrel_module/Barrel.jsx";
 
 function DashboardHeader() {
     return (

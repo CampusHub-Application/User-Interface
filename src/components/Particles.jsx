@@ -1,6 +1,6 @@
 import {
     headerPadding,
-} from './Barrel.jsx'
+} from './barrel_module/Barrel.jsx'
 
 function MainLogo({textsize, margin}) {
     return (

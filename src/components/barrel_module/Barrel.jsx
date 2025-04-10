@@ -23,19 +23,19 @@ export {
 } from 'react-router';
 
 // Other components exports
-export { default as Homepage } from './Homepage.jsx';
-export { default as Dashboard } from './Dashboard.jsx';
-export { default as Header } from './Header.jsx';
+export { default as Homepage } from '../../pages/Homepage/Homepage.jsx';
+export { default as Dashboard } from '../../pages/Dashboard/Dashboard.jsx';
+export { default as Header } from '../Header.jsx';
 export { 
     default as Logo,
     SearchIcon,
     SidebarMenuBase as Menu,
-} from './Particles.jsx';
+} from '../Particles.jsx';
 
 // Configuration for multiple components
 export {
     dashboardHeaderPadding as headerPadding,
-} from './UIConfig.jsx';
+} from '../UIConfig.jsx';
 
 // Assets export
-export { default as reactLogo } from './assets/react.svg';
+export { default as reactLogo } from '../../assets/react.svg';

@@ -5,7 +5,7 @@ import {
     reactLogo,
     useState,
     ADMIN_MODE,
-} from './Barrel.jsx'
+} from '../../components/barrel_module/Barrel.jsx'
 
 function Dashboard() {
     return (

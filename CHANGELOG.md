@@ -1,3 +1,8 @@
+## 1.2.1 Project Refactor
+
+-   Changed how project is structured
+-   That's basically it
+
 ## 1.1.6 Dashboard Tweaks (Again)
 
 -   Component Logo 'CampusHub' now route to homepage
