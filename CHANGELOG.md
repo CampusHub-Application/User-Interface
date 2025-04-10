@@ -1,3 +1,7 @@
+## 1.2.2 Torture by making flexbox responsive
+
+-   See title
+
 ## 1.2.1 Project Refactor
 
 -   Changed how project is structured

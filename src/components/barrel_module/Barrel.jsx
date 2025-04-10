@@ -25,7 +25,8 @@ export {
 // Other components exports
 export { default as Homepage } from '../../pages/Homepage/Homepage.jsx';
 export { default as Dashboard } from '../../pages/Dashboard/Dashboard.jsx';
-export { default as Header } from '../Header.jsx';
+export { default as Header } from '../Dashboard/Header.jsx';
+export { default as Sidebar } from '../Dashboard/Sidebar.jsx';
 export { 
     default as Logo,
     SearchIcon,

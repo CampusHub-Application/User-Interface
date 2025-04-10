@@ -25,7 +25,7 @@ function SearchIcon() {
 function SidebarMenuBase({menuName, iconUrl, isActive, setActive}) {
     return (
         <button 
-            className={"flex flex-row items-center mb-2 mx-5 px-5 py-2 active:bg-blue-300/10 hover:scale-110 hover:bg-blue-300/20 rounded-md transition-all duration-200 ease-in-out " + (isActive ? "bg-blue-300/30 scale-105" : "hover:scale-110 bg-blue-10") }
+            className={"flex flex-row items-center mb-2 mx-5 px-5 py-2 active:bg-blue-300/10 hover:scale-110 hover:bg-blue-300/20 rounded-md transition-all duration-200 ease-in-out " + (isActive ? "bg-blue-300/30" : "hover:scale-110 bg-blue-10") }
             onClick={setActive} 
             >
                 
