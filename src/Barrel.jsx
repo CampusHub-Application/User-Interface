@@ -2,9 +2,13 @@
 const VITE_API_URL = import.meta.env.VITE_API_URL;
 const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
 
+// ! REMOVE THIS ON PRODUCTION
+const VITE_WEB_AS_ADMIN = import.meta.env.VITE_WEB_AS_ADMIN === "true";
+
 export {
     VITE_API_URL as API,
-    VITE_BASE_URL as BASE
+    VITE_BASE_URL as BASE,
+    VITE_WEB_AS_ADMIN as ADMIN_MODE,
 }
 
 // React components exports

@@ -4,10 +4,13 @@ import {
 
 function MainLogo({textsize, margin}) {
     return (
-        <h1 className={textsize + " font-bold text-gray-800 flex flex-initial justify-center py-3 " + margin + " " + headerPadding}>
+        <a 
+            className={textsize + " font-bold text-gray-800 flex flex-initial justify-center py-3 " + margin + " " + headerPadding}
+            href='/'
+            >
             Campus
             <span className="px-2 ms-1 bg-blue-500 text-white rounded-md">Hub</span>
-        </h1>
+        </a>
     )
 }
 
@@ -27,7 +30,7 @@ function SidebarMenuBase({menuName, iconUrl, isActive, setActive}) {
             >
                 
             <img src={iconUrl} className='w-8 h-8'/>
-            <p className='text-xl font-bold ps-3'>{menuName}</p>
+            <p className={'text-xl ps-3 ' + (isActive ? "font-medium" : "font-light")}>{menuName}</p>
         </button>
     )
 }

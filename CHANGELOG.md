@@ -1,10 +1,15 @@
+## 1.1.6 Dashboard Tweaks (Again)
+
+-   Component Logo 'CampusHub' now route to homepage
+-   Added Toggle to see Admin POV from [.env](.env.example) (ONLY USE IN DEV, WILL BE REMOVED LATER)
+
 ## 1.1.5 Base Dashboard Page Tweaks
 
 -   Added small tweaks for logo component size customization
 -   Added Button in sidebar w/ useState & animation
 -   Renamed File 'Icons.jsx' into 'Particles.jsx'
--   Added UIConfig to configure multiple components settings
--   Updated README.md w/ better message
+-   Added [UIConfig](src/UIConfig.jsx) to configure multiple components settings
+-   Updated [README.md](README.md) w/ better message
 
 ## 1.1.4 Dashboard Header Finishing
 
@@ -13,17 +18,17 @@
 
 ## 1.1.3 Added 1/4 Base Dashboard Page
 
--   Base dashboard UI made based on Natha's Design @ https://www.figma.com/design/LzB6oKLbkXXDNERQ0fJzJE/TBC?node-id=0-1&t=7BErKKXjAwJn26PZ-1
+-   Base dashboard UI made based on [Natha's Design](https://www.figma.com/design/LzB6oKLbkXXDNERQ0fJzJE/TBC?node-id=0-1&t=7BErKKXjAwJn26PZ-1)
 -   Implemented barrel module for react components
 -   Added Search Bar and Avatar for Dashboard Header
 
 ## 1.1.2 Added Unified Changelog documentation (on top of git, cause why not)
 
--   Added CHANGELOG.md
+-   Added [CHANGELOG.md](CHANGELOG.md)
 -   Added react-router package (react-router-dom now just repack react-router in npm anyway)
 -   Using react-router data mode (see react router documentation for more info @ https://reactrouter.com/start/data/installation)
 -   Index now point to routing file
--   Added barrel module for re-exporting (Reduce clutter from multiple imports)
+-   Added [barrel module](src/Barrel.jsx) for re-exporting (Reduce clutter from multiple imports)
 
 ## 1.1.1 Changes made from initial template
 
