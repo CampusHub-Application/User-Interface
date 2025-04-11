@@ -1,3 +1,8 @@
+## 1.2.6 Dashboard Tweaks
+
+-   Added Modal Pop-up for Admin Add User Function
+-   Added Additional Field Config in [UIConfig](/src/components/UIConfig.jsx)
+
 ## 1.2.5 Added Non-Admin Dashboard
 
 -   Refactored File Names

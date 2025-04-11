@@ -28,6 +28,8 @@ export {
 
 export {
     FaEdit,
+    FaRegEye,
+    FaRegEyeSlash,
 } from 'react-icons/fa'
 
 export { 
@@ -35,7 +37,8 @@ export {
 } from "react-icons/ri";
 
 export {
-    IoMenuOutline 
+    IoMenuOutline,
+    IoCloudUploadOutline
 } from "react-icons/io5";
 
 export { 
@@ -59,6 +62,8 @@ export {
     SidebarMenuBase as Menu,
     DropdownButton,
     UserTableRow as Row,
+    ModalForm,
+    FormInputComponent,
 } from '../Particles.jsx';
 
 export { default as Title } from '../Title.jsx';
@@ -68,6 +73,7 @@ export { default as Title } from '../Title.jsx';
 export {
     dashboardHeaderPadding as headerPadding,
     profileFieldMap,
+    adminAddUserMap,
 } from '../UIConfig.jsx';
 
 export {

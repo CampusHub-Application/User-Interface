@@ -1,5 +1,67 @@
 const dashboardHeaderPadding = "pt-10 px-8"
 
+const adminDashboardFieldMap = [
+    {
+        type: "text",
+        name: "status",
+        label: "Status",
+        placeholder: null,
+        addClass: null,
+        defaultValue: "Admin",
+        disabled: false,
+        isDropdown: true,
+        isPassword: false,
+        dropdownOptions: [
+            { label: "Admin", value: "Admin" },
+            { label: "Non-Admin", value: "Non-Admin" },
+        ],
+    },
+    {
+        type: "email",
+        name: "email",
+        label: "Email*",
+        placeholder: "Email Baru",
+        addClass: null,
+        defaultValue: null,
+        disabled: false,
+        isDropdown: false,
+        isPassword: false,
+    },
+    {
+        type: "text",
+        name: "name",
+        label: "Nama Lengkap*",
+        placeholder: "Nama Pengguna Baru",
+        addClass: null,
+        defaultValue: null,
+        disabled: false,
+        isDropdown: false,
+        isPassword: false,
+    },
+    {
+        type: "password",
+        name: "password",
+        label: "Password*",
+        placeholder: "Masukkan Password",
+        addClass: null,
+        defaultValue: null,
+        disabled: false,
+        isDropdown: false,
+        isPassword: true,
+    },
+    {
+        type: "password",
+        name: "passwordConfirm",
+        label: "Konfirmasi Password",
+        placeholder: "Masukkan Password",
+        addClass: null,
+        defaultValue: null,
+        disabled: false,
+        isDropdown: false,
+        isPassword: true,
+    },
+];
+
 function fieldMap({ user }) {
     return [
         {
@@ -54,4 +116,5 @@ export default dashboardHeaderPadding
 export { 
     dashboardHeaderPadding,
     fieldMap as profileFieldMap,
+    adminDashboardFieldMap as adminAddUserMap,
 }

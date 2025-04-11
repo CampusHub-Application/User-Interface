@@ -3,6 +3,8 @@ import {
     Row,
     useState,
     MockData,
+    ModalForm,
+    adminAddUserMap,
 } from "../../../components/barrel_module/Barrel.jsx";
 
 function AdminDashboardMenu() {
@@ -23,9 +25,14 @@ function AdminDashboardMenu() {
         <div>
             <div className="flex items-center justify-between">
                 <h1 className="text-3xl font-bold">Dashboard</h1>
-                <button className="bg-blue-600/80 text-white font-bold px-4 py-2 rounded-xl items-center flex">
-                    <span className="text-xl pe-2">+</span> Tambah Pengguna
-                </button>
+                <ModalForm 
+                    title=  {
+                                <>
+                                    <span className='text-xl pe-2'>+</span> Tambah Pengguna
+                                </>
+                            } 
+                    fieldConfig={adminAddUserMap}
+                />
             </div>
             <div className="flex flex-auto items-center justify-between border border-gray-200 mt-5 rounded-md px-5 py-4">
                 <h1 className="text-xl font-medium pe-5">Ringkasan Hari Ini</h1>

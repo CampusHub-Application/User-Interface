@@ -5,6 +5,9 @@ import {
     useRef,
     FaEdit,
     RiDeleteBin5Line,
+    FaRegEye,
+    FaRegEyeSlash,
+    IoCloudUploadOutline,
 } from './barrel_module/Barrel.jsx'
 
 function MainLogo({textsize, margin}) {
@@ -47,9 +50,9 @@ function DropdownButton({ label = "Options", items = [] }) {
     // Close dropdown if clicked outside
     useEffect(() => {
         function handleClickOutside(e) {
-        if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
-            setOpen(false);
-        }
+            if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+                setOpen(false);
+            }
         }
 
         document.addEventListener("mousedown", handleClickOutside);
@@ -58,37 +61,37 @@ function DropdownButton({ label = "Options", items = [] }) {
 
     return (
         <div className="relative inline-block text-left" ref={dropdownRef}>
-        <button
-            onClick={() => setOpen(!open)}
-            className="inline-flex justify-center items-center w-full px-4 py-2 text-sm font-medium border border-gray-300 rounded-md hover:bg-gray-300/20 transition"
-        >
-            {label}
-            <svg
-                className="ml-2 w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                >
-                <path d="M19 9l-7 7-7-7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-        </button>
+            <button
+                onClick={() => setOpen(!open)}
+                className="inline-flex justify-center items-center w-full px-4 py-2 text-sm font-medium border border-gray-300 rounded-md hover:bg-gray-300/20 transition"
+            >
+                {label}
+                <svg
+                    className="ml-2 w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    >
+                    <path d="M19 9l-7 7-7-7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+            </button>
 
-        {open && (
-            <div className="absolute right-0 z-10 mt-2 w-48 bg-white border border-gray-300 rounded-md shadow-lg">
-            {items.map((item, idx) => (
-                <button
-                key={idx}
-                onClick={() => {
-                    setOpen(false);
-                    item.onClick();
-                }}
-                className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
-                >
-                {item.label}
-                </button>
-            ))}
-            </div>
-        )}
+            {open && (
+                <div className="absolute right-0 z-10 mt-2 w-48 bg-white border border-gray-300 rounded-md shadow-lg">
+                {items.map((item, idx) => (
+                    <button
+                    key={idx}
+                    onClick={() => {
+                        setOpen(false);
+                        item.onClick();
+                    }}
+                    className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
+                    >
+                    {item.label}
+                    </button>
+                ))}
+                </div>
+            )}
         </div>
     );
 }
@@ -165,10 +168,248 @@ function UserTableRow({ user }) {
     );
 }
 
+function FormInputComponent({ field, index, value = null, onChange = "" }) {
+    return (
+        <div key={index} className="flex flex-col gap-2">
+            <label htmlFor={field.name} className="text-gray-700 font-medium">
+                {field.label}
+            </label>
+            <input
+                type={field.type}
+                name={field.name}
+                id={field.name}
+                placeholder={field.placeholder}
+                className={"border border-gray-300 rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 " + field.addClass}
+                defaultValue={field.defaultValue}
+                value={value}
+                onChange={onChange}
+                required={true}
+                disabled={field.disabled}
+            />
+        </div>
+    )
+}
+
+function FormDropdownComponent({ field, index, value = null, onChange = ""  }) {
+    return (
+        <div key={index} className="relative flex flex-col gap-2">
+            <label htmlFor={field.name} className="text-gray-700 font-medium">
+                {field.label}
+            </label>
+            <select
+                name={field.name}
+                id={field.name}
+                className={"border border-gray-300 rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none pr-10 " + field.addClass}
+                defaultValue={field.defaultValue}
+                disabled={field.disabled}
+                onChange={onChange}
+                required={false}
+            >
+                {field.dropdownOptions.map((option, idx) => (
+                    <option key={idx} value={option.value}>
+                        {option.label}
+                    </option>
+                ))}
+            </select>
+            <div className="pointer-events-none absolute inset-y-0 top-8 right-5 flex items-center">
+                <svg
+                    className="w-4 h-4 text-gray-500"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="3"
+                    viewBox="0 0 24 24"
+                    >
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                </svg>
+            </div>
+        </div>
+    )
+}
+
+function FormInputPasswordComponent({ field, index, value = null, onChange = ""  }) {
+    const [showPassword, setShowPassword] = useState(false);
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
+    const inputType = showPassword ? "text" : "password";
+    const toggleIcon = showPassword ? <FaRegEyeSlash className='w-5 h-5'/> : <FaRegEye className='w-5 h-5'/>;
+
+    return (
+        <div key={index} className="relative flex flex-col gap-2">
+            <label htmlFor={field.name} className="text-gray-700 font-medium">
+                {field.label}
+            </label>
+            <input
+                type={inputType}
+                name={field.name}
+                id={field.name}
+                placeholder={field.placeholder}
+                className={"border border-gray-300 rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 " + field.addClass}
+                defaultValue={field.defaultValue}
+                disabled={field.disabled}
+                value={value}
+                onChange={onChange}
+                required={true}
+            />
+            <button 
+                type="button"
+                onClick={() => togglePasswordVisibility()}
+                className='cursor-pointer absolute inset-y-0 top-8 right-5 flex items-center'>
+                {toggleIcon}
+            </button>
+        </div>
+    )
+}
+
+function ModalForm({ title, fieldConfig }) {
+    const [isOpen, setIsOpen] = useState(false);
+    const [formData, setFormData] = useState({
+        status: "",
+        name: "",
+        email: "",
+        password: "",
+        image: null,
+    });
+
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        if (file && ["image/png", "image/svg+xml", "image/jpeg"].includes(file.type)) {
+            setFormData({ ...formData, image: file });
+        }
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+            console.log("Form submitted:", formData); // ! REPLACE WITH SUBMIT FUNCTION
+        setIsOpen(false);
+    };
+
+    // Close Modal if clicked outside
+    const modalRef = useRef(null);
+
+    useEffect(() => {
+        function handleClickOutside(e) {
+            if (modalRef.current && !modalRef.current.contains(e.target)) {
+                setIsOpen(false);
+            }
+        }
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
+
+    return (
+        <>
+            {/* Button to trigger modal */}
+            <button
+                onClick={() => setIsOpen(true)}
+                className="flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700"
+                >
+                {title}
+            </button>
+
+            {/* Modal Overlay */}
+            {isOpen && (
+                <div className="fixed inset-0 z-50 bg-black/30 flex items-center justify-center">
+                    {/* Modal Content */}
+                    <div className="bg-white w-full max-w-[60%] p-6 rounded-lg shadow-lg relative" ref={modalRef}>
+
+                    <h2 className="text-xl font-semibold">Tambah Pengguna</h2>
+                    <p className='text-gray-500 mb-6 mt-1'>Pastikan data sudah benar sebelum disimpan</p>
+                    <form onSubmit={handleSubmit} className="space-y-4">
+                        {fieldConfig.map((field, index) => {
+                            const value = formData[field.name] || ""
+
+                            const handleChange = (e) => {
+                                setFormData((prev) => ({
+                                    ...prev,
+                                    [e.target.name]: e.target.value,
+                                }));
+                            };
+
+                            if (field.isDropdown) {
+                                return (
+                                    <FormDropdownComponent 
+                                        key={index} 
+                                        field={field}
+                                        value={field.defaultValue}
+                                        onChange={handleChange} />
+                                );
+                            } else {
+                                if(field.isPassword) {
+                                    return (
+                                        <FormInputPasswordComponent 
+                                            key={index} 
+                                            field={field}
+                                            value={value}
+                                            onChange={handleChange} />
+                                    );
+                                } else {
+                                    return (
+                                        <FormInputComponent 
+                                            key={index} 
+                                            field={field}
+                                            value={value}
+                                            onChange={handleChange} />
+                                    );
+                                }
+                            }
+                        })}
+                        <div className="relative w-full">
+                            {/* Hidden input */}
+                            <input
+                                type="file"
+                                id="image"
+                                name="image"
+                                accept="image/png, image/svg+xml, image/jpeg"
+                                onChange={handleFileChange}
+                                className="hidden"
+                                />
+
+                            {/* Custom button/label */}
+                            <label
+                                htmlFor="image"
+                                className="cursor-pointer flex flex-col min-h-35 border border-gray-300 rounded-md px-4 py-3 bg-white text-gray-700 hover:bg-gray-100 text-center justify-center items-center"
+                                >
+                                <IoCloudUploadOutline className='w-10 h-10 py-2 px-2 shadow-md rounded-xl border border-gray-300/20' />
+                                {formData.image ? 
+                                    formData.image.name : 
+                                    <h1 className='pt-3 font-light text-sm'>
+                                        <span className='text-purple-800 font-bold'>Click to upload</span> or drag and drop <br />
+                                        SVG, PNG, or JPEG (max. 800x400px)
+                                    </h1>
+                                    }
+                            </label>
+                        </div>
+                        <div className="flex justify-end mt-4">
+                            <button
+                                type="button"
+                                onClick={() => setIsOpen(false)}
+                                className="px-4 py-2 bg-gray-300 text-gray-800 rounded-md hover:bg-gray-400"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                type="submit"
+                                className="ml-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                            >
+                                Save
+                            </button>
+                        </div>
+                    </form>
+                    </div>
+                </div>
+            )}
+        </>
+    );
+}
+
 export default MainLogo
 export { 
     SearchIcon,
     SidebarMenuBase,
     DropdownButton,
     UserTableRow,
+    ModalForm,
+    FormInputComponent,
 }
