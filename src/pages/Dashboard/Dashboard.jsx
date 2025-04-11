@@ -1,5 +1,6 @@
 import { 
     useState,
+    useEffect,
     Header,
     Sidebar,
     AdminDashboardUI,
@@ -9,6 +10,10 @@ import {
 
 function Dashboard() {
     const [activeMenu, setActiveMenu] = ADMIN_MODE ? useState("AdminDashboard") : useState("Dashboard");
+
+    useEffect(() => {
+        document.title = "Dashboard | CampusHub";
+      }, []);
 
     return (
         <>
