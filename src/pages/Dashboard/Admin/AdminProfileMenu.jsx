@@ -19,10 +19,6 @@ function AdminProfileMenu( { user } ) {
             <div className="flex flex-col gap-5">
                 <div className="flex flex-row justify-between items-center">
                     <h1 className="text-3xl font-bold">Profile</h1>
-                    <button className="bg-blue-600 text-white font-medium px-8 py-2 rounded-lg">
-                        <span className="text-xl pe-2">+</span>
-                        Edit
-                    </button>
                 </div>
                 <div className="flex flex-row gap-10">
                     <div className="flex flex-col h-fit justify-start items-start gap-3 bg-gray-300/30 py-5 px-5 min-w-[15rem] rounded-xl">

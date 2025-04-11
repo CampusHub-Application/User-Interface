@@ -168,7 +168,7 @@ function UserTableRow({ user }) {
     );
 }
 
-function FormInputComponent({ field, index, value = null, onChange = () => {} }) {
+function FormInputComponent({ field, index, onChange = () => {} }) {
     return (
         <div key={index} className="flex flex-col gap-2">
             <label htmlFor={field.name} className="text-gray-700 font-medium">
@@ -181,7 +181,6 @@ function FormInputComponent({ field, index, value = null, onChange = () => {} })
                 placeholder={field.placeholder}
                 className={"border border-gray-300 rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 " + field.addClass}
                 defaultValue={field.defaultValue}
-                value={value}
                 onChange={onChange}
                 required={true}
                 disabled={field.disabled}
@@ -190,7 +189,7 @@ function FormInputComponent({ field, index, value = null, onChange = () => {} })
     )
 }
 
-function FormDropdownComponent({ field, index, value = null, onChange = () => {}  }) {
+function FormDropdownComponent({ field, index, value = "", onChange = () => {}  }) {
     return (
         <div key={index} className="relative flex flex-col gap-2">
             <label htmlFor={field.name} className="text-gray-700 font-medium">
@@ -200,7 +199,7 @@ function FormDropdownComponent({ field, index, value = null, onChange = () => {}
                 name={field.name}
                 id={field.name}
                 className={"border border-gray-300 rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none pr-10 " + field.addClass}
-                defaultValue={field.defaultValue}
+                value={value}
                 disabled={field.disabled}
                 onChange={onChange}
                 required={false}
@@ -226,7 +225,7 @@ function FormDropdownComponent({ field, index, value = null, onChange = () => {}
     )
 }
 
-function FormInputPasswordComponent({ field, index, value = null, onChange = () => {}  }) {
+function FormInputPasswordComponent({ field, index, onChange = () => {}  }) {
     const [showPassword, setShowPassword] = useState(false);
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
@@ -247,7 +246,6 @@ function FormInputPasswordComponent({ field, index, value = null, onChange = () 
                 className={"border border-gray-300 rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 " + field.addClass}
                 defaultValue={field.defaultValue}
                 disabled={field.disabled}
-                value={value}
                 onChange={onChange}
                 required={true}
             />
@@ -264,7 +262,7 @@ function FormInputPasswordComponent({ field, index, value = null, onChange = () 
 function ModalForm({ title, fieldConfig }) {
     const [isOpen, setIsOpen] = useState(false);
     const [formData, setFormData] = useState({
-        status: "",
+        status: fieldConfig.find(f => f.name === "status")?.defaultValue || "",
         name: "",
         email: "",
         password: "",
@@ -332,7 +330,7 @@ function ModalForm({ title, fieldConfig }) {
                                     <FormDropdownComponent 
                                         key={index} 
                                         field={field}
-                                        value={field.defaultValue}
+                                        value={value}
                                         onChange={handleChange} />
                                 );
                             } else {

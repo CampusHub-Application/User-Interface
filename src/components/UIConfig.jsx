@@ -7,7 +7,7 @@ const adminDashboardFieldMap = [
         label: "Status",
         placeholder: null,
         addClass: null,
-        defaultValue: "Admin",
+        defaultValue: "Non-Admin",
         disabled: false,
         isDropdown: true,
         isPassword: false,
