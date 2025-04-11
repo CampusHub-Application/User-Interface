@@ -21,7 +21,8 @@ export {
 
 export { 
     createBrowserRouter,
-    RouterProvider
+    RouterProvider,
+    useLocation,
 } from 'react-router';
 
 export {
@@ -49,6 +50,7 @@ export { default as Header } from '../Dashboard/Header.jsx';
 export { default as Sidebar } from '../Dashboard/Sidebar.jsx';
 export { default as AdminDashboardUI } from '../../pages/Dashboard/Admin/AdminDashboardMenu.jsx'
 export { default as AdminProfileUI } from '../../pages/Dashboard/Admin/AdminProfileMenu.jsx';
+export { default as Gallery } from '../../pages/Dashboard/Non-Admin/Gallery.jsx'
 export { 
     default as Logo,
     SearchIcon,
@@ -56,6 +58,9 @@ export {
     DropdownButton,
     UserTableRow as Row,
 } from '../Particles.jsx';
+
+export { default as Title } from '../Title.jsx';
+
 
 // Configuration for multiple components
 export {

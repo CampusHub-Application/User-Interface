@@ -4,6 +4,7 @@ import {
     Sidebar,
     AdminDashboardUI,
     AdminProfileUI,
+    Gallery,
     ADMIN_MODE,
     currUser,
 } from '../../components/barrel_module/Barrel.jsx'
@@ -35,7 +36,7 @@ function ActiveContent({ activeMenu }) {
         };
     } else {
         menuComponentMap = {
-            Dashboard: null,
+            Dashboard: <Gallery />,
             Photo: null,
             Profile: null,
         };
