@@ -3,7 +3,7 @@ import {
     useEffect 
 } from './barrel_module/Barrel.jsx';
 
-function AppLayout({ children }) {
+function Title({ children }) {
   const location = useLocation();
 
   useEffect(() => {
@@ -19,4 +19,4 @@ function AppLayout({ children }) {
   return <div>{children}</div>;
 }
 
-export default AppLayout;
+export default Title;
