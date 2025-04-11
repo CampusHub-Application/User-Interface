@@ -1,3 +1,12 @@
+## 1.2.4 Dashboard Functionality Tweaks
+
+-   Added Off-Canvas / Drawer for small screen sizes
+-   Added functional filtering based on data
+-   Fixed rendering of sidebar to be compatible with off-canvas
+-   Added [STRUCTURE.md](/STRUCTURE.md) to describe each components
+-   Added Profile menu for Admin
+-   Re-factored Project for Better Configuration (Less readability tho lol)
+
 ## 1.2.3 Finished First Dashboard Menu for Admin
 
 -   Added [React-Icons](https://www.npmjs.com/package/react-icons) package

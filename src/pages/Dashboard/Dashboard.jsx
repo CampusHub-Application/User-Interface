@@ -3,7 +3,9 @@ import {
     Header,
     Sidebar,
     AdminDashboardUI,
+    AdminProfileUI,
     ADMIN_MODE,
+    currUser,
 } from '../../components/barrel_module/Barrel.jsx'
 
 function Dashboard() {
@@ -12,9 +14,9 @@ function Dashboard() {
     return (
         <>
             <div className="flex flex-row bg-white h-full">
-                <Sidebar activeMenu={activeMenu} setActiveMenu={setActiveMenu} />
+                <Sidebar activeMenu={activeMenu} setActiveMenu={setActiveMenu} addClass="hidden lg:flex"/>
                 <div className="flex flex-col flex-auto h-fit">
-                    <Header />
+                    <Header activeMenu={activeMenu} setActiveMenu={setActiveMenu} />
                     <ActiveContent activeMenu={activeMenu}/>
                 </div>
             </div>
@@ -23,13 +25,21 @@ function Dashboard() {
 }
 
 function ActiveContent({ activeMenu }) {
-    const menuComponentMap = {
-        Dashboard: null,
-        Photo: null,
-        Profile: null,
-        AdminDashboard: <AdminDashboardUI />,
-        AdminProfile: null
-    };
+    var menuComponentMap = {};
+
+    // Prevent access to admin menu if not in admin mode and other way around
+    if(ADMIN_MODE) {
+        menuComponentMap = {
+            AdminDashboard: <AdminDashboardUI />,
+            AdminProfile: <AdminProfileUI user={currUser} />,
+        };
+    } else {
+        menuComponentMap = {
+            Dashboard: null,
+            Photo: null,
+            Profile: null,
+        };
+    }
 
     return (
         <div className="flex flex-col basis-1 flex-auto h-fit px-8 py-10">

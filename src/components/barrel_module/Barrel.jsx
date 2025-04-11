@@ -32,14 +32,23 @@ export {
     RiDeleteBin5Line, 
 } from "react-icons/ri";
 
+export {
+    IoMenuOutline 
+} from "react-icons/io5";
+
+export { 
+    PiPencilLineThin 
+} from "react-icons/pi";
+
 export { createRoot } from 'react-dom/client'
 
-// Other components exports
+// Dev-made components exports
 export { default as Homepage } from '../../pages/Homepage/Homepage.jsx';
 export { default as Dashboard } from '../../pages/Dashboard/Dashboard.jsx';
 export { default as Header } from '../Dashboard/Header.jsx';
 export { default as Sidebar } from '../Dashboard/Sidebar.jsx';
 export { default as AdminDashboardUI } from '../../pages/Dashboard/Admin/AdminDashboardMenu.jsx'
+export { default as AdminProfileUI } from '../../pages/Dashboard/Admin/AdminProfileMenu.jsx';
 export { 
     default as Logo,
     SearchIcon,
@@ -51,7 +60,13 @@ export {
 // Configuration for multiple components
 export {
     dashboardHeaderPadding as headerPadding,
+    profileFieldMap,
 } from '../UIConfig.jsx';
 
-// Assets export
+export {
+    default as MockData,
+    currentUser as currUser,
+} from '../../MockData.jsx';
+
+// Export Assets
 export { default as reactLogo } from '../../assets/react.svg';

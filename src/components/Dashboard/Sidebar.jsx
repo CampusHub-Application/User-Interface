@@ -1,11 +1,11 @@
 import {
     Logo,
-    Menu,
     reactLogo,
+    Menu,
     ADMIN_MODE,
 } from '../barrel_module/Barrel.jsx';
 
-function Sidebar({ activeMenu, setActiveMenu }) {
+function Sidebar({ activeMenu, setActiveMenu, addClass = "" }) {
     const menuNames = [];
     
     if(ADMIN_MODE) {
@@ -22,7 +22,7 @@ function Sidebar({ activeMenu, setActiveMenu }) {
     }
 
     return (
-        <div className="hidden lg:flex lg:flex-col lg:border-e-1 lg:border-gray-300 lg:min-w-[22rem] lg:visible">
+        <div className={"flex flex-col border-e-1 border-gray-300 min-w-[22rem] " + addClass}>
             <Logo textsize={"text-4xl"} margin={"mb-8"}/>
             {menuNames.map(menu => (
                 <Menu 

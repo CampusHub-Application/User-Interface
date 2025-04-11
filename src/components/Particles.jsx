@@ -93,7 +93,7 @@ function DropdownButton({ label = "Options", items = [] }) {
     );
 }
 
-function UserTableRow({ user}) {
+function UserTableRow({ user }) {
     const [selected, setSelected] = useState([]);
 
     return (
@@ -165,14 +165,10 @@ function UserTableRow({ user}) {
     );
 }
 
-// Mock icon URL
-const mockIcon = ".../assets/react.svg"
-
 export default MainLogo
 export { 
     SearchIcon,
     SidebarMenuBase,
     DropdownButton,
     UserTableRow,
-    mockIcon
 }

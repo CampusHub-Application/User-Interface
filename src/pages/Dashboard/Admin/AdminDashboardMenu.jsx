@@ -1,36 +1,23 @@
 import { 
     DropdownButton,
     Row,
+    useState,
+    MockData,
 } from "../../../components/barrel_module/Barrel.jsx";
 
 function AdminDashboardMenu() {
     // ! REMOVE THIS LATER, FOR MOCKUP PURPOSES
-    const userList = [
-        {   
-            id: "01", 
-            name: "Jane Doe",
-            avatarUrl: null,
-            email: "jane@example.com",
-            password: "Jane_Doe123",
-            status: "Admin"
-        },
-        {   
-            id: "02", 
-            name: "James Doeker",
-            avatarUrl: null,
-            email: "james@example.com",
-            password: "Jamie122333",
-            status: "Non-Admin"
-        },
-        {   
-            id: "03", 
-            name: "Walahdalah",
-            avatarUrl: null,
-            email: "Walahdalah@example.com",
-            password: "Walah_LAH_LAH",
-            status: "Admin"
-        },
-    ];
+    // ! Should update onClick user for newest data!
+    const [userList, setUserList] = useState(MockData);
+
+    const adminCount = userList.filter(user => user.status === "Admin").length;
+    const nonAdminCount = userList.filter(user => user.status !== "Admin").length;
+
+    // For filtering
+    const [statusFilter, setStatusFilter] = useState(null);
+    const filteredUserList = statusFilter ? 
+        userList.filter(user => user.status === statusFilter) : userList;
+
 
     return (
         <div>
@@ -45,11 +32,11 @@ function AdminDashboardMenu() {
                 <div className="flex flex-row items-center justify-between">
                     <div className="px-5 border-s-1 border-gray-300">
                         <p className="text-sm text-gray-500">Admin</p>
-                        <h1 className="text-3xl font-bold">0</h1>
+                        <h1 className="text-3xl font-bold">{adminCount}</h1>
                     </div>
                     <div className="px-5 border-s-1 border-gray-300">
                         <p className="text-sm text-gray-500">Non-Admin</p>
-                        <h1 className="text-3xl font-bold">0</h1>
+                        <h1 className="text-3xl font-bold">{nonAdminCount}</h1>
                     </div>
                 </div>
             </div>
@@ -58,9 +45,9 @@ function AdminDashboardMenu() {
                 <DropdownButton
                     label="Status"
                     items={[
-                        { label: "What", onClick: () => console.log("?") },
-                        { label: "Is", onClick: () => console.log("??") },
-                        { label: "This", onClick: () => console.log("???") },
+                        { label: "Semua", onClick: () => setStatusFilter(null) },
+                        { label: "Admin", onClick: () => setStatusFilter("Admin") },
+                        { label: "Non-Admin", onClick: () => setStatusFilter("Non-Admin") },
                     ]}
                     />
             </div>
@@ -81,11 +68,11 @@ function AdminDashboardMenu() {
                     </tr>
                 </thead>
                 <tbody>
-                    {userList.map((user) => (
-                        <Row
-                        key={user.id}
-                        user={user}
-                        />
+                    {filteredUserList.map(user => (
+                        <Row 
+                            key={user.id} 
+                            user={user} 
+                            />
                     ))}
                 </tbody>
             </table>
