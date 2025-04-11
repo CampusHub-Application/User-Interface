@@ -23,6 +23,7 @@ export {
     createBrowserRouter,
     RouterProvider,
     useLocation,
+    Outlet,
 } from 'react-router';
 
 export {
@@ -48,9 +49,9 @@ export { default as Homepage } from '../../pages/Homepage/Homepage.jsx';
 export { default as Dashboard } from '../../pages/Dashboard/Dashboard.jsx';
 export { default as Header } from '../Dashboard/Header.jsx';
 export { default as Sidebar } from '../Dashboard/Sidebar.jsx';
-export { default as AdminDashboardUI } from '../../pages/Dashboard/Admin/AdminDashboardMenu.jsx'
+export { default as AdminDashboardUI } from '../../pages/Dashboard/Admin/AdminDashboardMenu.jsx';
 export { default as AdminProfileUI } from '../../pages/Dashboard/Admin/AdminProfileMenu.jsx';
-export { default as Gallery } from '../../pages/Dashboard/Non-Admin/Gallery.jsx'
+export { default as NoAdminDashboard } from '../../pages/Dashboard/Non-Admin/NoAdminDashboard.jsx';
 export { 
     default as Logo,
     SearchIcon,

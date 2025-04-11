@@ -3,7 +3,7 @@ import {
   useEffect 
 } from "../../../components/barrel_module/Barrel.jsx";
 
-const Gallery = () => {
+const NoAdminDashboard = () => {
   const [images, setImages] = useState([]);
 
   useEffect(() => {
@@ -38,4 +38,4 @@ const Gallery = () => {
   );
 };
 
-export default Gallery;
+export default NoAdminDashboard;

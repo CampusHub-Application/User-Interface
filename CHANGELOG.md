@@ -1,3 +1,10 @@
+## 1.2.5 Added Non-Admin Dashboard
+
+-   Refactored File Names
+-   Change Title using React Router Provider
+-   Change How Route is Structured
+-   Added Imports
+
 ## 1.2.4 Dashboard Functionality Tweaks
 
 -   Added Off-Canvas / Drawer for small screen sizes

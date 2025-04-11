@@ -6,6 +6,7 @@ import {
   createRoot,
   Homepage,
   Dashboard,
+  Title,
 } from './components/barrel_module/Barrel.jsx';
 
 // CSS import (tailwind)
@@ -14,14 +15,12 @@ import './index.css'
 // React Routes
 const router = createBrowserRouter([
   {
-    // Main Homepage Route
     path: "/",
-    Component: Homepage,
-  }, 
-  {
-    // Dashboard Route
-    path: "/dashboard",
-    Component: Dashboard,
+    element: <Title />,
+    children: [
+      { path: "/", element: <Homepage /> },
+      { path: "/dashboard", element: <Dashboard /> },
+    ],
   },
 ]);
 
