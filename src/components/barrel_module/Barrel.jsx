@@ -52,6 +52,7 @@ export { default as Sidebar } from '../Dashboard/Sidebar.jsx';
 export { default as AdminDashboardUI } from '../../pages/Dashboard/Admin/AdminDashboardMenu.jsx';
 export { default as AdminProfileUI } from '../../pages/Dashboard/Admin/AdminProfileMenu.jsx';
 export { default as NoAdminDashboard } from '../../pages/Dashboard/Non-Admin/NoAdminDashboard.jsx';
+export { default as NoAdminProfile } from '../../pages/Dashboard/Non-Admin/NoAdminProfileMenu.jsx';
 export { 
     default as Logo,
     SearchIcon,
