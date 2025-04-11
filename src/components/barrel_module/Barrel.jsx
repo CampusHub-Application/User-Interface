@@ -21,7 +21,8 @@ export {
 
 export { 
     createBrowserRouter,
-    RouterProvider
+    RouterProvider,
+    useLocation,
 } from 'react-router';
 
 export {
@@ -48,6 +49,9 @@ export {
     DropdownButton,
     UserTableRow as Row,
 } from '../Particles.jsx';
+
+export { default as Title } from '../Title.jsx';
+
 
 // Configuration for multiple components
 export {
