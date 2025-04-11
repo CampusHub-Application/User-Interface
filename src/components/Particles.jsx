@@ -168,7 +168,7 @@ function UserTableRow({ user }) {
     );
 }
 
-function FormInputComponent({ field, index, value = null, onChange = "" }) {
+function FormInputComponent({ field, index, value = null, onChange = () => {} }) {
     return (
         <div key={index} className="flex flex-col gap-2">
             <label htmlFor={field.name} className="text-gray-700 font-medium">
@@ -190,7 +190,7 @@ function FormInputComponent({ field, index, value = null, onChange = "" }) {
     )
 }
 
-function FormDropdownComponent({ field, index, value = null, onChange = ""  }) {
+function FormDropdownComponent({ field, index, value = null, onChange = () => {}  }) {
     return (
         <div key={index} className="relative flex flex-col gap-2">
             <label htmlFor={field.name} className="text-gray-700 font-medium">
@@ -226,7 +226,7 @@ function FormDropdownComponent({ field, index, value = null, onChange = ""  }) {
     )
 }
 
-function FormInputPasswordComponent({ field, index, value = null, onChange = ""  }) {
+function FormInputPasswordComponent({ field, index, value = null, onChange = () => {}  }) {
     const [showPassword, setShowPassword] = useState(false);
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
