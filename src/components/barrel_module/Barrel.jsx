@@ -40,6 +40,7 @@ export { default as Dashboard } from '../../pages/Dashboard/Dashboard.jsx';
 export { default as Header } from '../Dashboard/Header.jsx';
 export { default as Sidebar } from '../Dashboard/Sidebar.jsx';
 export { default as AdminDashboardUI } from '../../pages/Dashboard/Admin/AdminDashboardMenu.jsx'
+export { default as Gallery } from '../../pages/Dashboard/Non-Admin/Gallery.jsx'
 export { 
     default as Logo,
     SearchIcon,

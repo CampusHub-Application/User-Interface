@@ -3,6 +3,7 @@ import {
     Header,
     Sidebar,
     AdminDashboardUI,
+    Gallery,
     ADMIN_MODE,
 } from '../../components/barrel_module/Barrel.jsx'
 
@@ -24,7 +25,7 @@ function Dashboard() {
 
 function ActiveContent({ activeMenu }) {
     const menuComponentMap = {
-        Dashboard: null,
+        Dashboard: <Gallery/>,
         Photo: null,
         Profile: null,
         AdminDashboard: <AdminDashboardUI />,
