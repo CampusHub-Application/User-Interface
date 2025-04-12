@@ -8,6 +8,7 @@ import {
   Dashboard,
   Title,
   DetailFoto,
+  PopUpCheckOut,
 } from './components/barrel_module/Barrel.jsx';
 
 // CSS import (tailwind)

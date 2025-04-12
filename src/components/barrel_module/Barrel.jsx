@@ -74,6 +74,7 @@ export {
 } from '../Particles.jsx';
 
 export { default as Title } from '../Title.jsx';
+export { default as PopUpCheckOut } from '../PopUpCheckOut.jsx';
 
 
 // Configuration for multiple components
