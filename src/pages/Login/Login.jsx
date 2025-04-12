@@ -4,6 +4,7 @@ import {
     loginFieldMap,
     useNavigate,
     useState,
+    useEffect,
     API,
     BasePopModal,
 } from '../../components/barrel_module/Barrel.jsx';
@@ -11,19 +12,27 @@ import {
 function Login() {
     const handlerAPI = API + "/auth/login";
     const navigate = useNavigate();
-
+    const [errorModalContent, setErrorModalContent] = useState(null);
+    const [isModalOpen, setModalOpen] = useState(false);
+    
     const [formData, setFormData] = useState({
         email: "",
         password: "",
     });
-
-    const [errorModalContent, setErrorModalContent] = useState(null);
-    const [isModalOpen, setModalOpen] = useState(false);
-
+    
     const showModal = (jsxContent) => {
         setErrorModalContent(jsxContent);
         setModalOpen(true);
     };
+
+    // Automatic Redirect if Token Exists
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        if (token) {
+            navigate("/dashboard", { replace: true });
+            return;
+        }
+    }, []);
 
     const LoginHandler = async (e) => {
         e.preventDefault();
@@ -64,6 +73,8 @@ function Login() {
             console.error("Network error:", error);
         }
     };
+
+    
 
     return (
         <div className="flex flex-col lg:flex-row w-screen h-screen bg-gray-100">
