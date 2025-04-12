@@ -2,6 +2,7 @@ import {
     API,
     getXsrfToken,
     safeFetch,
+    ENABLE_LOGIN,
 } from '../components/barrel_module/Barrel.jsx';
 
 import { 
@@ -18,6 +19,17 @@ const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        if(!ENABLE_LOGIN) {
+            setUser({
+                "id": "Wq8ZmLr7",
+                "is_admin": 1,
+                "name": "Fake User",
+                "email": "fake@gmail.com",
+                "photo": null
+            })
+            return;
+        }
+
         // Perform an initial check to see if the user is authenticated
         const checkAuth = async () => {
             try {

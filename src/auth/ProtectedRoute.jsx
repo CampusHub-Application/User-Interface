@@ -1,11 +1,17 @@
 import { 
     Navigate,
     Loading,
- } from '../components/barrel_module/Barrel.jsx';
+    ENABLE_LOGIN,
+} from '../components/barrel_module/Barrel.jsx';
+
 import { useAuth } from './AuthProvider.jsx';
 
 const ProtectedRoute = ({ children }) => {
     const { user, loading } = useAuth();
+
+    if(!ENABLE_LOGIN) {
+        return children;
+    }
 
     if (loading) return <Loading />;
 
