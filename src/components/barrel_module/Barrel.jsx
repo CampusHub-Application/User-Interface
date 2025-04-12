@@ -77,6 +77,7 @@ export {
 } from '../Particles.jsx';
 
 export { default as Title } from '../Title.jsx';
+export { default as useLogoutHandler } from '../../pages/Login/Logout.jsx'
 export { default as PopUpCheckOut } from '../PopUpCheckOut.jsx';
 export { default as ProtectedRoute } from '../../auth/ProtectedRoute.jsx';
 export { 

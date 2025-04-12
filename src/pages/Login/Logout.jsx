@@ -1,4 +1,4 @@
-// Created to be reused for multiple buttons
+// Created to be reused for multiple buttons as custom hook
 
 import {
     useNavigate,
@@ -8,7 +8,7 @@ import {
 
 import { useAuth } from '../../auth/AuthProvider.jsx';
 
-function logoutHandler() {
+function useLogoutHandler() {
     const navigate = useNavigate();
     const { user, setUser } = useAuth();
 
@@ -28,4 +28,4 @@ function logoutHandler() {
     }
 }
 
-export default logoutHandler;
+export default useLogoutHandler;
