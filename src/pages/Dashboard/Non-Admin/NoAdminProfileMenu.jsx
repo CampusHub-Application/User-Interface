@@ -1,6 +1,7 @@
 import {
     PiPencilLineThin,
     profileFieldMap,
+    FormInputComponent,
 } from "../../../components/barrel_module/Barrel.jsx";
 
 function NoAdminProfileMenu( { user } ) {
@@ -18,10 +19,6 @@ function NoAdminProfileMenu( { user } ) {
             <div className="flex flex-col gap-5">
                 <div className="flex flex-row justify-between items-center">
                     <h1 className="text-3xl font-bold">Profile</h1>
-                    <button className="bg-blue-600 text-white font-medium px-8 py-2 rounded-lg">
-                        <span className="text-xl pe-2">+</span>
-                        Edit
-                    </button>
                 </div>
                 <div className="flex flex-row gap-10">
                     <div className="flex flex-col h-fit justify-start items-start gap-3 bg-gray-300/30 py-5 px-5 min-w-[15rem] rounded-xl">
@@ -52,20 +49,7 @@ function NoAdminProfileMenu( { user } ) {
                         encType="multipart/form-data">
                             
                         {fieldMap.map((field, index) => (
-                            <div key={index} className="flex flex-col gap-2">
-                                <label htmlFor={field.name} className="text-gray-700 font-medium">
-                                    {field.label}
-                                </label>
-                                <input
-                                    type={field.type}
-                                    name={field.name}
-                                    id={field.name}
-                                    placeholder={field.placeholder}
-                                    className={"border border-gray-300 rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 " + field.addClass}
-                                    defaultValue={field.defaultValue}
-                                    disabled={field.disabled}
-                                />
-                            </div>
+                            <FormInputComponent field={field} key={index} />
                         ))}
                         <div className="flex flex-row gap-5 justify-end">
                             <button type="button" className="text-gray-700 font-medium px-8 py-2 rounded-xl border border-gray-300 hover:bg-gray-100/80">
