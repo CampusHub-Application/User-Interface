@@ -10,7 +10,6 @@ import {
 } from '../../components/barrel_module/Barrel.jsx';
 
 function Login() {
-    const handlerAPI = API + "/auth/login";
     const navigate = useNavigate();
     const [errorModalContent, setErrorModalContent] = useState(null);
     const [isModalOpen, setModalOpen] = useState(false);
@@ -27,32 +26,65 @@ function Login() {
 
     // Automatic Redirect if Token Exists
     useEffect(() => {
-        const token = localStorage.getItem("token");
-        if (token) {
-            navigate("/dashboard", { replace: true });
-            return;
-        }
+        const checkAuth = async () => {
+            try {
+                const res = await fetch(API + "/users/profile", {
+                    credentials: "include",
+                });
+    
+                if (res.ok) {
+                    const data = await res.json();
+                    localStorage.setItem("user", JSON.stringify(data.profile));
+                    navigate("/dashboard", { replace: true });
+
+                    // const logoutRes = await fetch(API + "/auth/logout", {
+                    //     method: "POST",
+                    //     credentials: "include", // important to include cookies
+                    // });
+
+                    // if (logoutRes.ok) {
+                    //     console.log("Successfully logged out");
+                    //     localStorage.clear();
+                    // } else {
+                    //     const errorData = await logoutRes.json();
+                    //     console.error("Logout failed:", errorData);
+                    // }
+                } else {
+                    // Not authenticated (401), stay on login page
+                    console.log("User not authenticated");
+                    localStorage.removeItem("user");
+                }
+            } catch (error) {
+                console.error("Auth check error:", error);
+            }
+        };
+    
+        checkAuth();
     }, []);
 
     const LoginHandler = async (e) => {
         e.preventDefault();
 
         try {
-            const response = await fetch(handlerAPI, {
+            await fetch(import.meta.env.VITE_SANCTUM_URL, {
+                credentials: "include",
+            });
+
+            const response = await fetch(API + "/auth/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                     Accept: "application/json",
                 },
+                credentials: "include",
                 body: JSON.stringify(formData),
             });
 
             const data = await response.json();
 
             if (!response.ok) {
-                // Laravel returned an error response
                 const errorMessage = data.message || "Login gagal. Coba lagi.";
-                // alert(errorMessage); // or use a custom modal
+
                 showModal(
                     <div className="flex flex-col gap-5">
                         <h1 className="text-2xl font-bold text-center">Login Gagal</h1>
@@ -62,10 +94,33 @@ function Login() {
                 return;
             }
 
-            // ✅ Success
-            // Store the token in local storage
-            localStorage.setItem("token", data.token);
-            localStorage.setItem("token_type", data.token_type);
+            // Store the user data in local storage
+            try {
+                const response = await fetch(API + "/users/profile", {
+                    credentials: "include",
+                });
+    
+                const data = await response.json();
+
+                if (!response.ok) {
+                    const errorMessage = data.message || "User not found. Coba lagi.";
+
+                    showModal(
+                        <div className="flex flex-col gap-5">
+                            <h1 className="text-2xl font-bold text-center">User Not Found</h1>
+                            <p className="text-center">{errorMessage}</p>
+                        </div>
+                    );
+                }
+                
+                // Store the user profile data in local storage
+                localStorage.setItem("user", JSON.stringify(data.profile));
+                console.log("User profile data:", localStorage.getItem("user"));
+            } catch (error) {
+                alert("Terjadi kesalahan jaringan.");
+                console.error("Network error:", error);
+            }
+            localStorage.setItem("user", JSON.stringify(data.user));
             navigate("/dashboard");
 
         } catch (error) {
