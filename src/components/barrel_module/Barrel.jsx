@@ -24,6 +24,7 @@ export {
     RouterProvider,
     useLocation,
     Outlet,
+    useNavigate,
 } from 'react-router';
 
 export {
@@ -48,7 +49,7 @@ export {
 export { createRoot } from 'react-dom/client'
 
 // Dev-made components exports
-export { default as Homepage } from '../../pages/Homepage/Homepage.jsx';
+export { default as Login } from '../../pages/Login/Login.jsx';
 export { default as Dashboard } from '../../pages/Dashboard/Dashboard.jsx';
 export { default as Header } from '../Dashboard/Header.jsx';
 export { default as Sidebar } from '../Dashboard/Sidebar.jsx';
@@ -64,6 +65,7 @@ export {
     UserTableRow as Row,
     ModalForm,
     FormInputComponent,
+    FormInputPasswordComponent,
 } from '../Particles.jsx';
 
 export { default as Title } from '../Title.jsx';
@@ -74,6 +76,7 @@ export {
     dashboardHeaderPadding as headerPadding,
     profileFieldMap,
     adminAddUserMap,
+    loginFieldMap,
 } from '../UIConfig.jsx';
 
 export {

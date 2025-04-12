@@ -410,4 +410,5 @@ export {
     UserTableRow,
     ModalForm,
     FormInputComponent,
+    FormInputPasswordComponent,
 }

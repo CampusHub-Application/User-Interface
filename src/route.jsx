@@ -4,7 +4,7 @@ import {
   RouterProvider,
   StrictMode,
   createRoot,
-  Homepage,
+  Login,
   Dashboard,
   Title,
 } from './components/barrel_module/Barrel.jsx';
@@ -18,7 +18,7 @@ const router = createBrowserRouter([
     path: "/",
     element: <Title />,
     children: [
-      { path: "/", element: <Homepage /> },
+      { path: "/", element: <Login /> },
       { path: "/dashboard", element: <Dashboard /> },
     ],
   },

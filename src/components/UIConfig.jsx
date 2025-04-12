@@ -1,5 +1,30 @@
 const dashboardHeaderPadding = "pt-10 px-8"
 
+const loginFieldMap = [
+    {
+        type: "text",
+        name: "email",
+        label: "Alamat Email",
+        placeholder: "Masukkan Email",
+        addClass: null,
+        defaultValue: null,
+        disabled: false,
+        isDropdown: false,
+        isPassword: false,
+    },
+    {
+        type: "password",
+        name: "password",
+        label: "Password",
+        placeholder: "Masukkan Password",
+        addClass: null,
+        defaultValue: null,
+        disabled: false,
+        isDropdown: false,
+        isPassword: true,
+    },
+];
+
 const adminDashboardFieldMap = [
     {
         type: "text",
@@ -117,4 +142,5 @@ export {
     dashboardHeaderPadding,
     fieldMap as profileFieldMap,
     adminDashboardFieldMap as adminAddUserMap,
+    loginFieldMap,
 }
