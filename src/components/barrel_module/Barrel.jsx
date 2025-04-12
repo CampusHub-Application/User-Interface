@@ -17,6 +17,8 @@ export {
     useState,
     useEffect,
     useRef,
+    createContext, 
+    useContext,
 } from 'react'
 
 export { 
@@ -27,6 +29,7 @@ export {
     useNavigate,
     Link,
     useParams,
+    Navigate,
 } from 'react-router';
 
 export {
@@ -74,6 +77,7 @@ export {
 
 export { default as Title } from '../Title.jsx';
 export { default as PopUpCheckOut } from '../PopUpCheckOut.jsx';
+export { default as ProtectedRoute } from '../../auth/ProtectedRoute.jsx';
 
 
 // Configuration for multiple components

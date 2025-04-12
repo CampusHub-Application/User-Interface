@@ -2,14 +2,14 @@
 import {
   createBrowserRouter,
   RouterProvider,
-  StrictMode,
   createRoot,
   Login,
   Dashboard,
   Title,
-  DetailFoto,
-  PopUpCheckOut,
+  ProtectedRoute,
 } from './components/barrel_module/Barrel.jsx';
+
+import { AuthProvider } from './auth/AuthProvider.jsx';
 
 // CSS import (tailwind)
 import './index.css'
@@ -20,14 +20,24 @@ const router = createBrowserRouter([
     path: "/",
     element: <Title />,
     children: [
-      { path: "/", element: <Login /> },
-      { path: "/dashboard", element: <Dashboard /> },
-      { path: "/detail/:id", element: <DetailFoto /> },
+      { 
+        path: "/", 
+        element: <Login /> 
+      },
+      { 
+        path: "/dashboard", 
+        element: 
+        <ProtectedRoute>
+          <Dashboard /> 
+        </ProtectedRoute>
+      },
     ],
   },
 ]);
 
 // Render the application
 createRoot(document.getElementById('root')).render(
+  <AuthProvider>
     <RouterProvider router={router} />
+  </AuthProvider>
 )

@@ -1,6 +1,6 @@
 const DetailFoto = ({ image }) => {
   if (!image) return <p className="text-center text-gray-500">Tidak ada gambar dipilih.</p>;
-  
+
   const dummyData = {
     name: "Budi Santoso",
     email: "budi@email.com",
@@ -9,8 +9,8 @@ const DetailFoto = ({ image }) => {
   };
 
   return (
-    <div className="p-8">
-      <div className="max-w-5xl mx-auto h-screen bg-white border-2 border-gray-200 rounded-lg overflow-hidden flex">
+    <div className="p-8 h-full">
+      <div className="max-w-5xl mx-auto h-full bg-white border-2 border-gray-200 rounded-lg overflow-hidden flex">
         
         <div className="w-1/2">
           <img

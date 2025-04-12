@@ -18,7 +18,7 @@ function Dashboard() {
         <>
             <div className="flex flex-row bg-white h-full">
                 <Sidebar activeMenu={activeMenu} setActiveMenu={setActiveMenu} addClass="hidden lg:flex"/>
-                <div className="flex flex-col flex-auto h-fit">
+                <div className="flex flex-col flex-auto h-full">
                     <Header activeMenu={activeMenu} setActiveMenu={setActiveMenu} />
                     <ActiveContent activeMenu={activeMenu} setActiveMenu={setActiveMenu}/>
                 </div>
@@ -47,7 +47,7 @@ function ActiveContent({ activeMenu, setActiveMenu }) {
     }
 
     return (
-        <div className="flex flex-col basis-1 flex-auto h-fit px-8 py-10">
+        <div className="flex flex-col basis-1 flex-auto h-full px-8 py-10">
             {menuComponentMap[activeMenu] || <p>No content found.</p>}
         </div>
     )

@@ -8,11 +8,13 @@ import {
     API,
     BasePopModal,
 } from '../../components/barrel_module/Barrel.jsx';
+import { useAuth } from '../../auth/AuthProvider.jsx';
 
 function Login() {
     const navigate = useNavigate();
     const [errorModalContent, setErrorModalContent] = useState(null);
     const [isModalOpen, setModalOpen] = useState(false);
+    const { user, setUser } = useAuth();
     
     const [formData, setFormData] = useState({
         email: "",
@@ -24,43 +26,12 @@ function Login() {
         setModalOpen(true);
     };
 
-    // Automatic Redirect if Token Exists
+    // Automatic Redirect if logged in
     useEffect(() => {
-        const checkAuth = async () => {
-            try {
-                const res = await fetch(API + "/users/profile", {
-                    credentials: "include",
-                });
-    
-                if (res.ok) {
-                    const data = await res.json();
-                    localStorage.setItem("user", JSON.stringify(data.profile));
-                    navigate("/dashboard", { replace: true });
-
-                    // const logoutRes = await fetch(API + "/auth/logout", {
-                    //     method: "POST",
-                    //     credentials: "include", // important to include cookies
-                    // });
-
-                    // if (logoutRes.ok) {
-                    //     console.log("Successfully logged out");
-                    //     localStorage.clear();
-                    // } else {
-                    //     const errorData = await logoutRes.json();
-                    //     console.error("Logout failed:", errorData);
-                    // }
-                } else {
-                    // Not authenticated (401), stay on login page
-                    console.log("User not authenticated");
-                    localStorage.removeItem("user");
-                }
-            } catch (error) {
-                console.error("Auth check error:", error);
-            }
-        };
-    
-        checkAuth();
-    }, []);
+        if (user) {
+            navigate("/dashboard");
+        }
+    }, [user]);
 
     const LoginHandler = async (e) => {
         e.preventDefault();
@@ -94,7 +65,7 @@ function Login() {
                 return;
             }
 
-            // Store the user data in local storage
+            // Get user profile data and store using auth provider
             try {
                 const response = await fetch(API + "/users/profile", {
                     credentials: "include",
@@ -114,15 +85,13 @@ function Login() {
                 }
                 
                 // Store the user profile data in local storage
-                localStorage.setItem("user", JSON.stringify(data.profile));
-                console.log("User profile data:", localStorage.getItem("user"));
+                setUser(data.profile);
+                navigate("/dashboard");
+
             } catch (error) {
                 alert("Terjadi kesalahan jaringan.");
                 console.error("Network error:", error);
             }
-            localStorage.setItem("user", JSON.stringify(data.user));
-            navigate("/dashboard");
-
         } catch (error) {
             alert("Terjadi kesalahan jaringan.");
             console.error("Network error:", error);
