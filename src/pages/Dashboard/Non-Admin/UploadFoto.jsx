@@ -32,7 +32,7 @@ const UploadFoto = () => {
 
   return (
     <div className="flex flex-col md:flex-row gap-12">
-      <div className="border-2 border-dashed border-gray-300 flex flex-col justify-center items-center w-full md:w-2/5 h-80 rounded-xl">
+      <div className="border-2 border-dashed border-gray-300 flex flex-col justify-center items-center w-full md:w-2/5 h-96 rounded-xl">
         <label htmlFor="fileUpload" className="flex flex-col items-center cursor-pointer text-center">
           {!image && (
             <>
@@ -51,7 +51,7 @@ const UploadFoto = () => {
             type="file"
             accept="image/*"
             className="hidden"
-            ref={fileInputRef} // Menggunakan ref pada elemen input
+            ref={fileInputRef}
             onChange={handleFileChange}
           />
         </label>
