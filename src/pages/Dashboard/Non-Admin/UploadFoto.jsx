@@ -18,8 +18,12 @@ const UploadFoto = () => {
   };
 
   const handleOpenFileDialog = () => {
-    fileInputRef.current.click();
+    if (fileInputRef.current) {
+      fileInputRef.current.value = null;
+      fileInputRef.current.click();
+    }
   };
+  
 
   const handleSubmit = (e) => {
     e.preventDefault();
