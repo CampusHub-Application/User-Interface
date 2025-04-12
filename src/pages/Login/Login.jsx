@@ -7,6 +7,9 @@ import {
     useEffect,
     API,
     BasePopModal,
+    safeFetch,
+    getXsrfToken,
+    Loading,
 } from '../../components/barrel_module/Barrel.jsx';
 import { useAuth } from '../../auth/AuthProvider.jsx';
 
@@ -14,6 +17,7 @@ function Login() {
     const navigate = useNavigate();
     const [errorModalContent, setErrorModalContent] = useState(null);
     const [isModalOpen, setModalOpen] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const { user, setUser } = useAuth();
     
     const [formData, setFormData] = useState({
@@ -29,25 +33,25 @@ function Login() {
     // Automatic Redirect if logged in
     useEffect(() => {
         if (user) {
+            console.log("User is logged in:", user);
             navigate("/dashboard");
         }
     }, [user]);
 
     const LoginHandler = async (e) => {
         e.preventDefault();
+        setIsLoading(true);
 
         try {
-            await fetch(import.meta.env.VITE_SANCTUM_URL, {
-                credentials: "include",
-            });
+            await safeFetch(import.meta.env.VITE_SANCTUM_URL, {});
 
-            const response = await fetch(API + "/auth/login", {
+            const response = await safeFetch(API + "/auth/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                     Accept: "application/json",
+                    'X-XSRF-TOKEN': getXsrfToken(),
                 },
-                credentials: "include",
                 body: JSON.stringify(formData),
             });
 
@@ -67,11 +71,13 @@ function Login() {
 
             // Get user profile data and store using auth provider
             try {
-                const response = await fetch(API + "/users/profile", {
-                    credentials: "include",
-                });
+                const response = await safeFetch(API + "/users/profile", {});
+
+                console.log("Response status:", response);
     
                 const data = await response.json();
+
+                console.log("User profile data:", data);
 
                 if (!response.ok) {
                     const errorMessage = data.message || "User not found. Coba lagi.";
@@ -84,7 +90,8 @@ function Login() {
                     );
                 }
                 
-                // Store the user profile data in local storage
+                // Store the user profile data in the auth provider
+                console.log("User profile data:", data.profile);
                 setUser(data.profile);
                 navigate("/dashboard");
 
@@ -95,13 +102,14 @@ function Login() {
         } catch (error) {
             alert("Terjadi kesalahan jaringan.");
             console.error("Network error:", error);
+        } finally {
+            setIsLoading(false);
         }
     };
 
-    
-
     return (
-        <div className="flex flex-col lg:flex-row w-screen h-screen bg-gray-100">
+        <div className="relative flex flex-col lg:flex-row w-screen h-screen bg-gray-100">
+            {isLoading && <Loading />}
             <div className="flex flex-col lg:flex-auto order-2 lg:order-1 lg:justify-center lg:w-1/2 lg:h-screen h-3/4 w-screen  bg-white text-blue-950/80">
                 <h1 className="flex text-4xl font-extrabold pt-15 mb-8 ps-15">Selamat Datang!</h1>
                 <form onSubmit={LoginHandler} className="flex flex-col w-full gap-5 px-15 text-bold">

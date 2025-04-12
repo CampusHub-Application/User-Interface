@@ -11,7 +11,7 @@ function DashboardHeader({ activeMenu, setActiveMenu }) {
     return (
         <>
             
-            <div className={"flex flex-initial justify-start items-center w-full h-1/15 lg:col-span-8 col-span-auto " + headerPadding}>
+            <div className={"flex flex-initial justify-start items-center w-full lg:col-span-8 col-span-auto " + headerPadding}>
                 <SidebarToggleWrapper activeMenu={activeMenu} setActiveMenu={setActiveMenu} />
 
                 <div className="flex flex-row items-center justify-between w-full">

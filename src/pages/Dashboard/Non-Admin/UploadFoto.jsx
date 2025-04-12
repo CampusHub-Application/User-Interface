@@ -39,7 +39,7 @@ const UploadFoto = () => {
               <div className="text-blue-900 text-6xl mb-12">
                 <FaFileUpload />
               </div>
-              <span className="text-gray-600">
+              <span className="text-gray-600 px-5">
                 Masukkan gambar Anda disini atau{" "}
                 <span className="text-blue-800 font-bold underline">Pilih file</span>
               </span>

@@ -5,11 +5,12 @@ import {
     AdminDashboardUI,
     NoAdminDashboard,
     ADMIN_MODE,
-    currUser,
     UploadFoto,
     Profile,
     DetailFoto,
 } from '../../components/barrel_module/Barrel.jsx'
+
+import { useAuth } from "../../auth/AuthProvider.jsx";
 
 function Dashboard() {
     const [activeMenu, setActiveMenu] = ADMIN_MODE ? useState("AdminDashboard") : useState("Dashboard");
@@ -30,19 +31,20 @@ function Dashboard() {
 function ActiveContent({ activeMenu, setActiveMenu }) {
     const [image, setImage] = useState(null);
     var menuComponentMap = {};
+    const { user } = useAuth();
 
     // Prevent access to admin menu if not in admin mode and other way around
     if(ADMIN_MODE) {
         menuComponentMap = {
             AdminDashboard: <AdminDashboardUI />,
-            AdminProfile: <Profile user={currUser} />,
+            AdminProfile: <Profile user={user} />,
         };
     } else {
         menuComponentMap = {
             Dashboard: <NoAdminDashboard setActiveMenu={setActiveMenu} setImage={setImage} />,
             Photo: <UploadFoto/>,
             DetailPhoto: <DetailFoto image={image} />,
-            Profile: <Profile user={currUser}/>,
+            Profile: <Profile user={user}/>,
         };
     }
 

@@ -20,8 +20,8 @@ function Profile( { user } ) {
                 <div className="flex flex-row justify-between items-center">
                     <h1 className="text-3xl font-bold">Profile</h1>
                 </div>
-                <div className="flex flex-row gap-10">
-                    <div className="flex flex-col h-fit justify-start items-start gap-3 bg-gray-300/30 py-5 px-5 min-w-[15rem] rounded-xl">
+                <div className="flex flex-col md:flex-row gap-10 justify-center">
+                    <div className="flex flex-col h-fit w-fit md:w-0 justify-center md:justify-start items-center md:items-start self-center md:self-start gap-3 bg-gray-300/30 py-5 px-5 min-w-[15rem] rounded-xl">
                         <div className="relative flex flex-col items-center justify-center">    
                             <img src={user.imageUrl} alt="" className="w-24 h-24 object-cover rounded-full border border-gray-300 bg-gray-500/20"/>
                             <button 
@@ -51,7 +51,7 @@ function Profile( { user } ) {
                         {fieldMap.map((field, index) => (
                             <FormInputComponent field={field} key={index} />
                         ))}
-                        <div className="flex flex-row gap-5 justify-end">
+                        <div className="flex flex-row gap-5 mb-5 justify-end">
                             <button type="button" className="text-gray-700 font-medium px-8 py-2 rounded-xl border border-gray-300 hover:bg-gray-100/80">
                                 Batal
                             </button>

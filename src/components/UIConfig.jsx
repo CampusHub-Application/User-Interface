@@ -95,7 +95,7 @@ function fieldMap({ user }) {
             label: "Status",
             placeholder: null,
             addClass: "bg-gray-200/50",
-            defaultValue: user.status,
+            defaultValue: user.is_admin ? "Admin" : "Non-Admin",
             disabled: true,
         },
         {
