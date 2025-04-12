@@ -1,10 +1,10 @@
 import { 
   useState, 
   useEffect,
-  Link 
+  Link, 
 } from "../../../components/barrel_module/Barrel.jsx";
 
-const NoAdminDashboard = () => {
+const NoAdminDashboard = ({ setActiveMenu, setImage }) => {
   const [images, setImages] = useState([]);
 
   useEffect(() => {
@@ -19,11 +19,17 @@ const NoAdminDashboard = () => {
     ]);
   }, []);
 
+  const handleClick = (img) => {
+    setImage(img); 
+    setActiveMenu("DetailPhoto");
+  };
+
+
   return (
     <div className="p-4 flex justify-center">
       <div className="w-full max-w-7xl grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {images.map((img, idx) => (
-          <Link to={`/detail/${idx}`} key={idx}>
+          <Link onClick={ () => handleClick(img) } key={idx}>
             <div
               className="flex flex-col bg-white rounded-lg transition-transform duration-300 hover:scale-105 hover:-translate-y-1 hover:shadow-lg p-4 space-y-2"
             >

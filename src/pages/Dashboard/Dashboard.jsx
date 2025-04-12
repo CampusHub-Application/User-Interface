@@ -3,12 +3,12 @@ import {
     Header,
     Sidebar,
     AdminDashboardUI,
-    AdminProfileUI,
     NoAdminDashboard,
     ADMIN_MODE,
     currUser,
-    NoAdminProfile,
     UploadFoto,
+    Profile,
+    DetailFoto,
 } from '../../components/barrel_module/Barrel.jsx'
 
 function Dashboard() {
@@ -20,27 +20,29 @@ function Dashboard() {
                 <Sidebar activeMenu={activeMenu} setActiveMenu={setActiveMenu} addClass="hidden lg:flex"/>
                 <div className="flex flex-col flex-auto h-fit">
                     <Header activeMenu={activeMenu} setActiveMenu={setActiveMenu} />
-                    <ActiveContent activeMenu={activeMenu}/>
+                    <ActiveContent activeMenu={activeMenu} setActiveMenu={setActiveMenu}/>
                 </div>
             </div>
         </>
     )
 }
 
-function ActiveContent({ activeMenu }) {
+function ActiveContent({ activeMenu, setActiveMenu }) {
+    const [image, setImage] = useState(null);
     var menuComponentMap = {};
 
     // Prevent access to admin menu if not in admin mode and other way around
     if(ADMIN_MODE) {
         menuComponentMap = {
             AdminDashboard: <AdminDashboardUI />,
-            AdminProfile: <AdminProfileUI user={currUser} />,
+            AdminProfile: <Profile user={currUser} />,
         };
     } else {
         menuComponentMap = {
-            Dashboard: <NoAdminDashboard />,
+            Dashboard: <NoAdminDashboard setActiveMenu={setActiveMenu} setImage={setImage} />,
             Photo: <UploadFoto/>,
-            Profile: <NoAdminProfile user={currUser}/>,
+            DetailPhoto: <DetailFoto image={image} />,
+            Profile: <Profile user={currUser}/>,
         };
     }
 

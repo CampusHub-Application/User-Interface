@@ -56,11 +56,10 @@ export { default as Dashboard } from '../../pages/Dashboard/Dashboard.jsx';
 export { default as Header } from '../Dashboard/Header.jsx';
 export { default as Sidebar } from '../Dashboard/Sidebar.jsx';
 export { default as AdminDashboardUI } from '../../pages/Dashboard/Admin/AdminDashboardMenu.jsx';
-export { default as AdminProfileUI } from '../../pages/Dashboard/Admin/AdminProfileMenu.jsx';
 export { default as NoAdminDashboard } from '../../pages/Dashboard/Non-Admin/NoAdminDashboard.jsx';
-export { default as NoAdminProfile } from '../../pages/Dashboard/Non-Admin/NoAdminProfileMenu.jsx';
 export { default as UploadFoto } from '../../pages/Dashboard/Non-Admin/UploadFoto.jsx';
 export { default as DetailFoto } from '../../pages/Dashboard/Non-Admin/DetailFoto.jsx';
+export { default as Profile } from '../../pages/Dashboard/Profile.jsx';
 export { 
     default as Logo,
     SearchIcon,

@@ -1,16 +1,12 @@
-import { useParams } from "../../../components/barrel_module/Barrel.jsx";
-
-const DetailFoto = () => {
+const DetailFoto = ({ image }) => {
+  if (!image) return <p className="text-center text-gray-500">Tidak ada gambar dipilih.</p>;
+  
   const dummyData = {
     name: "Budi Santoso",
     email: "budi@email.com",
     title: "Mahasiswa Aktif",
     description: "Sedang mencari buku di perpustakaan",
-    photo: "https://images.unsplash.com/photo-1531219432768-e0f8e3e3e8f9"
   };
-
-  const { id } = useParams();
-  console.log("ID dari URL:", id);
 
   return (
     <div className="p-8">
@@ -18,8 +14,8 @@ const DetailFoto = () => {
         
         <div className="w-1/2">
           <img
-            src={dummyData.photo}
-            alt="Library"
+            src={image.src}
+            alt={image.caption}
             className="w-full h-full object-cover p-8"
           />
         </div>
