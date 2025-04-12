@@ -57,6 +57,7 @@ export { default as AdminDashboardUI } from '../../pages/Dashboard/Admin/AdminDa
 export { default as AdminProfileUI } from '../../pages/Dashboard/Admin/AdminProfileMenu.jsx';
 export { default as NoAdminDashboard } from '../../pages/Dashboard/Non-Admin/NoAdminDashboard.jsx';
 export { default as NoAdminProfile } from '../../pages/Dashboard/Non-Admin/NoAdminProfileMenu.jsx';
+export { default as UploadFoto } from '../../pages/Dashboard/Non-Admin/UploadFoto.jsx';
 export { 
     default as Logo,
     SearchIcon,
@@ -87,3 +88,5 @@ export {
 
 // Export Assets
 export { default as reactLogo } from '../../assets/react.svg';
+
+export { FaFileUpload } from "react-icons/fa";

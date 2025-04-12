@@ -8,6 +8,7 @@ import {
     ADMIN_MODE,
     currUser,
     NoAdminProfile,
+    UploadFoto,
 } from '../../components/barrel_module/Barrel.jsx'
 
 function Dashboard() {
@@ -38,7 +39,7 @@ function ActiveContent({ activeMenu }) {
     } else {
         menuComponentMap = {
             Dashboard: <NoAdminDashboard />,
-            Photo: null,
+            Photo: <UploadFoto/>,
             Profile: <NoAdminProfile user={currUser}/>,
         };
     }
