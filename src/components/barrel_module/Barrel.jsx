@@ -66,6 +66,7 @@ export {
     ModalForm,
     FormInputComponent,
     FormInputPasswordComponent,
+    basePopModal as BasePopModal,
 } from '../Particles.jsx';
 
 export { default as Title } from '../Title.jsx';

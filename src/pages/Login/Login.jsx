@@ -5,6 +5,7 @@ import {
     useNavigate,
     useState,
     API,
+    BasePopModal,
 } from '../../components/barrel_module/Barrel.jsx';
 
 function Login() {
@@ -15,6 +16,14 @@ function Login() {
         email: "",
         password: "",
     });
+
+    const [errorModalContent, setErrorModalContent] = useState(null);
+    const [isModalOpen, setModalOpen] = useState(false);
+
+    const showModal = (jsxContent) => {
+        setErrorModalContent(jsxContent);
+        setModalOpen(true);
+    };
 
     const LoginHandler = async (e) => {
         e.preventDefault();
@@ -34,7 +43,13 @@ function Login() {
             if (!response.ok) {
                 // Laravel returned an error response
                 const errorMessage = data.message || "Login gagal. Coba lagi.";
-                alert(errorMessage); // or use a custom modal
+                // alert(errorMessage); // or use a custom modal
+                showModal(
+                    <div className="flex flex-col gap-5">
+                        <h1 className="text-2xl font-bold text-center">Login Gagal</h1>
+                        <p className="text-center">{errorMessage}</p>
+                    </div>
+                );
                 return;
             }
 
@@ -93,6 +108,13 @@ function Login() {
             <div className="flex flex-auto flex-col lg:flex-row order-1 lg:order-2 lg:w-1/2 lg:h-screen h-1/4 w-screen justify-center items-center bg-blue-950 text-white">
                 <h1 className='text-7xl font-bold'> Campus <span className='py-1 px-4 rounded-xl bg-blue-600'>Hub</span></h1>
             </div>
+            {errorModalContent && (
+                <BasePopModal
+                    content={errorModalContent}
+                    isOpen={isModalOpen}
+                    onClose={() => setModalOpen(false)}
+                />
+            )}
         </div>
     );
 }

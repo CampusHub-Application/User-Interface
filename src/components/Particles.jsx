@@ -402,6 +402,34 @@ function ModalForm({ title, fieldConfig }) {
     );
 }
 
+function basePopModal({ content, isOpen, onClose}) {
+    const modalRef = useRef(null);
+
+    useEffect(() => {
+        function handleClickOutside(e) {
+            if (modalRef.current && !modalRef.current.contains(e.target)) {
+                onClose(); // call parent's onClose handler
+            }
+        }
+
+        if (isOpen) {
+            document.addEventListener("mousedown", handleClickOutside);
+        }
+
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, [isOpen, onClose]);
+
+    if (!isOpen) return null; // don't render if closed
+
+    return (
+        <div className="fixed inset-0 z-50 bg-black/30 flex items-center justify-center">
+            <div className="bg-white w-full max-w-[60%] p-6 rounded-lg shadow-lg relative" ref={modalRef}>
+                {content}
+            </div>
+        </div>
+    );
+}
+
 export default MainLogo
 export { 
     SearchIcon,
@@ -411,4 +439,5 @@ export {
     ModalForm,
     FormInputComponent,
     FormInputPasswordComponent,
+    basePopModal,
 }
