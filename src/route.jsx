@@ -7,6 +7,7 @@ import {
   Login,
   Dashboard,
   Title,
+  DetailFoto,
 } from './components/barrel_module/Barrel.jsx';
 
 // CSS import (tailwind)
@@ -20,6 +21,7 @@ const router = createBrowserRouter([
     children: [
       { path: "/", element: <Login /> },
       { path: "/dashboard", element: <Dashboard /> },
+      { path: "/detail/:id", element: <DetailFoto /> },
     ],
   },
 ]);
