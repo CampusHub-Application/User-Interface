@@ -25,6 +25,8 @@ export {
     useLocation,
     Outlet,
     useNavigate,
+    Link,
+    useParams,
 } from 'react-router';
 
 export {
@@ -58,6 +60,7 @@ export { default as AdminProfileUI } from '../../pages/Dashboard/Admin/AdminProf
 export { default as NoAdminDashboard } from '../../pages/Dashboard/Non-Admin/NoAdminDashboard.jsx';
 export { default as NoAdminProfile } from '../../pages/Dashboard/Non-Admin/NoAdminProfileMenu.jsx';
 export { default as UploadFoto } from '../../pages/Dashboard/Non-Admin/UploadFoto.jsx';
+export { default as DetailFoto } from '../../pages/Dashboard/Non-Admin/DetailFoto.jsx';
 export { 
     default as Logo,
     SearchIcon,
