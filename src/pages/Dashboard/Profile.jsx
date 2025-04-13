@@ -31,11 +31,6 @@ function Profile( { user, isAdmin } ) {
         photo: "",
     });
 
-    // ! Debug Purpose
-    useEffect(() => {
-        console.log("Updated Form Data", formData);
-    }, [formData]);
-
     const handleFileChange = (e) => {
         const file = e.target.files[0];
         setImage(file);

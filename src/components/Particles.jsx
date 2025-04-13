@@ -8,6 +8,9 @@ import {
     FaRegEye,
     FaRegEyeSlash,
     IoCloudUploadOutline,
+    safeFetch,
+    API,
+    BasePopModal,
 } from './barrel_module/Barrel.jsx'
 
 function MainLogo({textsize, margin}) {
@@ -198,20 +201,20 @@ function UserTableRow({ user }) {
             <td className="py-3 pe-3 text-gray-700 text-start truncate">{user.email}</td>
 
             {/* Password */}
-            <td className="py-3 pe-3 text-gray-500 font-mono truncate max-w-[150px] text-start">
+            {/* <td className="py-3 pe-3 text-gray-500 font-mono truncate max-w-[150px] text-start">
                 {user.password}
-            </td>
+            </td> */}
 
             {/* Status */}
             <td className="py-3 pe-3 text-start">
             <span
                 className={`inline-block px-2 py-1 text-xs rounded-full font-semibold ${
-                user.status === "Admin"
+                user.is_admin === 1
                     ? "bg-green-100 text-green-800"
                     : "bg-red-100 text-red-700"
                 }`}
             >
-                {user.status}
+                {user.is_admin ? "Admin" : "Non-Admin"}
             </span>
             </td>
 
@@ -324,27 +327,80 @@ function FormInputPasswordComponent({ field, index, onChange = () => {}  }) {
     )
 }
 
-function ModalForm({ title, fieldConfig }) {
+function ModalForm({ title, fieldConfig, event = () => null }) {
+    const [modalContent, setModalContent] = useState(null);
+    const [isModalOpen, setModalOpen] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
+    const [imagePreview, setImagePreview] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
     const [formData, setFormData] = useState({
-        status: fieldConfig.find(f => f.name === "status")?.defaultValue || "",
+        is_admin: fieldConfig.find(f => f.name === "is_admin")?.defaultValue || "",
         name: "",
         email: "",
         password: "",
-        image: null,
+        password_confirmation: "",
+        photo: null,
     });
+
+    const showModal = (jsxContent) => {
+        setModalContent(jsxContent);
+        setModalOpen(true);
+    };
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
         if (file && ["image/png", "image/svg+xml", "image/jpeg"].includes(file.type)) {
-            setFormData({ ...formData, image: file });
+            setFormData({ ...formData, photo: file });
+            setImagePreview(URL.createObjectURL(file));
         }
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-            console.log("Form submitted:", formData); // ! REPLACE WITH SUBMIT FUNCTION
-        setIsOpen(false);
+        
+        try {
+            setIsLoading(true);
+
+            const form = new FormData();
+
+            form.append("is_admin", formData.is_admin);
+            form.append("name", formData.name);
+            form.append("email", formData.email);
+            form.append("password", formData.password);
+            form.append("password_confirmation", formData.password_confirmation);
+            form.append("photo", formData.photo);
+
+            const response = await safeFetch(API + "/users", {
+                method: "POST",
+                body: form,
+            })
+
+            const data = await response.json();
+
+            if(!response.ok) {
+                showModal(
+                    <div className="flex flex-col gap-5">
+                        <h1 className="text-2xl font-bold text-center">Something Went Wrong!</h1>
+                        <p className="text-center">{data.message}</p>
+                    </div>
+                );
+                setIsLoading(false);
+                return;
+            }
+
+            event();
+
+            showModal(
+                <div className="flex flex-col gap-5">
+                    <h1 className="text-2xl font-bold text-center">Submit Successfull</h1>
+                    <p className="text-center">New User Added Successfully</p>
+                </div>
+            );
+        } catch (error) {
+            alert("Error submitting form", error);
+        } finally {
+            setIsOpen(false);
+        }
     };
 
     // Close Modal if clicked outside
@@ -363,6 +419,7 @@ function ModalForm({ title, fieldConfig }) {
 
     return (
         <>
+            {isLoading && <Loading />}
             {/* Button to trigger modal */}
             <button
                 onClick={() => setIsOpen(true)}
@@ -419,6 +476,7 @@ function ModalForm({ title, fieldConfig }) {
                             }
                         })}
                         <div className="relative w-full">
+                            <h1 className='pb-2 font-medium text-gray-700'>Foto Profile</h1>
                             {/* Hidden input */}
                             <input
                                 type="file"
@@ -434,14 +492,26 @@ function ModalForm({ title, fieldConfig }) {
                                 htmlFor="image"
                                 className="cursor-pointer flex flex-col min-h-35 border border-gray-300 rounded-md px-4 py-3 bg-white text-gray-700 hover:bg-gray-100 text-center justify-center items-center"
                                 >
-                                <IoCloudUploadOutline className='w-10 h-10 py-2 px-2 shadow-md rounded-xl border border-gray-300/20' />
-                                {formData.image ? 
-                                    formData.image.name : 
-                                    <h1 className='pt-3 font-light text-sm'>
-                                        <span className='text-purple-800 font-bold'>Click to upload</span> or drag and drop <br />
-                                        SVG, PNG, or JPEG (max. 800x400px)
-                                    </h1>
-                                    }
+                                {formData.photo ? (
+                                    <div className='flex flex-col justify-center items-center'>
+                                        <h3 className='py-2 text-sm text-gray-500'>
+                                            {formData.photo.name}
+                                        </h3>
+                                        <img
+                                            src={imagePreview}
+                                            alt="Preview"
+                                            className="object-cover h-40 max-w-100 my-3 self-center border border-gray-300"
+                                        />
+                                    </div>
+                                ) : (
+                                    <div className='flex flex-col justify-center items-center'>
+                                        <IoCloudUploadOutline className='w-10 h-10 py-2 px-2 shadow-md rounded-xl border border-gray-300/20' />
+                                        <h1 className='pt-3 font-light text-sm'>
+                                            <span className='text-purple-800 font-bold'>Click to upload</span> or drag and drop <br />
+                                            SVG, PNG, or JPEG (max. 800x400px)
+                                        </h1>
+                                    </div>
+                                )}
                             </label>
                         </div>
                         <div className="flex justify-end mt-4">
@@ -462,6 +532,16 @@ function ModalForm({ title, fieldConfig }) {
                     </form>
                     </div>
                 </div>
+
+            )}
+            
+            {/* Another Modal */}
+            {modalContent && (
+                <BasePopModal
+                    content={modalContent}
+                    isOpen={isModalOpen}
+                    onClose={() => setModalOpen(false)}
+                />
             )}
         </>
     );

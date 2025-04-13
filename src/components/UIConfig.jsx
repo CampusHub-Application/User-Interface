@@ -30,17 +30,17 @@ const loginFieldMap = [
 const adminDashboardFieldMap = [
     {
         type: "text",
-        name: "status",
+        name: "is_admin",
         label: "Status",
         placeholder: null,
         addClass: null,
-        defaultValue: "Non-Admin",
+        defaultValue: 1,
         disabled: false,
         isDropdown: true,
         isPassword: false,
         dropdownOptions: [
-            { label: "Admin", value: "Admin" },
-            { label: "Non-Admin", value: "Non-Admin" },
+            { label: "Admin", value: 1 },
+            { label: "Non-Admin", value: 0 },
         ],
     },
     {
@@ -78,7 +78,7 @@ const adminDashboardFieldMap = [
     },
     {
         type: "password",
-        name: "passwordConfirm",
+        name: "password_confirmation",
         label: "Konfirmasi Password",
         placeholder: "Masukkan Password",
         addClass: null,

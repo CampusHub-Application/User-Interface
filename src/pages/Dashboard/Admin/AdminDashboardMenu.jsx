@@ -2,27 +2,73 @@ import {
     DropdownButton,
     Row,
     useState,
-    MockData,
+    Loading,
     ModalForm,
     adminAddUserMap,
+    useEffect,
+    safeFetch,
+    API,
 } from "../../../components/barrel_module/Barrel.jsx";
 
 function AdminDashboardMenu() {
-    // ! REMOVE THIS LATER, FOR MOCKUP PURPOSES
-    // ! Should update onClick user for newest data!
-    const [userList, setUserList] = useState(MockData);
-
-    const adminCount = userList.filter(user => user.status === "Admin").length;
-    const nonAdminCount = userList.filter(user => user.status !== "Admin").length;
+    const [userList, setUserList] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
+    const [adminCount, setAdminCount] = useState(null);
+    const [nonAdminCount, setNonAdminCount] = useState(null);
+    const [shouldFetch, setShouldFetch] = useState(true);
 
     // For filtering
     const [statusFilter, setStatusFilter] = useState(null);
-    const filteredUserList = statusFilter ? 
-        userList.filter(user => user.status === statusFilter) : userList;
 
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                setIsLoading(true);
+                const response = await safeFetch(API + "/users", {
+                    method: "GET",
+                });
+
+                const data = await response.json();
+
+                // Assuming the response structure is like { users: [...], admin: number, non_admin: number }
+                if (data) {
+                    setUserList(data.users);
+                    setAdminCount(data.admin);
+                    setNonAdminCount(data.non_admin);
+                }
+
+            } catch (error) {
+                console.log(error);
+                alert("Error Fetching Users", error);
+            } finally {
+                setIsLoading(false);
+                setShouldFetch(false);
+            }
+        };
+
+    // Fetch data only if userList is empty
+    if (shouldFetch) {
+        fetchData();
+        setShouldFetch(false);
+    }
+    }, [shouldFetch]);
+
+    const filteredUserList = userList && statusFilter ? 
+        userList.filter(user => user.is_admin === statusFilter) : userList;
+
+    if (userList === null || adminCount === null || nonAdminCount === null) return <Loading />
+
+    const handleUpdateUserList = () => {
+        setShouldFetch(true); // Trigger refetching of data
+    };
+
+    // ! For Manual Count
+    // const adminCount = userList.filter(user => user.status === "Admin").length;
+    // const nonAdminCount = userList.filter(user => user.status !== "Admin").length;
 
     return (
         <div>
+            {isLoading && <Loading />}
             <div className="flex items-center justify-between">
                 <h1 className="text-3xl font-bold">Dashboard</h1>
                 <ModalForm 
@@ -32,6 +78,7 @@ function AdminDashboardMenu() {
                                 </>
                             } 
                     fieldConfig={adminAddUserMap}
+                    event={handleUpdateUserList}
                 />
             </div>
             <div className="flex flex-auto items-center justify-between border border-gray-200 mt-5 rounded-md px-5 py-4">
@@ -53,8 +100,8 @@ function AdminDashboardMenu() {
                     label="Status"
                     items={[
                         { label: "Semua", onClick: () => setStatusFilter(null) },
-                        { label: "Admin", onClick: () => setStatusFilter("Admin") },
-                        { label: "Non-Admin", onClick: () => setStatusFilter("Non-Admin") },
+                        { label: "Admin", onClick: () => setStatusFilter(1) },
+                        { label: "Non-Admin", onClick: () => setStatusFilter(0) },
                     ]}
                     />
             </div>
@@ -69,13 +116,13 @@ function AdminDashboardMenu() {
                         </th>
                         <th className="text-start">Nama</th>
                         <th className="text-start">Email</th>
-                        <th className="text-start overflow-hidden">Password</th>
+                        {/* <th className="text-start overflow-hidden">Password</th> */}
                         <th className="text-start">Status</th>
                         <th className="text-end pe-5">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {filteredUserList.map(user => (
+                    {filteredUserList && filteredUserList.map(user => (
                         <Row 
                             key={user.id} 
                             user={user} 
