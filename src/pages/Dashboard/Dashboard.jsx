@@ -52,12 +52,12 @@ function ActiveContent({ activeMenu, setActiveMenu, user, isAdmin }) {
 
     const menuComponentMap = isAdmin ? {
         AdminDashboard: <AdminDashboardUI />,
-        Profile: <Profile user={user} />,
+        Profile: <Profile user={user} isAdmin={isAdmin} />,
     } : {
         Dashboard: <NoAdminDashboard setActiveMenu={setActiveMenu} setImage={setImage} />,
         Photo: <UploadFoto />,
         DetailPhoto: <DetailFoto image={image} />,
-        Profile: <Profile user={user} />,
+        Profile: <Profile user={user} isAdmin={isAdmin} />,
     };
 
 

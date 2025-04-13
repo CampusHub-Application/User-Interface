@@ -129,7 +129,7 @@ function fieldMap({ user }) {
         },
         {
             type: "password",
-            name: "passwordConfirm",
+            name: "password_confirmation",
             label: "Konfirmasi Password",
             placeholder: "Masukkan Password",
             addClass: null,

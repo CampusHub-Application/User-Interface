@@ -248,7 +248,6 @@ function FormInputComponent({ field, index, onChange = () => {} }) {
                 className={"border border-gray-300 rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 " + field.addClass}
                 defaultValue={field.defaultValue}
                 onChange={onChange}
-                required={true}
                 disabled={field.disabled}
             />
         </div>

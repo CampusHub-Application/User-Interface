@@ -11,7 +11,7 @@ import { useAuth } from '../../auth/AuthProvider.jsx';
 
 function useLogoutHandler() {
     const navigate = useNavigate();
-    const { user, setUser } = useAuth();
+    const { setUser } = useAuth();
 
     return async () => {
         try {
