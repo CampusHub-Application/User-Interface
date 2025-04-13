@@ -2,24 +2,20 @@ import {
     Logo,
     reactLogo,
     Menu,
-    ADMIN_MODE,
+    Loading,
 } from '../barrel_module/Barrel.jsx';
 
-function Sidebar({ activeMenu, setActiveMenu, addClass = "" }) {
-    const menuNames = [];
-    
-    if(ADMIN_MODE) {
-        menuNames.push(
-            {key: "AdminDashboard", name: "Dashboard", iconUrl: reactLogo}, 
-            {key: "AdminProfile", name: "Profile", iconUrl: reactLogo},
-        );
-    } else {
-        menuNames.push(
-            {key: "Dashboard", name: "Dashboard", iconUrl: reactLogo}, 
-            {key: "Photo", name: "Upload Foto", iconUrl: reactLogo},
-            {key: "Profile", name: "Profile", iconUrl: reactLogo},
-        );
-    }
+function Sidebar({ activeMenu, setActiveMenu, addClass = "", isAdmin }) {
+    const menuNames = isAdmin ? 
+        [
+            { key: "AdminDashboard", name: "Dashboard", iconUrl: reactLogo },
+            { key: "Profile", name: "Profile", iconUrl: reactLogo }
+        ]
+        : [
+            { key: "Dashboard", name: "Dashboard", iconUrl: reactLogo },
+            { key: "Photo", name: "Upload Foto", iconUrl: reactLogo },
+            { key: "Profile", name: "Profile", iconUrl: reactLogo }
+        ];
 
     return (
         <div className={"flex flex-col border-e-1 border-gray-300 min-w-[22rem] " + addClass}>

@@ -96,6 +96,72 @@ function DropdownButton({ label = "Options", items = [] }) {
     );
 }
 
+function useDropdownHandler({ items = [] }) {
+    const [open, setOpen] = useState(false);
+    const dropdownRef = useRef(null);
+    const toggleDropdown = () => setOpen(prev => !prev);
+
+    // Close dropdown if clicked outside
+    useEffect(() => {
+        function handleClickOutside(e) {
+            if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+                setOpen(false);
+            }
+        }
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
+
+    const Dropdown = () => (
+        open ? (
+            <div className="absolute z-10 mt-2 min-w-30 origin-top-right right-0 rounded-md shadow-lg bg-white border border-gray-300 focus:outline-none">
+                <div className="py-1">
+                    {items.map((item, idx) => (
+                        <button
+                            key={idx}
+                            onClick={() => {
+                                item.onClick();
+                                setOpen(false);
+                            }}
+                            className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        >
+                            {item.label}
+                        </button>
+                    ))}
+                </div>
+            </div>
+        ) : null
+    );
+
+    return {
+        dropdownRef,
+        toggleDropdown,
+        Dropdown,
+        open,
+    };
+}
+
+function CustomDropdown({ label = "Menu", items = [], className = "" }) {
+    const {
+        dropdownRef,
+        toggleDropdown,
+        Dropdown,
+    } = useDropdownHandler({ items });
+
+    return (
+        <div className="relative inline-block" ref={dropdownRef}>
+            <button 
+                onClick={toggleDropdown} 
+                className={className}
+            >
+                {label}
+            </button>
+            <Dropdown />
+        </div>
+    );
+}
+
 function UserTableRow({ user }) {
     const [selected, setSelected] = useState([]);
 
@@ -449,4 +515,6 @@ export {
     FormInputPasswordComponent,
     basePopModal,
     Loading,
+    useDropdownHandler,
+    CustomDropdown,
 }

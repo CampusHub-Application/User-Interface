@@ -72,12 +72,8 @@ function Login() {
             // Get user profile data and store using auth provider
             try {
                 const response = await safeFetch(API + "/users/profile", {});
-
-                console.log("Response status:", response);
     
                 const data = await response.json();
-
-                console.log("User profile data:", data);
 
                 if (!response.ok) {
                     const errorMessage = data.message || "User not found. Coba lagi.";

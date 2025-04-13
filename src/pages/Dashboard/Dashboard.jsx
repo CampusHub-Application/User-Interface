@@ -1,5 +1,6 @@
 import { 
     useState,
+    useEffect,
     Header,
     Sidebar,
     AdminDashboardUI,
@@ -8,45 +9,57 @@ import {
     UploadFoto,
     Profile,
     DetailFoto,
+    ENABLE_LOGIN,
+    currUser,
+    Loading,
 } from '../../components/barrel_module/Barrel.jsx'
 
 import { useAuth } from "../../auth/AuthProvider.jsx";
 
 function Dashboard() {
-    const [activeMenu, setActiveMenu] = ADMIN_MODE ? useState("AdminDashboard") : useState("Dashboard");
+    const { user } = ENABLE_LOGIN ? useAuth() : { user: currUser };
+    const [activeMenu, setActiveMenu] = useState(null);
+    const [isAdmin, setIsAdmin] = useState(null);
+
+    useEffect(() => {
+        const adminCheck = ENABLE_LOGIN ? user?.is_admin : ADMIN_MODE;
+        setIsAdmin(adminCheck);
+        setActiveMenu(adminCheck ? "AdminDashboard" : "Dashboard");
+    }, [user])
+
+    // Wait until we have evaluated isAdmin
+    if (ENABLE_LOGIN && (!user || isAdmin === null)) {
+        return <Loading />;
+    }
 
     return (
         <>
             <div className="flex flex-row bg-white h-full">
-                <Sidebar activeMenu={activeMenu} setActiveMenu={setActiveMenu} addClass="hidden lg:flex"/>
+                <Sidebar activeMenu={activeMenu} setActiveMenu={setActiveMenu} addClass="hidden lg:flex" isAdmin={isAdmin}/>
                 <div className="flex flex-col flex-auto h-full">
-                    <Header activeMenu={activeMenu} setActiveMenu={setActiveMenu} />
-                    <ActiveContent activeMenu={activeMenu} setActiveMenu={setActiveMenu}/>
+                    <Header activeMenu={activeMenu} setActiveMenu={setActiveMenu} user={user} isAdmin={isAdmin}/>
+                    <ActiveContent activeMenu={activeMenu} setActiveMenu={setActiveMenu} user={user} isAdmin={isAdmin} />
                 </div>
             </div>
         </>
     )
 }
 
-function ActiveContent({ activeMenu, setActiveMenu }) {
-    const [image, setImage] = useState(null);
-    var menuComponentMap = {};
-    const { user } = useAuth();
+function ActiveContent({ activeMenu, setActiveMenu, user, isAdmin }) {
+    if(isAdmin === null) return <Loading />;
 
-    // Prevent access to admin menu if not in admin mode and other way around
-    if(ADMIN_MODE) {
-        menuComponentMap = {
-            AdminDashboard: <AdminDashboardUI />,
-            AdminProfile: <Profile user={user} />,
-        };
-    } else {
-        menuComponentMap = {
-            Dashboard: <NoAdminDashboard setActiveMenu={setActiveMenu} setImage={setImage} />,
-            Photo: <UploadFoto/>,
-            DetailPhoto: <DetailFoto image={image} />,
-            Profile: <Profile user={user}/>,
-        };
-    }
+    const [image, setImage] = useState(null);
+
+    const menuComponentMap = isAdmin ? {
+        AdminDashboard: <AdminDashboardUI />,
+        Profile: <Profile user={user} />,
+    } : {
+        Dashboard: <NoAdminDashboard setActiveMenu={setActiveMenu} setImage={setImage} />,
+        Photo: <UploadFoto />,
+        DetailPhoto: <DetailFoto image={image} />,
+        Profile: <Profile user={user} />,
+    };
+
 
     return (
         <div className="flex flex-col basis-1 flex-auto h-full px-8 py-10">

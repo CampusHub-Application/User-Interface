@@ -17,13 +17,30 @@ function Profile( { user } ) {
     return (
         <>
             <div className="flex flex-col gap-5">
-                <div className="flex flex-row justify-between items-center">
+                <div className="flex flex-row justify-center md:justify-start items-center">
                     <h1 className="text-3xl font-bold">Profile</h1>
                 </div>
                 <div className="flex flex-col md:flex-row gap-10 justify-center">
                     <div className="flex flex-col h-fit w-fit md:w-0 justify-center md:justify-start items-center md:items-start self-center md:self-start gap-3 bg-gray-300/30 py-5 px-5 min-w-[15rem] rounded-xl">
-                        <div className="relative flex flex-col items-center justify-center">    
-                            <img src={user.imageUrl} alt="" className="w-24 h-24 object-cover rounded-full border border-gray-300 bg-gray-500/20"/>
+                        <div className="relative flex flex-col items-center justify-center">
+                            {
+                                user.photo ? (
+                                    <img 
+                                        src={user.photo} 
+                                        className="object-cover rounded-full w-24 h-24 border border-gray-300" 
+                                        alt={user.name}
+                                    />
+                                ) : (
+                                    <div className="flex items-center justify-center w-24 h-24 rounded-full bg-gray-500/20 text-gray-700 font-bold text-xl border border-gray-300">
+                                        {user.name
+                                            .split(" ")
+                                            .slice(0, 2)
+                                            .map(word => word[0])
+                                            .join("")
+                                            .toUpperCase()}
+                                    </div>
+                                )
+                            }
                             <button 
                                 type="button"
                                 onClick={() => console.log("Edit profile picture")} // ! CHANGE THIS WITH FUNCTION

@@ -5,14 +5,15 @@ import {
     headerPadding,
     IoMenuOutline,
     Sidebar,
+    CustomDropdown,
+    useLogoutHandler,
 } from "../barrel_module/Barrel.jsx";
 
-function DashboardHeader({ activeMenu, setActiveMenu }) {
+function DashboardHeader({ activeMenu, setActiveMenu, user, isAdmin }) {
     return (
         <>
-            
             <div className={"flex flex-initial justify-start items-center w-full lg:col-span-8 col-span-auto " + headerPadding}>
-                <SidebarToggleWrapper activeMenu={activeMenu} setActiveMenu={setActiveMenu} />
+                <SidebarToggleWrapper activeMenu={activeMenu} setActiveMenu={setActiveMenu} isAdmin={isAdmin} />
 
                 <div className="flex flex-row items-center justify-between w-full">
                     {/* Search Bar */}
@@ -20,7 +21,7 @@ function DashboardHeader({ activeMenu, setActiveMenu }) {
                         <input
                             type="text"
                             placeholder="Search Here"
-                            className="active:outline-none focus:outline-none"
+                            className="active:outline-none focus:outline-none flex flex-auto me-4"
                         />
                         <button type="submit" className="flex items-center h-5 w-5">
                             <SearchIcon />
@@ -28,18 +29,39 @@ function DashboardHeader({ activeMenu, setActiveMenu }) {
                     </form>
 
                     {/* Avatar */}
-                    <a className="rounded-full" href="/dashboard"> {/* change href later */}
-                        <img src={null} className="object-cover rounded-full h-9 w-9 border-1 border-gray-400" />
-                    </a>
+                    <CustomDropdown
+                        className="rounded-full"
+                        items={[
+                            { label: "Profile", onClick: () => setActiveMenu("Profile") },
+                            { label: "Logout", onClick: useLogoutHandler() },
+                        ]}
+                        label={
+                            user.photo ? (
+                                <img 
+                                    src={user.photo} 
+                                    className="object-cover rounded-full h-9 w-9 border border-gray-400" 
+                                    alt={user.name}
+                                />
+                            ) : (
+                                <div className="flex items-center justify-center h-9 w-9 rounded-full bg-gray-300/30 text-gray-700 font-bold text-sm border border-gray-400">
+                                    {user.name
+                                        .split(" ")
+                                        .slice(0, 2)
+                                        .map(word => word[0])
+                                        .join("")
+                                        .toUpperCase()}
+                                </div>
+                            )
+                        }
+                    />
                 </div>
             </div>
         </>
     );
 }
 
-function SidebarToggleWrapper({ activeMenu, setActiveMenu }) {
+function SidebarToggleWrapper({ activeMenu, setActiveMenu, isAdmin }) {
     const [isOpen, setIsOpen] = useState(false);
-
     const toggleSidebar = () => setIsOpen(!isOpen);
 
     return (
@@ -59,7 +81,7 @@ function SidebarToggleWrapper({ activeMenu, setActiveMenu }) {
                     isOpen ? "translate-x-0" : "-translate-x-full"
                 }`}
             >
-                <Sidebar activeMenu={activeMenu} setActiveMenu={setActiveMenu} />
+                <Sidebar activeMenu={activeMenu} setActiveMenu={setActiveMenu} isAdmin={isAdmin} />
             </div>
 
             {/* Overlay */}
@@ -74,19 +96,3 @@ function SidebarToggleWrapper({ activeMenu, setActiveMenu }) {
 }
 
 export default DashboardHeader;
-
-// {/* Toggle Button
-//             <button 
-//                 onClick={toggleSidebar}
-//                 className="fixed top-4 left-4 z-50 p-2 bg-white rounded-md shadow-md lg:hidden"
-//             >
-//                 <Menu className="w-6 h-6" />
-//             </button> */}
-
-//             {/* Off-canvas Sidebar */}
-//             <div
-//                 className={`fixed inset-y-0 left-0 z-40 w-64 bg-white border-r border-gray-200 transform transition-transform duration-300 ease-in-out 
-//                     ${isOpen ? "translate-x-0" : "-translate-x-full"} lg:hidden`}
-//             >
-//                 <Sidebar />
-//             </div>

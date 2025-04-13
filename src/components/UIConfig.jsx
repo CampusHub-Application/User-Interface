@@ -1,3 +1,5 @@
+import { ADMIN_MODE } from "./barrel_module/Barrel";
+
 const dashboardHeaderPadding = "pt-10 px-8"
 
 const loginFieldMap = [
@@ -95,7 +97,7 @@ function fieldMap({ user }) {
             label: "Status",
             placeholder: null,
             addClass: "bg-gray-200/50",
-            defaultValue: user.is_admin ? "Admin" : "Non-Admin",
+            defaultValue: (user.is_admin || ADMIN_MODE) ? "Admin" : "Non-Admin",
             disabled: true,
         },
         {
