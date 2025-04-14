@@ -34,7 +34,7 @@ const UploadFoto = () => {
     e.preventDefault();
 
     try {
-      const form = FormData();
+      const form = new FormData();
 
       if(!image) {
         alert("Mohon unggah gambar terlebih dahulu.");
@@ -60,13 +60,14 @@ const UploadFoto = () => {
       setJudul('');
       setDeskripsi('');
     } catch (error) {
-
-    } finally {
-
+      alert("Something went wrong", error);
+      console.log(error);
     }
-    // When Success
-    setShowPopup(true);
   };
+
+  // useEffect(() => {
+  //     sessionStorage.setItem("currentMenu", "Photo");
+  // }, [])
 
   return (
     <div className="flex flex-col md:flex-row gap-12">

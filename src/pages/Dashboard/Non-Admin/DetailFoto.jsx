@@ -1,12 +1,16 @@
 import { safeFetch, useEffect, useState, API } from "../../../components/barrel_module/Barrel.jsx";
 
-const DetailFoto = ({ image, imageOwnerID = null }) => {
+const DetailFoto = ({ image, postID = null }) => {
   const [imageOwner, setImageOwner] = useState([]);
   if (!image) return <p className="text-center text-gray-500">Tidak ada gambar dipilih.</p>;
 
+  // useEffect(() => {
+  //   sessionStorage.setItem("currentMenu", "DetailPhoto");
+  // }, [])
+
   useEffect(() => {
-    if(imageOwnerID) {
-      safeFetch(API + "/users?id=" + imageOwnerID, {
+    if(postID) {
+      safeFetch(API + "/posts/" + postID, {
         method: "GET",
         headers: {
           accept: "application/json",
@@ -17,7 +21,7 @@ const DetailFoto = ({ image, imageOwnerID = null }) => {
         }
         return res.json();
       }).then((data) => {
-        setImageOwner(data.user);
+        setImageOwner(data.post.user);
       }).catch((error) => {
         console.log("fetch error: ", error);
       })

@@ -99,6 +99,10 @@ function Profile( { user, isAdmin } ) {
             setIsLoading(false);
         }
     };
+    
+    // useEffect(() => {
+    //     sessionStorage.setItem("currentMenu", "Profile");
+    // }, [])
 
     return (
         <div className="relative flex">

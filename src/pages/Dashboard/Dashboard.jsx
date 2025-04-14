@@ -21,12 +21,37 @@ function Dashboard() {
     const { user } = ENABLE_LOGIN ? useAuth() : { user: currUser };
     const [activeMenu, setActiveMenu] = useState(null);
     const [isAdmin, setIsAdmin] = useState(null);
+    const [filteredData, setFilteredData] = useState(null);
 
     useEffect(() => {
         const adminCheck = ENABLE_LOGIN ? user?.is_admin : ADMIN_MODE;
         setIsAdmin(adminCheck);
         setActiveMenu(adminCheck ? "AdminDashboard" : "Dashboard");
     }, [user])
+
+    useEffect(() => {
+        const adminCheck = ENABLE_LOGIN ? user?.is_admin : ADMIN_MODE;
+        const session = sessionStorage.getItem("currentMenu");
+
+        if(session !== null) {
+            if((session == "AdminDashboard" 
+                || session == "Profile") && isAdmin) {
+                setActiveMenu(session);
+            } else if ((session == "Dashboard" 
+                || session == "MyPost" 
+                || session == "Photo" 
+                || session == "DetailPhoto" 
+                || session == "Profile") && !isAdmin) {
+                setActiveMenu(session);
+            }
+        }
+    }, []);
+
+    useEffect(() => {
+        if (activeMenu) {
+            sessionStorage.setItem("currentMenu", activeMenu);
+        }
+    }, [activeMenu]);
 
     // Wait until we have evaluated isAdmin
     if (ENABLE_LOGIN && (!user || isAdmin === null)) {
@@ -38,28 +63,29 @@ function Dashboard() {
             <div className="flex flex-row bg-white h-full">
                 <Sidebar activeMenu={activeMenu} setActiveMenu={setActiveMenu} addClass="hidden lg:flex gap-5" isAdmin={isAdmin}/>
                 <div className="flex flex-col flex-auto h-full">
-                    <Header activeMenu={activeMenu} setActiveMenu={setActiveMenu} user={user} isAdmin={isAdmin}/>
-                    <ActiveContent activeMenu={activeMenu} setActiveMenu={setActiveMenu} user={user} isAdmin={isAdmin} />
+                    <Header activeMenu={activeMenu} setActiveMenu={setActiveMenu} user={user} isAdmin={isAdmin} setFilteredData={setFilteredData}/>
+                    <ActiveContent activeMenu={activeMenu} setActiveMenu={setActiveMenu} user={user} isAdmin={isAdmin} filteredData={filteredData} />
                 </div>
             </div>
         </>
     )
 }
 
-function ActiveContent({ activeMenu, setActiveMenu, user, isAdmin }) {
+function ActiveContent({ activeMenu, setActiveMenu, user, isAdmin, filteredData }) {
     if(isAdmin === null) return <Loading />;
 
     const [image, setImage] = useState(null);
-    const [imageOwnerID, setImageOwnerID] = useState(null);
+    const [postID, setPostID] = useState(null);
+
 
     const menuComponentMap = isAdmin ? {
         AdminDashboard: <AdminDashboardUI />,
         Profile: <Profile user={user} isAdmin={isAdmin} />,
     } : {
-        Dashboard: <NoAdminDashboard setActiveMenu={setActiveMenu} setImage={setImage} setImageOwnerID={setImageOwnerID}/>,
-        MyPost: <MyPost setActiveMenu={setActiveMenu} setImage={setImage} setImageOwnerID={setImageOwnerID}/>,
+        Dashboard: <NoAdminDashboard setActiveMenu={setActiveMenu} setImage={setImage} setPostID={setPostID} filteredData={filteredData}/>,
+        MyPost: <MyPost setActiveMenu={setActiveMenu} setImage={setImage} setPostID={setPostID}/>,
         Photo: <UploadFoto />,
-        DetailPhoto: <DetailFoto image={image} imageOwnerID={imageOwnerID}/>,
+        DetailPhoto: <DetailFoto image={image} postID={postID}/>,
         Profile: <Profile user={user} isAdmin={isAdmin} />,
     };
 

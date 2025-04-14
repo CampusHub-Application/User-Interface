@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { 
     useState,
     SearchIcon,
@@ -7,23 +8,56 @@ import {
     Sidebar,
     CustomDropdown,
     useLogoutHandler,
+    safeFetch,
+    Loading,
 } from "../barrel_module/Barrel.jsx";
 
-function DashboardHeader({ activeMenu, setActiveMenu, user, isAdmin }) {
+function DashboardHeader({ activeMenu, setActiveMenu, user, isAdmin, setFilteredData }) {
+    const [searchQuery, setSearchQuery] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
+
+    const searchHandler = async (e) => {
+        e.preventDefault();
+        setIsLoading(true);
+
+        try {
+            const response = await safeFetch(API + "/search?q=" + searchQuery, {
+                method: "GET",
+            })
+
+            const data = await response.json();
+
+            if(!response.ok) {
+                alert(response.message);
+            }
+
+            setFilteredData(data.posts);
+            setActiveMenu("Dashboard");
+        } catch (error) {
+            console.log("Something went wrong", error);
+            alert(error);
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
     return (
         <>
             <div className={"flex flex-initial justify-start items-center w-full lg:col-span-8 col-span-auto " + headerPadding}>
+                {isLoading && <Loading />}
                 <SidebarToggleWrapper activeMenu={activeMenu} setActiveMenu={setActiveMenu} isAdmin={isAdmin} />
 
                 <div className="flex flex-row items-center justify-between w-full">
                     {/* Search Bar */}
-                    <form action={null} method="GET" className="flex flex-auto max-w-sm items-center justify-between border border-gray-300 rounded-md px-4 py-2 me-10">
+                    <form onSubmit={searchHandler} className="flex flex-auto max-w-sm items-center justify-between border border-gray-300 rounded-md px-4 py-2 me-10">
                         <input
                             type="text"
                             placeholder="Search Here"
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
                             className="active:outline-none focus:outline-none flex flex-auto me-4"
                         />
-                        <button type="submit" className="flex items-center h-5 w-5">
+                        <button type="submit" className="cursor-pointer flex items-center h-5 w-5">
                             <SearchIcon />
                         </button>
                     </form>

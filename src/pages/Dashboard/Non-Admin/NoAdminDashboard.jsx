@@ -6,42 +6,41 @@ import {
   API, 
 } from "../../../components/barrel_module/Barrel.jsx";
 
-const NoAdminDashboard = ({ setActiveMenu, setImage, setImageOwnerID }) => {
+const NoAdminDashboard = ({ setActiveMenu, setImage, setPostID, filteredData = null }) => {
   const [images, setImages] = useState([]);
 
   useEffect(() => {
-    safeFetch(API + "/posts", {
-      method: "GET",
-      headers: {
-        accept: "application/json",
-      }
-    }).then(res => {
-      if (!res.ok) {
-        throw new Error("Network response was not ok");
-      }
-      return res.json();
-    }).then((data) => {
-      setImages(data.posts)
-    }).catch((error) => {
-      console.log("fetch error: ", error);
-    })
-
-    // setImages([
-    //   { src: 'https://via.placeholder.com/400', caption: 'Gambar 1' },
-    //   { src: 'https://via.placeholder.com/400', caption: 'Gambar 2' },
-    //   { src: 'https://via.placeholder.com/400', caption: 'Gambar 3' },
-    //   { src: 'https://via.placeholder.com/400', caption: 'Gambar 4' },
-    //   { src: 'https://via.placeholder.com/400', caption: 'Gambar 5' },
-    //   { src: 'https://via.placeholder.com/400', caption: 'Gambar 6' },
-    // ]);
-  }, []);
+    if(filteredData !== null) {
+      console.log(filteredData);
+      setImages(filteredData);
+    } else {
+      safeFetch(API + "/posts", {
+        method: "GET",
+        headers: {
+          accept: "application/json",
+        }
+      }).then(res => {
+        if (!res.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return res.json();
+      }).then((data) => {
+        setImages(data.posts)
+      }).catch((error) => {
+        console.log("fetch error: ", error);
+      })
+    }
+  }, [filteredData]);
 
   const handleClick = (img) => {
     setImage(img);
-    setImageOwnerID(img.user_id);
+    setPostID(img.id);
     setActiveMenu("DetailPhoto");
   };
 
+  // useEffect(() => {
+  //   sessionStorage.setItem("currentMenu", "Dashboard");
+  // }, [])  
 
   return (
     <div className="p-4 flex justify-center">

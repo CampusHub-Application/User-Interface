@@ -6,14 +6,15 @@ import {
   API, 
 } from "../../../components/barrel_module/Barrel.jsx";
 
-import { useAuth } from '../../../auth/AuthProvider.jsx'
-
-const MyPost = ({ setActiveMenu, setImage, setImageOwnerID }) => {
+const MyPost = ({ setActiveMenu, setImage, setPostID }) => {
   const [images, setImages] = useState([]);
-  const { user } = useAuth();
+
+  // useEffect(() => {
+  //   sessionStorage.setItem("currentMenu", "MyPost");
+  // }, [])
 
   useEffect(() => {
-    safeFetch(API + "/posts?id_filter=" + user.id, {
+    safeFetch(API + "/my-posts", {
       method: "GET",
       headers: {
         accept: "application/json",
@@ -24,18 +25,17 @@ const MyPost = ({ setActiveMenu, setImage, setImageOwnerID }) => {
       }
       return res.json();
     }).then((data) => {
-      setImages(data.posts)
+      setImages(data)
     }).catch((error) => {
       console.log("fetch error: ", error);
     })
-  }, []);
+  });
 
   const handleClick = (img) => {
     setImage(img);
-    setImageOwnerID(img.user_id);
+    setPostID(img.id);
     setActiveMenu("DetailPhoto");
   };
-
 
   return (
     <div className="p-4 flex justify-center">

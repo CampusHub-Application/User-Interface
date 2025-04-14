@@ -38,6 +38,10 @@ function AdminDashboardMenu() {
     };
 
     useEffect(() => {
+        sessionStorage.setItem("currentMenu", "AdminDashboard");
+    }, [])
+
+    useEffect(() => {
         const fetchData = async () => {
             try {
                 setIsLoading(true);
