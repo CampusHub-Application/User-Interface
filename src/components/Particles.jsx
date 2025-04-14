@@ -11,6 +11,7 @@ import {
     safeFetch,
     API,
     BasePopModal,
+    useNavigate,
 } from './barrel_module/Barrel.jsx'
 
 function MainLogo({textsize, margin}) {
@@ -165,15 +166,22 @@ function CustomDropdown({ label = "Menu", items = [], className = "" }) {
     );
 }
 
-function UserTableRow({ user, isSelected, setSelected, showModal, setModalOpen, onUserDeleted }) {
+function UserTableRow({ user, currentUser, isSelected, setSelected, showModal, setModalOpen, onUserDeleted, logoutHandler }) {
     const confirmDelete = () => {
         showModal(
-            <div className="flex flex-col gap-5">
+            <div className="flex flex-col gap-3">
                 <h1 className="text-2xl font-bold text-center">Delete Confirmation</h1>
                 <p className="text-center">Are you sure you want to delete this entry?</p>
                 <p className='text-center text-lg'>Chosen Entry: <br />
                     <span key={user.id} className='font-bold text-red-700'>
-                        {user.name}
+                        {user.name === currentUser.name ? 
+                            (
+                                <>
+                                    {user.name}
+                                    <br /><span className='font-extrabold text-3xl'>You will be logged out!</span>
+                                </>
+                            ) 
+                            : user.name}
                     </span>
                 </p>
                 <div className='flex justify-around items-center'>
@@ -198,6 +206,7 @@ function UserTableRow({ user, isSelected, setSelected, showModal, setModalOpen, 
         try {
             const form = new FormData();
             form.append("id", user.id);
+            form.append("photo", user.photo);
 
             const response = await safeFetch(API + '/users?_method=DELETE', {
                 method: "POST",
@@ -215,10 +224,16 @@ function UserTableRow({ user, isSelected, setSelected, showModal, setModalOpen, 
                 )
             }
 
-            if (typeof onUserDeleted === "function") {
-                onUserDeleted(user.id);
+            if (user.name === currentUser.name) {
+                if (typeof logoutHandler === "function") {
+                    logoutHandler();
+                }
+            } else {
+                if (typeof onUserDeleted === "function") {
+                    onUserDeleted(user.id);
+                }
             }
-
+            
             setModalOpen(false);
         } catch (error) {
             alert("Terjadi kesalahan jaringan.");
@@ -449,7 +464,9 @@ function ModalForm({ title, fieldConfig, event = () => null }) {
             form.append("email", formData.email);
             form.append("password", formData.password);
             form.append("password_confirmation", formData.password_confirmation);
-            form.append("photo", formData.photo);
+            if(formData.photo !== null) {
+                form.append("photo", formData.photo);
+            }
 
             const response = await safeFetch(API + "/users", {
                 method: "POST",
@@ -480,6 +497,7 @@ function ModalForm({ title, fieldConfig, event = () => null }) {
         } catch (error) {
             alert("Error submitting form", error);
         } finally {
+            setIsLoading(false);
             setIsOpen(false);
         }
     };

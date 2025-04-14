@@ -33,7 +33,6 @@ function Login() {
     // Automatic Redirect if logged in
     useEffect(() => {
         if (user) {
-            console.log("User is logged in:", user);
             navigate("/dashboard");
         }
     }, [user]);
@@ -87,7 +86,6 @@ function Login() {
                 }
                 
                 // Store the user profile data in the auth provider
-                console.log("User profile data:", data.profile);
                 setUser(data.profile);
                 navigate("/dashboard");
 

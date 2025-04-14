@@ -24,6 +24,7 @@ function useLogoutHandler() {
             const res = await safeFetch(API + '/auth/logout', { method: 'POST' });
     
             if (!res.ok) {
+                setUser(null);
                 throw new Error('Failed to logout');
             }
     

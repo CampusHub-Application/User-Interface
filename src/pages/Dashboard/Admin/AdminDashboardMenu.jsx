@@ -11,7 +11,10 @@ import {
     BasePopModal,
     RiDeleteBin5Line,
     useRef,
+    useLogoutHandler,
 } from "../../../components/barrel_module/Barrel.jsx";
+
+import { useAuth } from '../../../auth/AuthProvider.jsx';
 
 function AdminDashboardMenu() {
     const [userList, setUserList] = useState(null);
@@ -22,7 +25,9 @@ function AdminDashboardMenu() {
     const [selected, setSelected] = useState([]);
     const [modalContent, setModalContent] = useState(null);
     const [isModalOpen, setModalOpen] = useState(false);
+    const { user: currentUser } = useAuth();
     const selectedRef = useRef(selected);
+    const logoutHandler = useLogoutHandler();
 
     // For filtering
     const [statusFilter, setStatusFilter] = useState(null);
@@ -99,7 +104,29 @@ function AdminDashboardMenu() {
                             </span>
                         )
                     })}
+                    {currentSelected.some(user => user.name === currentUser.name) && (
+                        <>
+                            <br />
+                            <span className="font-extrabold text-3xl text-center block text-red-900">
+                                Warning: You will be logged out!
+                            </span>
+                        </>
+                    )}
                 </p>
+                <div className='flex justify-around items-center'>
+                    <button
+                        className='bg-blue-500 shadow-md hover:bg-blue-600 text-white py-2 px-4 rounded-xl'
+                        onClick={() => setModalOpen(false)}
+                        >
+                        Cancel
+                    </button>
+                    <button
+                        className='bg-red-500 shadow-md hover:bg-red-600 text-white py-2 px-4 rounded-xl'
+                        onClick={deleteHandler}
+                        >
+                        Confirm
+                    </button>
+                </div>
             </div>
         )
     }
@@ -117,6 +144,51 @@ function AdminDashboardMenu() {
         } else {
             // Deselect all
             setSelected([]);
+        }
+    }
+
+    const deleteHandler = async () => {
+        const currentSelected = selectedRef.current;
+
+        try {
+            const form = new FormData();
+
+            // Append selected user IDs
+            currentSelected.forEach(user => {
+                form.append('ids[]', user.id);
+            });
+
+            const response = await safeFetch(API + '/users/multiple?_method=DELETE', {
+                method: "POST",
+                body: form,
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                showModal(
+                    <div className="flex flex-col gap-5">
+                        <h1 className="text-2xl font-bold text-center">Delete Failed</h1>
+                        <p className="text-center">{data.message}</p>
+                    </div>
+                );
+                return;
+            }
+
+            const wasCurrentUserDeleted = currentSelected.some(user => user.name === currentUser.name);
+
+            // Remove deleted users from the list
+            setUserList(prev => prev.filter(user => !currentSelected.some(sel => sel.id === user.id)));
+            setSelected([]); // Clear selection
+
+            setModalOpen(false);
+
+            if (wasCurrentUserDeleted) {
+                logoutHandler();
+            }
+
+        } catch (error) {
+            alert("Terjadi kesalahan jaringan.");
         }
     }
 
@@ -193,10 +265,12 @@ function AdminDashboardMenu() {
                         <Row 
                             key={user.id} 
                             user={user} 
+                            currentUser={currentUser}
                             setSelected={setSelected}
                             showModal={showModal}
                             setModalOpen={setModalOpen}
                             isSelected={selected.some(item => item.id === user.id)}
+                            logoutHandler={logoutHandler}
                             onUserDeleted={(deletedId) => {
                                 setUserList(prev => prev.filter(u => u.id !== deletedId));
                                 setSelected(prev => prev.filter(item => item.id !== deletedId)); // optional

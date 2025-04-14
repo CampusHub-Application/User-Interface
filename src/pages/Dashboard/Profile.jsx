@@ -71,7 +71,7 @@ function Profile( { user, isAdmin } ) {
                 form.append("password_confirmation", formData.password_confirmation);
             }
 
-            if (image) {
+            if (image !== null) {
                 form.append("photo", image);
             }
 

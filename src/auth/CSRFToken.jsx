@@ -46,7 +46,7 @@ function fetchWithCsrf(url, options = {}) {
                 if (csrfRes.ok) {
                     // Retry original request after token refresh
                     headers['X-XSRF-TOKEN'] = getXsrfToken(); // get fresh token if updated
-                    response = await fetchRequest();
+                    response = await fetchRequest;
                 } else {
                     console.error("Failed to refresh CSRF token");
                 }
