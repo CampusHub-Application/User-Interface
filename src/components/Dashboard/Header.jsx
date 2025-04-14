@@ -17,7 +17,7 @@ function DashboardHeader({ activeMenu, setActiveMenu, user, isAdmin }) {
 
                 <div className="flex flex-row items-center justify-between w-full">
                     {/* Search Bar */}
-                    <form action={API + 'getdata'} method="GET" className="flex flex-auto max-w-sm items-center justify-between border border-gray-300 rounded-md px-4 py-2 me-10">
+                    <form action={null} method="GET" className="flex flex-auto max-w-sm items-center justify-between border border-gray-300 rounded-md px-4 py-2 me-10">
                         <input
                             type="text"
                             placeholder="Search Here"

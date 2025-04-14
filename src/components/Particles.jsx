@@ -165,8 +165,69 @@ function CustomDropdown({ label = "Menu", items = [], className = "" }) {
     );
 }
 
-function UserTableRow({ user }) {
-    const [selected, setSelected] = useState([]);
+function UserTableRow({ user, isSelected, setSelected, showModal, setModalOpen, onUserDeleted }) {
+    const confirmDelete = () => {
+        showModal(
+            <div className="flex flex-col gap-5">
+                <h1 className="text-2xl font-bold text-center">Delete Confirmation</h1>
+                <p className="text-center">Are you sure you want to delete this entry?</p>
+                <p className='text-center text-lg'>Chosen Entry: <br />
+                    <span key={user.id} className='font-bold text-red-700'>
+                        {user.name}
+                    </span>
+                </p>
+                <div className='flex justify-around items-center'>
+                    <button
+                        className='bg-blue-500 shadow-md hover:bg-blue-600 text-white py-2 px-4 rounded-xl'
+                        onClick={() => setModalOpen(false)}
+                        >
+                        Cancel
+                    </button>
+                    <button
+                        className='bg-red-500 shadow-md hover:bg-red-600 text-white py-2 px-4 rounded-xl'
+                        onClick={deleteHandler}
+                        >
+                        Confirm
+                    </button>
+                </div>
+            </div>
+        );
+    }
+
+    const deleteHandler = async () => {
+        try {
+            const form = new FormData();
+            form.append("id", user.id);
+
+            const response = await safeFetch(API + '/users?_method=DELETE', {
+                method: "POST",
+                body: form,
+            })
+
+            const data = await response.json();
+
+            if(!response.ok) {
+                showModal(
+                    <div className="flex flex-col gap-5">
+                        <h1 className="text-2xl font-bold text-center">Delete Failed</h1>
+                        <p className="text-center">{data.message}</p>
+                    </div>
+                )
+            }
+
+            if (typeof onUserDeleted === "function") {
+                onUserDeleted(user.id);
+            }
+
+            setModalOpen(false);
+        } catch (error) {
+            alert("Terjadi kesalahan jaringan.");
+        }
+    }
+
+    const editHandler = async () => {
+
+    }
 
     return (
         <tr className="border-b border-gray-200 hover:bg-gray-50 transition">
@@ -174,11 +235,18 @@ function UserTableRow({ user }) {
             <td className="px-4 py-3">
             <input
                 type="checkbox"
+                checked={isSelected}
                 onChange={(e) => {
                     if (e.target.checked) {
-                        setSelected(prev => [...prev, user.id]);
+                        setSelected(prev => {
+                            const exists = prev.some(item => item.id === user.id);
+                            if (!exists) {
+                                return [...prev, { id: user.id, name: user.name }];
+                            }
+                        return prev;
+                        });                          
                     } else {
-                        setSelected(prev => prev.filter(id => id !== user.id));
+                        setSelected(prev => prev.filter(item => item.id !== user.id));
                     }
                 }}
                 className="form-checkbox h-4 w-4 text-blue-600"
@@ -188,11 +256,24 @@ function UserTableRow({ user }) {
             {/* Avatar & Name */}
             <td className="py-3 pe-3 text-start">
             <div className="flex items-center gap-3">
-                <img
-                src={user.avatarUrl}
-                // alt={user.name}
-                className="w-10 h-10 rounded-full object-cover border border-gray-300"
-                />
+                {
+                    user.photo ? (
+                        <img 
+                            src={user.photo} 
+                            className="object-cover rounded-full w-10 h-10 border border-gray-300" 
+                            alt={user.name}
+                        />
+                    ) : (
+                        <div className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-300/30 text-gray-700 font-bold text-sm border border-gray-300">
+                            {user.name
+                                .split(" ")
+                                .slice(0, 2)
+                                .map(word => word[0])
+                                .join("")
+                                .toUpperCase()}
+                        </div>
+                    )
+                }
                 <span className="font-medium text-gray-800 truncate">{user.name}</span>
             </div>
             </td>
@@ -221,13 +302,13 @@ function UserTableRow({ user }) {
             {/* Action Buttons */}
             <td className="py-3 text-right space-x-2">
             <button
-                onClick={() => null}
+                onClick={editHandler}
                 className="text-black hover:text-blue-800 transition px-3 py-3 me-3 border border-gray-300 rounded-md"
             >
                 <FaEdit className='text-xl'/>
             </button>
             <button
-                onClick={() => null}
+                onClick={confirmDelete}
                 className="text-red-600 hover:text-red-800 transition px-3 py-3 me-3 border border-gray-300 rounded-md"
             >
                 <RiDeleteBin5Line className='text-xl' />
