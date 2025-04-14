@@ -1,6 +1,6 @@
-import { useEffect, useState } from "./barrel_module/Barrel";
+import { useEffect, useState, FaCheck } from "./barrel_module/Barrel";
 
-const PopUpCheckOut = ({ isVisible, onClose, message }) => {
+const PopUpCheckOut = ({ isVisible, onClose = () => { isVisible = false }, message = null }) => {
   const [isEntering, setIsEntering] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
 
@@ -31,45 +31,42 @@ const PopUpCheckOut = ({ isVisible, onClose, message }) => {
   return (
     <div
       className={`fixed inset-0 flex items-center justify-center transition-all ${
-        // isExiting
-        //   ? "opacity-0 duration-700"
-        //   : isEntering
-        //   ? "opacity-100 duration-700"
-        //   : "opacity-0"
-        ""
+        isExiting
+          ? "opacity-0 duration-700"
+          : isEntering
+          ? "opacity-100 duration-700"
+          : "opacity-0"
       }`}
     >
       <div
-        className={`absolute inset-0 bg-black transition-all ${
-          // isExiting
-          //   ? "opacity-0 duration-700"
-          //   : isEntering
-          //   ? "opacity-30 duration-700"
-          //   : "opacity-0"
-          ""
+        className={`absolute inset-0 bg-black/20 transition-all ${
+          isExiting
+            ? "opacity-0 duration-700"
+            : isEntering
+            ? "opacity-30 duration-700"
+            : "opacity-0"
         }`}
         onClick={handleClose}
       ></div>
 
       <div
         className={`relative booking w-[397px] h-[437px] px-6 py-6 mx-8 bg-white shadow-lg rounded-2xl flex flex-col justify-center gap-4 transition-all ${
-          // isExiting
-          //   ? "opacity-0 scale-90 duration-700"
-          //   : isEntering
-          //   ? "opacity-100 scale-100 duration-700"
-          //   : "opacity-0 scale-50 duration-700"
-          ""
+          isExiting
+            ? "opacity-0 scale-90 duration-700"
+            : isEntering
+            ? "opacity-100 scale-100 duration-700"
+            : "opacity-0 scale-50 duration-700"
         }`}
       >
         <div className="unique-code-output flex justify-center items-center">
           <div
             className={`relative w-32 h-32 flex items-center justify-center rounded-full border-4 transition-all duration-500 ${
-              // isEntering
-              //   ? "bg-green-400 border-green-400 animate-bg-expand"
-              //   : "bg-transparent border-gray-400"
-              "bg-transparent border-gray-400"
+              isEntering
+                ? "bg-green-400 border-green-400 animate-bg-expand"
+                : "bg-transparent border-gray-400"
             }`}
           >
+            {/* <FaCheck className="aspect-square w-full h-full py-5 px-5 text-white "/> */}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 32 32"
@@ -79,10 +76,9 @@ const PopUpCheckOut = ({ isVisible, onClose, message }) => {
               strokeLinecap="round"
               strokeLinejoin="round"
               className={`w-16 h-16 transform transition-all duration-500 ${
-                // isEntering
-                //   ? "opacity-100 animate-check-in"
-                //   : "opacity-0 scale-0"
-                ""
+                isEntering
+                  ? "opacity-100 animate-check-in"
+                  : "opacity-0 scale-0"
               }`}
             >
               <path d="M5 16l8 8L28 4" />
@@ -94,7 +90,7 @@ const PopUpCheckOut = ({ isVisible, onClose, message }) => {
             Berhasil Diunggah!
           </span>
           <p className="font-regular text-[20px] text-center py-2 px-4">
-          Foto kamu berhasil diunggah, segera periksa di dalam beranda
+          {message || "Foto kamu berhasil diunggah, segera periksa di dalam beranda"}
           </p>
         </div>
       </div>

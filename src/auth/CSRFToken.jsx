@@ -34,8 +34,9 @@ function fetchWithCsrf(url, options = {}) {
 
     return fetchRequest.then(async (response) => {
         // Check if CSRF token is expired (status 419 or 401)
-        if (response.status === 419 || response.status === 401 || response.status === 403) {
+        if (response.status === 419 || response.status === 401) {
             console.warn("Session or CSRF token expired. Logging Out...");
+            
 
             try {
                 // Try refreshing the CSRF token

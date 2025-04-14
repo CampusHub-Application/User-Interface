@@ -11,7 +11,8 @@ import {
     safeFetch,
     API,
     BasePopModal,
-    useNavigate,
+    adminEditUserMap,
+    reactLogo,
 } from './barrel_module/Barrel.jsx'
 
 function MainLogo({textsize, margin}) {
@@ -34,14 +35,14 @@ function SearchIcon() {
     )
 }
 
-function SidebarMenuBase({menuName, iconUrl, isActive, setActive}) {
+function SidebarMenuBase({menuName, IconComponent = null, isActive, setActive}) {
     return (
         <button 
-            className={"flex flex-row items-center mb-2 mx-5 px-5 py-2 active:bg-blue-300/20 hover:scale-110 hover:bg-blue-300/10 rounded-md transition-all duration-200 ease-in-out " + (isActive ? "bg-blue-300/10" : "hover:scale-110 bg-blue-10") }
+            className={"flex flex-row items-center mb-2 mx-5 px-5 py-4 active:bg-blue-300/20 hover:scale-110 hover:bg-blue-300/10 rounded-md transition-all duration-200 ease-in-out " + (isActive ? "bg-blue-300/10" : "hover:scale-110 bg-blue-10") }
             onClick={setActive} 
             >
                 
-            <img src={iconUrl} className='w-8 h-8'/>
+            { IconComponent !== null ? (<IconComponent className='w-6 h-6'/>) : (<img src={reactLogo} className='w-8 h-8'/>)}
             <p className={'text-xl ps-3 ' + (isActive ? "font-medium" : "font-light")}>{menuName}</p>
         </button>
     )
@@ -297,9 +298,9 @@ function UserTableRow({ user, currentUser, isSelected, setSelected, showModal, s
             <td className="py-3 pe-3 text-gray-700 text-start truncate">{user.email}</td>
 
             {/* Password */}
-            {/* <td className="py-3 pe-3 text-gray-500 font-mono truncate max-w-[150px] text-start">
+            <td className="py-3 pe-3 text-gray-500 font-mono truncate max-w-[150px] text-start">
                 {user.password}
-            </td> */}
+            </td>
 
             {/* Status */}
             <td className="py-3 pe-3 text-start">
@@ -315,13 +316,21 @@ function UserTableRow({ user, currentUser, isSelected, setSelected, showModal, s
             </td>
 
             {/* Action Buttons */}
-            <td className="py-3 text-right space-x-2">
-            <button
+            <td className="flex py-3 items-center justify-end space-x-2">
+            <ModalForm 
+                title=  {<FaEdit className='text-xl'/>}
+                formTitle={"Edit Pengguna"}
+                customClass={"text-black hover:text-blue-800 transition px-3 py-3 me-3 border border-gray-300 rounded-md"}
+                fieldConfig={adminEditUserMap({ user })}
+                isEdit={user}
+                event={editHandler}
+            />
+            {/* <button
                 onClick={editHandler}
                 className="text-black hover:text-blue-800 transition px-3 py-3 me-3 border border-gray-300 rounded-md"
             >
                 <FaEdit className='text-xl'/>
-            </button>
+            </button> */}
             <button
                 onClick={confirmDelete}
                 className="text-red-600 hover:text-red-800 transition px-3 py-3 me-3 border border-gray-300 rounded-md"
@@ -353,7 +362,7 @@ function FormInputComponent({ field, index, onChange = () => {} }) {
     )
 }
 
-function FormDropdownComponent({ field, index, value = "", onChange = () => {}  }) {
+function FormDropdownComponent({ field, index, value = null, onChange = () => {}  }) {
     return (
         <div key={index} className="relative flex flex-col gap-2">
             <label htmlFor={field.name} className="text-gray-700 font-medium">
@@ -363,7 +372,7 @@ function FormDropdownComponent({ field, index, value = "", onChange = () => {}  
                 name={field.name}
                 id={field.name}
                 className={"border border-gray-300 rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none pr-10 " + field.addClass}
-                value={value}
+                value={value || field.defaultValue}
                 disabled={field.disabled}
                 onChange={onChange}
                 required={false}
@@ -423,7 +432,7 @@ function FormInputPasswordComponent({ field, index, onChange = () => {}  }) {
     )
 }
 
-function ModalForm({ title, fieldConfig, event = () => null }) {
+function ModalForm({ title, formTitle = null, customClass = null, isEdit = null, fieldConfig, event = () => null }) {
     const [modalContent, setModalContent] = useState(null);
     const [isModalOpen, setModalOpen] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
@@ -459,31 +468,55 @@ function ModalForm({ title, fieldConfig, event = () => null }) {
 
             const form = new FormData();
 
+            if(isEdit !== null) {
+                form.append("id", isEdit.id);
+            }
             form.append("is_admin", formData.is_admin);
             form.append("name", formData.name);
             form.append("email", formData.email);
             form.append("password", formData.password);
             form.append("password_confirmation", formData.password_confirmation);
+
             if(formData.photo !== null) {
                 form.append("photo", formData.photo);
             }
 
-            const response = await safeFetch(API + "/users", {
-                method: "POST",
-                body: form,
-            })
+            if(isEdit !== null) {
+                const response = await safeFetch(API + "/users?_method=PATCH", {
+                    method: "POST",
+                    body: form,
+                })
 
-            const data = await response.json();
+                const data = await response.json();
+    
+                if(!response.ok) {
+                    showModal(
+                        <div className="flex flex-col gap-5">
+                            <h1 className="text-2xl font-bold text-center">Something Went Wrong!</h1>
+                            <p className="text-center">{data.message}</p>
+                        </div>
+                    );
+                    setIsLoading(false);
+                    return;
+                }
+            } else {
+                const response = await safeFetch(API + "/users", {
+                    method: "POST",
+                    body: form,
+                })
 
-            if(!response.ok) {
-                showModal(
-                    <div className="flex flex-col gap-5">
-                        <h1 className="text-2xl font-bold text-center">Something Went Wrong!</h1>
-                        <p className="text-center">{data.message}</p>
-                    </div>
-                );
-                setIsLoading(false);
-                return;
+                const data = await response.json();
+    
+                if(!response.ok) {
+                    showModal(
+                        <div className="flex flex-col gap-5">
+                            <h1 className="text-2xl font-bold text-center">Something Went Wrong!</h1>
+                            <p className="text-center">{data.message}</p>
+                        </div>
+                    );
+                    setIsLoading(false);
+                    return;
+                }
             }
 
             event();
@@ -494,6 +527,7 @@ function ModalForm({ title, fieldConfig, event = () => null }) {
                     <p className="text-center">New User Added Successfully</p>
                 </div>
             );
+
         } catch (error) {
             alert("Error submitting form", error);
         } finally {
@@ -522,7 +556,7 @@ function ModalForm({ title, fieldConfig, event = () => null }) {
             {/* Button to trigger modal */}
             <button
                 onClick={() => setIsOpen(true)}
-                className="flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700"
+                className={customClass || "flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700"}
                 >
                 {title}
             </button>
@@ -533,7 +567,7 @@ function ModalForm({ title, fieldConfig, event = () => null }) {
                     {/* Modal Content */}
                     <div className="bg-white w-full max-w-[60%] p-6 rounded-lg shadow-lg relative" ref={modalRef}>
 
-                    <h2 className="text-xl font-semibold">Tambah Pengguna</h2>
+                    <h2 className="text-xl font-semibold">{formTitle || "Tambah Pengguna"}</h2>
                     <p className='text-gray-500 mb-6 mt-1'>Pastikan data sudah benar sebelum disimpan</p>
                     <form onSubmit={handleSubmit} className="space-y-4">
                         {fieldConfig.map((field, index) => {

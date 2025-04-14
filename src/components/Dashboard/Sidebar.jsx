@@ -1,20 +1,23 @@
 import {
     Logo,
-    reactLogo,
+    BsPostcard,
     Menu,
-    Loading,
+    FaRegPlusSquare,
+    RiUserLine,
+    AiOutlineHome,
 } from '../barrel_module/Barrel.jsx';
 
 function Sidebar({ activeMenu, setActiveMenu, addClass = "", isAdmin }) {
     const menuNames = isAdmin ? 
         [
-            { key: "AdminDashboard", name: "Dashboard", iconUrl: reactLogo },
-            { key: "Profile", name: "Profile", iconUrl: reactLogo }
+            { key: "AdminDashboard", name: "Dashboard", IconComponent: AiOutlineHome},
+            { key: "Profile", name: "Profile", IconComponent: RiUserLine }
         ]
         : [
-            { key: "Dashboard", name: "Dashboard", iconUrl: reactLogo },
-            { key: "Photo", name: "Upload Foto", iconUrl: reactLogo },
-            { key: "Profile", name: "Profile", iconUrl: reactLogo }
+            { key: "Dashboard", name: "Dashboard", IconComponent: AiOutlineHome },
+            { key: "MyPost", name: "My Post", IconComponent: BsPostcard },
+            { key: "Photo", name: "Upload Foto", IconComponent: FaRegPlusSquare },
+            { key: "Profile", name: "Profile", IconComponent: RiUserLine }
         ];
 
     return (
@@ -24,7 +27,7 @@ function Sidebar({ activeMenu, setActiveMenu, addClass = "", isAdmin }) {
                 <Menu 
                     key={menu.key}
                     menuName={menu.name} 
-                    iconUrl={menu.iconUrl} 
+                    IconComponent={menu.IconComponent} 
                     isActive={activeMenu === menu.key} 
                     setActive={() => setActiveMenu(menu.key)}/>
             ))}

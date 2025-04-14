@@ -1,7 +1,11 @@
 import { 
     useState,
     useRef, 
-    FaFileUpload } from '../../../components/barrel_module/Barrel.jsx';
+    FaFileUpload,
+    PopUpCheckOut,
+    safeFetch,
+    API,
+} from '../../../components/barrel_module/Barrel.jsx';
 
 const UploadFoto = () => {
   const [image, setImage] = useState(null);
@@ -9,6 +13,7 @@ const UploadFoto = () => {
   const fileInputRef = useRef(null);
   const [judul, setJudul] = useState('');
   const [deskripsi, setDeskripsi] = useState('');
+  const [showPopup, setShowPopup] = useState(false);
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -25,13 +30,47 @@ const UploadFoto = () => {
   };
   
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log({ image, judul, deskripsi });
+
+    try {
+      const form = FormData();
+
+      if(!image) {
+        alert("Mohon unggah gambar terlebih dahulu.");
+        return;
+      }
+
+      form.append('title', judul);
+      form.append('description', deskripsi);
+      form.append('photo', image);
+
+      const response = await safeFetch(API + "/posts", {
+        method: "POST",
+        body: form,
+      })
+
+      if(!response.ok) {
+        throw new Error("Upload Failed");
+      }
+
+      setShowPopup(true);
+      setImage(null);
+      setImagePreview(null);
+      setJudul('');
+      setDeskripsi('');
+    } catch (error) {
+
+    } finally {
+
+    }
+    // When Success
+    setShowPopup(true);
   };
 
   return (
     <div className="flex flex-col md:flex-row gap-12">
+      {showPopup && <PopUpCheckOut isVisible={true} onClose={() => setShowPopup(false)} />}
       <div className="border-2 border-dashed border-gray-300 flex flex-col justify-center items-center w-full md:w-2/5 h-96 rounded-xl">
         <label htmlFor="fileUpload" className="flex flex-col items-center cursor-pointer text-center">
           {!image && (
@@ -66,7 +105,7 @@ const UploadFoto = () => {
                 />
                 <button
                 type="button"
-                className="mt-4 text-blue-600 font-bold underline"
+                className="mt-4 text-blue-600 font-bold underline cursor-pointer"
                 onClick={handleOpenFileDialog}
                 >
                 Pilih File

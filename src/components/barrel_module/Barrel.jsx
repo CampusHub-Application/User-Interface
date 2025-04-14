@@ -38,10 +38,13 @@ export {
     FaEdit,
     FaRegEye,
     FaRegEyeSlash,
+    FaRegPlusSquare,
+    FaCheck,
 } from 'react-icons/fa'
 
 export { 
     RiDeleteBin5Line, 
+    RiUserLine,
 } from "react-icons/ri";
 
 export {
@@ -53,6 +56,14 @@ export {
     PiPencilLineThin 
 } from "react-icons/pi";
 
+export { 
+    AiOutlineHome,
+} from "react-icons/ai";
+
+export { 
+    BsPostcard 
+} from "react-icons/bs";
+
 export { createRoot } from 'react-dom/client'
 
 // Dev-made components exports
@@ -62,6 +73,7 @@ export { default as Header } from '../Dashboard/Header.jsx';
 export { default as Sidebar } from '../Dashboard/Sidebar.jsx';
 export { default as AdminDashboardUI } from '../../pages/Dashboard/Admin/AdminDashboardMenu.jsx';
 export { default as NoAdminDashboard } from '../../pages/Dashboard/Non-Admin/NoAdminDashboard.jsx';
+export { default as MyPost } from '../../pages/Dashboard/Non-Admin/MyPost.jsx'
 export { default as UploadFoto } from '../../pages/Dashboard/Non-Admin/UploadFoto.jsx';
 export { default as DetailFoto } from '../../pages/Dashboard/Non-Admin/DetailFoto.jsx';
 export { default as Profile } from '../../pages/Dashboard/Profile.jsx';
@@ -95,6 +107,7 @@ export {
     dashboardHeaderPadding as headerPadding,
     profileFieldMap,
     adminAddUserMap,
+    adminEditUserMap,
     loginFieldMap,
 } from '../UIConfig.jsx';
 

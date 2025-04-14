@@ -6,11 +6,14 @@ import {
   API, 
 } from "../../../components/barrel_module/Barrel.jsx";
 
-const NoAdminDashboard = ({ setActiveMenu, setImage, setImageOwnerID }) => {
+import { useAuth } from '../../../auth/AuthProvider.jsx'
+
+const MyPost = ({ setActiveMenu, setImage, setImageOwnerID }) => {
   const [images, setImages] = useState([]);
+  const { user } = useAuth();
 
   useEffect(() => {
-    safeFetch(API + "/posts", {
+    safeFetch(API + "/posts?id_filter=" + user.id, {
       method: "GET",
       headers: {
         accept: "application/json",
@@ -25,15 +28,6 @@ const NoAdminDashboard = ({ setActiveMenu, setImage, setImageOwnerID }) => {
     }).catch((error) => {
       console.log("fetch error: ", error);
     })
-
-    // setImages([
-    //   { src: 'https://via.placeholder.com/400', caption: 'Gambar 1' },
-    //   { src: 'https://via.placeholder.com/400', caption: 'Gambar 2' },
-    //   { src: 'https://via.placeholder.com/400', caption: 'Gambar 3' },
-    //   { src: 'https://via.placeholder.com/400', caption: 'Gambar 4' },
-    //   { src: 'https://via.placeholder.com/400', caption: 'Gambar 5' },
-    //   { src: 'https://via.placeholder.com/400', caption: 'Gambar 6' },
-    // ]);
   }, []);
 
   const handleClick = (img) => {
@@ -65,4 +59,4 @@ const NoAdminDashboard = ({ setActiveMenu, setImage, setImageOwnerID }) => {
   );
 };
 
-export default NoAdminDashboard;
+export default MyPost;

@@ -240,7 +240,7 @@ function AdminDashboardMenu() {
                     ]}
                     />
             </div>
-            <table className="table-fixed mt-10 w-full border-collapse overflow-hidden">
+            <table className="table-fixed mt-10 w-full border-collapse overflow-y-scroll overflow-x-auto">
                 <thead>
                     <tr className="bg-gray-100 border-b border-gray-300">
                         <th className="text-start py-3 ps-5 w-14">
@@ -255,7 +255,7 @@ function AdminDashboardMenu() {
                         </th>
                         <th className="text-start">Nama</th>
                         <th className="text-start">Email</th>
-                        {/* <th className="text-start overflow-hidden">Password</th> */}
+                        <th className="text-start overflow-hidden">Password</th>
                         <th className="text-start">Status</th>
                         <th className="text-end pe-5">Aksi</th>
                     </tr>

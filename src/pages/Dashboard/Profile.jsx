@@ -8,8 +8,8 @@ import {
     Loading,
     safeFetch,
     API,
-    useEffect,
     useRef,
+    PopUpCheckOut,
 } from "../../components/barrel_module/Barrel.jsx";
 
 function Profile( { user, isAdmin } ) {
@@ -20,6 +20,7 @@ function Profile( { user, isAdmin } ) {
     const [image, setImage] = useState(null);
     const [imagePreview, setImagePreview] = useState(null);
     const [tempImage, setTempImage] = useState(null);
+    const [showPopup, setShowPopup] = useState(false);
     var newPreview = null;
 
     const [formData, setFormData] = useState({
@@ -75,11 +76,6 @@ function Profile( { user, isAdmin } ) {
                 form.append("photo", image);
             }
 
-            console.log("FormData Entries:");
-            for (let pair of form.entries()) {
-                console.log(pair[0], pair[1]);
-            }
-
             const response = await safeFetch(API + "/users?_method=PATCH", {
                 method: "POST", 
                 body: form,
@@ -92,7 +88,8 @@ function Profile( { user, isAdmin } ) {
                 return;
             }
 
-            alert("Submit Successful");
+            setShowPopup(true);
+            // alert("Submit Successful");
 
             // Optionally, reload or update UI state with new user info
         } catch(error) {
@@ -106,6 +103,7 @@ function Profile( { user, isAdmin } ) {
     return (
         <div className="relative flex">
             {isLoading && <Loading />}
+            {showPopup && <PopUpCheckOut isVisible={true} onClose={() => setShowPopup(false)} message={"Profile berhasil diupdate! Silahkan Muat Ulang Halaman untuk Cek!"} />}
             <div className="flex flex-col gap-5 w-full">
                 <div className="flex flex-row justify-center md:justify-start items-center">
                     <h1 className="text-3xl font-bold">Profile</h1>
