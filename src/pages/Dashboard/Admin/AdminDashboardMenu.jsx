@@ -244,7 +244,7 @@ function AdminDashboardMenu() {
                     ]}
                     />
             </div>
-            <table className="table-fixed mt-10 w-full border-collapse overflow-y-scroll overflow-x-auto">
+            <table className="table-fixed mt-10 w-full border-collapse overflow-y-scroll overflow-x-scroll">
                 <thead>
                     <tr className="bg-gray-100 border-b border-gray-300">
                         <th className="text-start py-3 ps-5 w-14">

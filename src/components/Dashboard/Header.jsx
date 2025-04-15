@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { 
     useState,
     SearchIcon,
@@ -47,24 +46,24 @@ function DashboardHeader({ activeMenu, setActiveMenu, user, isAdmin, setFiltered
                 {isLoading && <Loading />}
                 <SidebarToggleWrapper activeMenu={activeMenu} setActiveMenu={setActiveMenu} isAdmin={isAdmin} />
 
-                <div className="flex flex-row items-center justify-between w-full">
+                <div className="flex flex-row items-center justify-end sm:justify-between w-full">
                     {/* Search Bar */}
-                    <form onSubmit={searchHandler} className="flex flex-auto max-w-sm items-center justify-between border border-gray-300 rounded-md px-4 py-2 me-10">
+                    <form onSubmit={searchHandler} className="hidden sm:flex flex-auto flex-row max-w-sm items-center justify-between border border-gray-300 rounded-md px-4 py-2 me-10">
                         <input
                             type="text"
                             placeholder="Search Here"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="active:outline-none focus:outline-none flex flex-auto me-4"
+                            className="active:outline-none focus:outline-none grow min-w-0 w-0 me-4"
                         />
-                        <button type="submit" className="cursor-pointer flex items-center h-5 w-5">
+                        <button type="submit" className="cursor-pointer flex flex-initial items-center h-5 w-5 aspect-square">
                             <SearchIcon />
                         </button>
                     </form>
 
                     {/* Avatar */}
                     <CustomDropdown
-                        className="rounded-full"
+                        className="rounded-full min-h-5 min-w-5 aspect-square"
                         items={[
                             { label: "Profile", onClick: () => setActiveMenu("Profile") },
                             { label: "Logout", onClick: useLogoutHandler() },

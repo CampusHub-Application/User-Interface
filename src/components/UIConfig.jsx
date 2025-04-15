@@ -1,6 +1,6 @@
 import { ADMIN_MODE } from "./barrel_module/Barrel";
 
-const dashboardHeaderPadding = "pt-10 px-8"
+const dashboardHeaderPadding = "pt-10 px-5"
 
 const loginFieldMap = [
     {
