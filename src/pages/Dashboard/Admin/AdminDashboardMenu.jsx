@@ -12,6 +12,8 @@ import {
     RiDeleteBin5Line,
     useRef,
     useLogoutHandler,
+    RiUserAddLine,
+    RiCheckboxMultipleLine,
 } from "../../../components/barrel_module/Barrel.jsx";
 
 import { useAuth } from '../../../auth/AuthProvider.jsx';
@@ -37,9 +39,9 @@ function AdminDashboardMenu() {
         setModalOpen(true);
     };
 
-    useEffect(() => {
-        sessionStorage.setItem("currentMenu", "AdminDashboard");
-    }, [])
+    // useEffect(() => {
+    //     sessionStorage.setItem("currentMenu", "AdminDashboard");
+    // }, [])
 
     useEffect(() => {
         const fetchData = async () => {
@@ -204,19 +206,22 @@ function AdminDashboardMenu() {
                 <div className="flex flex-row gap-5">
                     <ModalForm 
                         title=  {
-                                    <>
-                                        <span className='text-xl pe-2'>+</span> Tambah Pengguna
-                                    </>
+                                    <div className="flex flex-row items-center justify-center px-4">
+                                        <RiUserAddLine className="text-white font-bold sm:pe-3 sm:w-7 sm:h-7"/>
+                                        <p className="hidden sm:inline-block text-white font-bold">Tambah Pengguna</p>
+                                    </div>
                                 } 
                         fieldConfig={adminAddUserMap}
+                        customClass={"bg-blue-700 hover:bg-blue-800 transition border border-gray-300 rounded-xl"}
                         event={handleUpdateUserList}
                     />
                     <button
                         onClick={confirmDelete}
-                        className="flex flex-row items-center gap-3 bg-red-600 hover:bg-red-700 text-white transition px-3 py-3 me-3 border border-gray-300 rounded-xl"
+                        className="flex flex-row items-center gap-1 sm:gap-3 bg-red-600 hover:bg-red-700 text-white transition px-3 py-3 me-3 border border-gray-300 rounded-xl"
                     >
                         <RiDeleteBin5Line className="text-xl" />
-                        Multi-Delete
+                        <RiCheckboxMultipleLine className="sm:hidden text-xl"/>
+                        <p className="hidden sm:inline-block text-white font-bold">Multi-Delete</p>
                     </button>
                 </div>
             </div>
@@ -244,45 +249,48 @@ function AdminDashboardMenu() {
                     ]}
                     />
             </div>
-            <table className="table-fixed mt-10 w-full border-collapse overflow-y-scroll overflow-x-scroll">
-                <thead>
-                    <tr className="bg-gray-100 border-b border-gray-300">
-                        <th className="text-start py-3 ps-5 w-14">
-                            <input
-                                type="checkbox"
-                                className="form-checkbox h-4 w-4 text-blue-600"
-                                onChange={selectAllHandler}
-                                checked={
-                                    filteredUserList?.length > 0 && selected.length === filteredUserList.length
-                                }
-                            />
-                        </th>
-                        <th className="text-start">Nama</th>
-                        <th className="text-start">Email</th>
-                        <th className="text-start overflow-hidden">Password</th>
-                        <th className="text-start">Status</th>
-                        <th className="text-end pe-5">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {filteredUserList && filteredUserList.map(user => (
-                        <Row 
-                            key={user.id} 
-                            user={user} 
-                            currentUser={currentUser}
-                            setSelected={setSelected}
-                            showModal={showModal}
-                            setModalOpen={setModalOpen}
-                            isSelected={selected.some(item => item.id === user.id)}
-                            logoutHandler={logoutHandler}
-                            onUserDeleted={(deletedId) => {
-                                setUserList(prev => prev.filter(u => u.id !== deletedId));
-                                setSelected(prev => prev.filter(item => item.id !== deletedId)); // optional
-                            }}
-                            />
-                    ))}
-                </tbody>
-            </table>
+            <div className="h-auto mt-10 overflow-x-scroll overflow-y-scroll">
+                <table className="table w-full border-collapse">
+                    <thead>
+                        <tr className="bg-gray-100 border-b border-gray-300">
+                            <th className="text-start py-3 ps-5 w-14">
+                                <input
+                                    type="checkbox"
+                                    className="form-checkbox h-4 w-4 text-blue-600"
+                                    onChange={selectAllHandler}
+                                    checked={
+                                        filteredUserList?.length > 0 && selected.length === filteredUserList.length
+                                    }
+                                />
+                            </th>
+                            <th className="text-start">Nama</th>
+                            <th className="text-start">Email</th>
+                            <th className="text-start overflow-hidden">Password</th>
+                            <th className="text-start">Status</th>
+                            <th className="text-end pe-5">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {filteredUserList && filteredUserList.map(user => (
+                            <Row 
+                                key={user.id} 
+                                user={user} 
+                                currentUser={currentUser}
+                                setSelected={setSelected}
+                                showModal={showModal}
+                                setModalOpen={setModalOpen}
+                                isSelected={selected.some(item => item.id === user.id)}
+                                logoutHandler={logoutHandler}
+                                onUserDeleted={(deletedId) => {
+                                    setUserList(prev => prev.filter(u => u.id !== deletedId));
+                                    setSelected(prev => prev.filter(item => item.id !== deletedId)); // optional
+                                }}
+                                setShouldFetch={setShouldFetch}
+                                />
+                        ))}
+                    </tbody>
+                </table>
+            </div>
             {modalContent && (
                 <BasePopModal
                     content={modalContent}

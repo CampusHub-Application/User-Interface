@@ -93,6 +93,17 @@ function adminEditDashboardFieldMap({ user }) {
     return [
         {
             type: "text",
+            name: "id",
+            label: "User ID",
+            placeholder: null,
+            addClass: "bg-gray-200/50",
+            defaultValue: user.id,
+            disabled: true,
+            isDropdown: false,
+            isPassword: false,
+        },
+        {
+            type: "text",
             name: "is_admin",
             label: "Status",
             placeholder: null,

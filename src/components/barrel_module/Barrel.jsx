@@ -45,6 +45,8 @@ export {
 export { 
     RiDeleteBin5Line, 
     RiUserLine,
+    RiUserAddLine,
+    RiCheckboxMultipleLine,
 } from "react-icons/ri";
 
 export {
