@@ -7,9 +7,11 @@ import {
     AiOutlineHome,
     useState,
     SearchIcon,
+    safeFetch,
+    API,
 } from '../barrel_module/Barrel.jsx';
 
-function Sidebar({ activeMenu, setActiveMenu, addClass = "", isAdmin }) {
+function Sidebar({ activeMenu, setActiveMenu, addClass = "", isAdmin, setFilteredData }) {
     const [searchQuery, setSearchQuery] = useState("");
 
     const searchHandler = async (e) => {
@@ -49,19 +51,21 @@ function Sidebar({ activeMenu, setActiveMenu, addClass = "", isAdmin }) {
     return (
         <div className={"flex flex-col border-e-1 border-gray-300 min-w-[22rem] " + addClass}>    
             <Logo textsize={"text-4xl"} margin={"mb-8"}/>
-            {/* Search Bar */}
-            <form onSubmit={searchHandler} className="sm:hidden flex flex-auto flex-row max-w-sm items-center justify-between border border-gray-300 rounded-md mb-2 mx-5 px-3 py-2">
-                <input
-                    type="text"
-                    placeholder="Search Here"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="active:outline-none focus:outline-none grow min-w-0 w-0 me-4"
-                />
-                <button type="submit" className="cursor-pointer flex flex-initial items-center h-5 w-5 aspect-square">
-                    <SearchIcon />
-                </button>
-            </form>
+            {/* Search Bar, only if not admin */}
+            {!isAdmin && (
+                <form onSubmit={searchHandler} className="sm:hidden flex flex-auto flex-row max-w-sm items-center justify-between border border-gray-300 rounded-md mb-2 mx-5 px-3 py-2">
+                    <input
+                        type="text"
+                        placeholder="Search Here"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="active:outline-none focus:outline-none grow min-w-0 w-0 me-4"
+                    />
+                    <button type="submit" className="cursor-pointer flex flex-initial items-center h-5 w-5 aspect-square">
+                        <SearchIcon />
+                    </button>
+                </form>
+            )}
             {menuNames.map(menu => (
                 <Menu 
                     key={menu.key}

@@ -60,9 +60,9 @@ function Dashboard() {
 
     return (
         <>
-            <div className="flex flex-row bg-white h-full w-full border-4">
-                <Sidebar activeMenu={activeMenu} setActiveMenu={setActiveMenu} addClass="hidden lg:flex gap-5" isAdmin={isAdmin}/>
-                <div className="flex flex-col flex-auto h-full w-full border-4">
+            <div className="flex flex-row bg-white h-full w-full">
+                <Sidebar activeMenu={activeMenu} setActiveMenu={setActiveMenu} addClass="hidden lg:flex gap-5" isAdmin={isAdmin} setFilteredData={setFilteredData}/>
+                <div className="flex flex-col flex-auto h-full w-full">
                     <Header activeMenu={activeMenu} setActiveMenu={setActiveMenu} user={user} isAdmin={isAdmin} setFilteredData={setFilteredData}/>
                     <ActiveContent activeMenu={activeMenu} setActiveMenu={setActiveMenu} user={user} isAdmin={isAdmin} filteredData={filteredData} />
                 </div>
