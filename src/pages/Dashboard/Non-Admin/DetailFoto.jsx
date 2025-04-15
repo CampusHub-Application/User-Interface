@@ -12,7 +12,7 @@ const DetailFoto = ({ postID = null, setActiveMenu }) => {
   useEffect(() => {
     setIsLoading(true);
 
-    if(sessionStorage.getItem("PostID") !== null) {
+    if(postID === null && sessionStorage.getItem("PostID") !== null) {
       postID = sessionStorage.getItem("PostID");
     }
 
