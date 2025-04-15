@@ -80,7 +80,7 @@ function AdminDashboardMenu() {
         selectedRef.current = selected;
     }, [selected]);  
 
-    const filteredUserList = userList && statusFilter ? 
+    const filteredUserList = userList && statusFilter !== null ? 
         userList.filter(user => user.is_admin === statusFilter) : userList;
 
     if (userList === null || adminCount === null || nonAdminCount === null) return <Loading />

@@ -74,18 +74,16 @@ function Dashboard() {
 function ActiveContent({ activeMenu, setActiveMenu, user, isAdmin, filteredData }) {
     if(isAdmin === null) return <Loading />;
 
-    const [image, setImage] = useState(null);
     const [postID, setPostID] = useState(null);
-
 
     const menuComponentMap = isAdmin ? {
         AdminDashboard: <AdminDashboardUI />,
         Profile: <Profile user={user} isAdmin={isAdmin} />,
     } : {
-        Dashboard: <NoAdminDashboard setActiveMenu={setActiveMenu} setImage={setImage} setPostID={setPostID} filteredData={filteredData}/>,
-        MyPost: <MyPost setActiveMenu={setActiveMenu} setImage={setImage} setPostID={setPostID}/>,
+        Dashboard: <NoAdminDashboard setActiveMenu={setActiveMenu} setPostID={setPostID} filteredData={filteredData}/>,
+        MyPost: <MyPost setActiveMenu={setActiveMenu} setPostID={setPostID}/>,
         Photo: <UploadFoto />,
-        DetailPhoto: <DetailFoto image={image} postID={postID}/>,
+        DetailPhoto: <DetailFoto postID={postID} setActiveMenu={setActiveMenu}/>,
         Profile: <Profile user={user} isAdmin={isAdmin} />,
     };
 

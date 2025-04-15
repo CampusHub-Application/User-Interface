@@ -576,7 +576,7 @@ function ModalForm({ title, formTitle = null, customClass = null, isEdit = false
             {isOpen && (
                 <div className="fixed inset-0 z-50 bg-black/30 flex items-center justify-center">
                     {/* Modal Content */}
-                    <div className="bg-white w-full max-w-[60%] p-6 rounded-lg shadow-lg relative" ref={modalRef}>
+                    <div className="bg-white w-full max-w-[90%] md:max-w-[40rem] max-h-[80%] overflow-y-scroll p-6 rounded-lg shadow-lg relative" ref={modalRef}>
 
                     <h2 className="text-xl font-semibold">{formTitle || "Tambah Pengguna"}</h2>
                     <p className='text-gray-500 mb-6 mt-1'>Pastikan data sudah benar sebelum disimpan</p>

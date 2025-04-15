@@ -6,7 +6,7 @@ import {
   API, 
 } from "../../../components/barrel_module/Barrel.jsx";
 
-const MyPost = ({ setActiveMenu, setImage, setPostID }) => {
+const MyPost = ({ setActiveMenu, setPostID }) => {
   const [images, setImages] = useState([]);
 
   // useEffect(() => {
@@ -32,7 +32,6 @@ const MyPost = ({ setActiveMenu, setImage, setPostID }) => {
   });
 
   const handleClick = (img) => {
-    setImage(img);
     setPostID(img.id);
     setActiveMenu("DetailPhoto");
   };

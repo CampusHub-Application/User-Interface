@@ -1,14 +1,21 @@
-import { safeFetch, useEffect, useState, API } from "../../../components/barrel_module/Barrel.jsx";
+import { safeFetch, useEffect, useState, API, Loading } from "../../../components/barrel_module/Barrel.jsx";
 
-const DetailFoto = ({ image, postID = null }) => {
+const DetailFoto = ({ postID = null, setActiveMenu }) => {
   const [imageOwner, setImageOwner] = useState([]);
-  if (!image) return <p className="text-center text-gray-500">Tidak ada gambar dipilih.</p>;
+  const [image, setImage] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   // useEffect(() => {
   //   sessionStorage.setItem("currentMenu", "DetailPhoto");
   // }, [])
 
   useEffect(() => {
+    setIsLoading(true);
+
+    if(sessionStorage.getItem("PostID") !== null) {
+      postID = sessionStorage.getItem("PostID");
+    }
+
     if(postID) {
       safeFetch(API + "/posts/" + postID, {
         method: "GET",
@@ -21,25 +28,30 @@ const DetailFoto = ({ image, postID = null }) => {
         }
         return res.json();
       }).then((data) => {
+        sessionStorage.setItem("PostID", postID);
+        setImage(data.post);
         setImageOwner(data.post.user);
       }).catch((error) => {
-        console.log("fetch error: ", error);
+        alert("fetch error: ", error);
       })
     }
+
+    setIsLoading(false);
   }, [])
 
-  // const dummyData = {
-  //   name: "Budi Santoso",
-  //   email: "budi@email.com",
-  //   title: "Mahasiswa Aktif",
-  //   description: "Sedang mencari buku di perpustakaan",
-  // };
+  if (isLoading) return <Loading />;
 
-  return (
-    <div className="p-8 h-full">
-      <div className="max-w-5xl mx-auto bg-white border-2 border-gray-200 rounded-lg overflow-hidden flex">
+  if(image !== null) return (
+    <div className="flex flex-col gap-5 p-4 h-full">
+      <button
+        onClick={() => setActiveMenu("Dashboard")}
+        className="flex w-fit rounded-xl bg-gray-400/50 hover:bg-gray-500 transition text-white font-bold py-2 px-4 shadow-md"
+        >
+        Go Back
+      </button>
+      <div className="flex flex-initial flex-col sm:flex-row bg-white border-2 border-gray-200 rounded-lg overflow-hidden">
         
-        <div className="w-1/2 p-8">
+        <div className="flex sm:w-1/2 p-4">
           <img
             src={image.photo}
             alt={image.title}
@@ -47,7 +59,7 @@ const DetailFoto = ({ image, postID = null }) => {
           />
         </div>
 
-        <div className="w-1/2 p-8 flex flex-col justify-between space-y-24">
+        <div className="sm:w-1/2 p-8 flex flex-col justify-between space-y-24">
           <div>
             <h2 className="text-2xl font-bold text-gray-800 mb-2">{image.title}</h2>
             <p className="text-gray-600 text-lg">{image.description}</p>
@@ -88,6 +100,18 @@ const DetailFoto = ({ image, postID = null }) => {
       </div>
     </div>
   );
+
+  if (!isLoading && image === null) 
+    return (
+      <div className="flex flex-col gap-5 py-2 justify-center items-center">
+        <p className="text-center text-gray-500">Tidak ada gambar dipilih.</p>
+        <button 
+          onClick={() => setActiveMenu("Dashboard")} 
+          className="flex w-fit rounded-xl bg-blue-500 hover:bg-blue-600 transition text-white font-bold py-2 px-4 shadow-md">
+            Go Back
+        </button>
+      </div>
+    )
 };
 
 export default DetailFoto;
