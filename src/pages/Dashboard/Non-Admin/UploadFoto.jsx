@@ -51,7 +51,8 @@ const UploadFoto = () => {
       })
 
       if(!response.ok) {
-        throw new Error("Upload Failed");
+        alert(response.message);
+        return;
       }
 
       setShowPopup(true);
@@ -60,8 +61,7 @@ const UploadFoto = () => {
       setJudul('');
       setDeskripsi('');
     } catch (error) {
-      alert("Something went wrong", error);
-      console.log(error);
+      alert(error);
     }
   };
 

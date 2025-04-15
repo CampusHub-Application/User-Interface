@@ -64,6 +64,7 @@ function Profile( { user, isAdmin } ) {
 
             const form = new FormData();
             form.append("id", user.id); // Required for email uniqueness check
+            form.append("is_admin", isAdmin ? 1 : 0);
             form.append("name", formData.name || "");
             form.append("email", formData.email || "");
 

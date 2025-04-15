@@ -30,7 +30,6 @@ function Dashboard() {
     }, [user])
 
     useEffect(() => {
-        const adminCheck = ENABLE_LOGIN ? user?.is_admin : ADMIN_MODE;
         const session = sessionStorage.getItem("currentMenu");
 
         if(session !== null) {
