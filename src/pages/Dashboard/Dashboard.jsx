@@ -13,6 +13,7 @@ import {
     currUser,
     Loading,
     MyPost,
+    SomeonePost,
 } from '../../components/barrel_module/Barrel.jsx'
 
 import { useAuth } from "../../auth/AuthProvider.jsx";
@@ -40,7 +41,8 @@ function Dashboard() {
                 || session == "MyPost" 
                 || session == "Photo" 
                 || session == "DetailPhoto" 
-                || session == "Profile") && !isAdmin) {
+                || session == "Profile"
+                || session == "SomeonePost") && !isAdmin) {
                 setActiveMenu(session);
             }
         }
@@ -74,6 +76,7 @@ function ActiveContent({ activeMenu, setActiveMenu, user, isAdmin, filteredData 
     if(isAdmin === null) return <Loading />;
 
     const [postID, setPostID] = useState(null);
+    const [currentOwner, setCurrentOwner] = useState(null);
 
     const menuComponentMap = isAdmin ? {
         AdminDashboard: <AdminDashboardUI />,
@@ -82,8 +85,9 @@ function ActiveContent({ activeMenu, setActiveMenu, user, isAdmin, filteredData 
         Dashboard: <NoAdminDashboard setActiveMenu={setActiveMenu} setPostID={setPostID} filteredData={filteredData}/>,
         MyPost: <MyPost setActiveMenu={setActiveMenu} setPostID={setPostID}/>,
         Photo: <UploadFoto />,
-        DetailPhoto: <DetailFoto postID={postID} setActiveMenu={setActiveMenu}/>,
+        DetailPhoto: <DetailFoto postID={postID} setActiveMenu={setActiveMenu} setCurrentOwner={setCurrentOwner}/>,
         Profile: <Profile user={user} isAdmin={isAdmin} />,
+        SomeonePost: <SomeonePost setActiveMenu={setActiveMenu} currentOwner={currentOwner} setPostID={setPostID} />,
     };
 
 

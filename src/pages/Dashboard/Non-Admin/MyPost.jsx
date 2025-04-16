@@ -37,7 +37,8 @@ const MyPost = ({ setActiveMenu, setPostID }) => {
   };
 
   return (
-    <div className="p-4 flex justify-center">
+    <div className="p-4 flex flex-col justify-center">
+      <h1 className="text-3xl font-bold text-black ps-3">My Post</h1>
       <div className="w-full max-w-7xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {images.map((img, idx) => (
           <Link onClick={ () => handleClick(img) } key={idx}>
