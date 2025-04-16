@@ -24,9 +24,6 @@ function SomeonePost({ setActiveMenu, currentOwner = null, setPostID = null }) {
 
     useEffect(() => {
         if (thisCurrentOwner !== null) {
-            console.log("This is owner id: " + thisCurrentOwner.id);
-            console.log("This is owner id: " + thisCurrentOwner.name);
-            console.log("Fetching from: " + "/my-posts?id=" + thisCurrentOwner.id);
             safeFetch(API + "/my-posts?id=" + thisCurrentOwner.id, {
                 method: "GET",
             }).then(res => {
@@ -36,12 +33,11 @@ function SomeonePost({ setActiveMenu, currentOwner = null, setPostID = null }) {
             return res.json();
             }).then((data) => {
             setImages(data)
-            console.log("this is the data: ", data);
             }).catch((error) => {
             console.log("fetch error: ", error);
             })
         }
-    }, [])
+    }, [thisCurrentOwner])
 
     const handleClick = (img) => {
         setPostID(img.id);
@@ -83,7 +79,7 @@ function SomeonePost({ setActiveMenu, currentOwner = null, setPostID = null }) {
                     }
                     <div>
                         <a 
-                            className="font-semibold text-gray-800 hover:text-gray-600 cursor-pointer">{thisCurrentOwner.name}</a>
+                            className="font-semibold text-gray-800">{thisCurrentOwner.name}</a>
                         <p className="text-sm text-gray-500">{thisCurrentOwner.email}</p>
                     </div>
                 </div>
