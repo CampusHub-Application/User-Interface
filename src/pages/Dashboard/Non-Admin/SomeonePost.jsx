@@ -61,7 +61,7 @@ function SomeonePost({ setActiveMenu, currentOwner = null, setPostID = null }) {
                     {
                     thisCurrentOwner.photo ? (
                         <img 
-                            src={thisCurrentOwner.photo} 
+                            src={`${thisCurrentOwner.photo}?v=${new Date(thisCurrentOwner.updated_at).getTime()}`} 
                             className="object-cover rounded-full h-9 w-9 border border-gray-400" 
                             alt={thisCurrentOwner.name}
                         />
