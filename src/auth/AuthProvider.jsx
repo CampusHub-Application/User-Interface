@@ -44,8 +44,17 @@ const AuthProvider = ({ children }) => {
                 if (!response.ok) throw new Error('Not authenticated');
 
                 const data = await response.json();
+                // const profile = data.profile;
+                // profile.photo = `${profile.photo}?v=${Date.now()}`;
 
-                setUser(data.profile); // Set user data if authenticated
+                const updatedProfile = {
+                    ...data.profile,
+                    photo: data.profile.photo
+                    ? `${data.profile.photo}?v=${new Date(user.updated_at).getTime()}`
+                    : null
+                };
+
+                setUser(updatedProfile); // Set user data if authenticated
             } catch (error) {
                 setUser(null); // Set null if not authenticated
             } finally {

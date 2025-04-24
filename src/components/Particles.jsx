@@ -275,7 +275,7 @@ function UserTableRow({ user, currentUser, isSelected, setSelected, showModal, s
                 {
                     user.photo ? (
                         <img 
-                            src={user.photo} 
+                            src={`${user.photo}?v=${new Date(user.updated_at).getTime()}`} 
                             className="object-cover rounded-full w-10 h-10 border border-gray-300" 
                             alt={user.name}
                         />
