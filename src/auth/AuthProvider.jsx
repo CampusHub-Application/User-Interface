@@ -50,7 +50,7 @@ const AuthProvider = ({ children }) => {
                 const updatedProfile = {
                     ...data.profile,
                     photo: data.profile.photo
-                    ? `${data.profile.photo}?v=${new Date(user.updated_at).getTime()}`
+                    ? `${data.profile.photo}?v=${new Date(data.profile.updated_at).getTime()}`
                     : null
                 };
 
