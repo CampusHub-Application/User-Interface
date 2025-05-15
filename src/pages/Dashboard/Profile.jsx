@@ -64,6 +64,7 @@ function Profile( { user, isAdmin } ) {
 
             const form = new FormData();
             form.append("id", user.id); // Required for email uniqueness check
+            form.append("is_admin", isAdmin ? 1 : 0);
             form.append("name", formData.name || "");
             form.append("email", formData.email || "");
 
@@ -116,9 +117,9 @@ function Profile( { user, isAdmin } ) {
                     <div className="flex flex-col h-fit w-fit md:w-0 justify-center md:justify-start items-center md:items-start self-center md:self-start gap-3 bg-gray-300/30 py-5 px-5 min-w-[15rem] rounded-xl">
                         <div className="relative flex flex-col items-center justify-center">
                             {
-                                user.photo || tempImage ? (
+                                tempImage || user.photo ? (
                                     <img 
-                                        src={user.photo || tempImage } 
+                                        src={tempImage || user.photo} 
                                         className="object-cover rounded-full w-24 h-24 border border-gray-300" 
                                         alt={user.name}
                                     />

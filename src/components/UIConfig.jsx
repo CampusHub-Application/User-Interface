@@ -1,6 +1,6 @@
 import { ADMIN_MODE } from "./barrel_module/Barrel";
 
-const dashboardHeaderPadding = "pt-10 px-8"
+const dashboardHeaderPadding = "pt-10 px-5"
 
 const loginFieldMap = [
     {
@@ -91,6 +91,17 @@ const adminDashboardFieldMap = [
 
 function adminEditDashboardFieldMap({ user }) {
     return [
+        {
+            type: "text",
+            name: "id",
+            label: "User ID",
+            placeholder: null,
+            addClass: "bg-gray-200/50",
+            defaultValue: user.id,
+            disabled: true,
+            isDropdown: false,
+            isPassword: false,
+        },
         {
             type: "text",
             name: "is_admin",

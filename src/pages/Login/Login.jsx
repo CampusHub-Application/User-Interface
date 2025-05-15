@@ -143,7 +143,7 @@ function Login() {
                 </form>
             </div>
             <div className="flex flex-auto flex-col lg:flex-row order-1 lg:order-2 lg:w-1/2 lg:h-screen h-1/4 w-screen justify-center items-center bg-blue-950 text-white">
-                <h1 className='text-7xl font-bold'> Campus <span className='py-1 px-4 rounded-xl bg-blue-600'>Hub</span></h1>
+                <h1 className='text-[13dvw] lg:text-7xl font-bold text-center'> Campus <span className='py-1 px-4 rounded-xl bg-blue-600'>Hub</span></h1>
             </div>
             {errorModalContent && (
                 <BasePopModal

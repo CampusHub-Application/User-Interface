@@ -13,6 +13,7 @@ import {
     currUser,
     Loading,
     MyPost,
+    SomeonePost,
 } from '../../components/barrel_module/Barrel.jsx'
 
 import { useAuth } from "../../auth/AuthProvider.jsx";
@@ -30,7 +31,6 @@ function Dashboard() {
     }, [user])
 
     useEffect(() => {
-        const adminCheck = ENABLE_LOGIN ? user?.is_admin : ADMIN_MODE;
         const session = sessionStorage.getItem("currentMenu");
 
         if(session !== null) {
@@ -41,7 +41,8 @@ function Dashboard() {
                 || session == "MyPost" 
                 || session == "Photo" 
                 || session == "DetailPhoto" 
-                || session == "Profile") && !isAdmin) {
+                || session == "Profile"
+                || session == "SomeonePost") && !isAdmin) {
                 setActiveMenu(session);
             }
         }
@@ -60,9 +61,9 @@ function Dashboard() {
 
     return (
         <>
-            <div className="flex flex-row bg-white h-full">
-                <Sidebar activeMenu={activeMenu} setActiveMenu={setActiveMenu} addClass="hidden lg:flex gap-5" isAdmin={isAdmin}/>
-                <div className="flex flex-col flex-auto h-full">
+            <div className="flex flex-row bg-white h-full w-full">
+                <Sidebar activeMenu={activeMenu} setActiveMenu={setActiveMenu} addClass="hidden lg:flex gap-5" isAdmin={isAdmin} setFilteredData={setFilteredData}/>
+                <div className="flex flex-col flex-auto h-full w-full">
                     <Header activeMenu={activeMenu} setActiveMenu={setActiveMenu} user={user} isAdmin={isAdmin} setFilteredData={setFilteredData}/>
                     <ActiveContent activeMenu={activeMenu} setActiveMenu={setActiveMenu} user={user} isAdmin={isAdmin} filteredData={filteredData} />
                 </div>
@@ -74,19 +75,19 @@ function Dashboard() {
 function ActiveContent({ activeMenu, setActiveMenu, user, isAdmin, filteredData }) {
     if(isAdmin === null) return <Loading />;
 
-    const [image, setImage] = useState(null);
     const [postID, setPostID] = useState(null);
-
+    const [currentOwner, setCurrentOwner] = useState(null);
 
     const menuComponentMap = isAdmin ? {
         AdminDashboard: <AdminDashboardUI />,
         Profile: <Profile user={user} isAdmin={isAdmin} />,
     } : {
-        Dashboard: <NoAdminDashboard setActiveMenu={setActiveMenu} setImage={setImage} setPostID={setPostID} filteredData={filteredData}/>,
-        MyPost: <MyPost setActiveMenu={setActiveMenu} setImage={setImage} setPostID={setPostID}/>,
+        Dashboard: <NoAdminDashboard setActiveMenu={setActiveMenu} setPostID={setPostID} filteredData={filteredData}/>,
+        MyPost: <MyPost setActiveMenu={setActiveMenu} setPostID={setPostID}/>,
         Photo: <UploadFoto />,
-        DetailPhoto: <DetailFoto image={image} postID={postID}/>,
+        DetailPhoto: <DetailFoto postID={postID} setActiveMenu={setActiveMenu} setCurrentOwner={setCurrentOwner}/>,
         Profile: <Profile user={user} isAdmin={isAdmin} />,
+        SomeonePost: <SomeonePost setActiveMenu={setActiveMenu} currentOwner={currentOwner} setPostID={setPostID} />,
     };
 
 

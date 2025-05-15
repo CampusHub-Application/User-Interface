@@ -167,7 +167,7 @@ function CustomDropdown({ label = "Menu", items = [], className = "" }) {
     );
 }
 
-function UserTableRow({ user, currentUser, isSelected, setSelected, showModal, setModalOpen, onUserDeleted, logoutHandler }) {
+function UserTableRow({ user, currentUser, isSelected, setSelected, showModal, setModalOpen, onUserDeleted, logoutHandler, setShouldFetch = () => null }) {
     const confirmDelete = () => {
         showModal(
             <div className="flex flex-col gap-3">
@@ -241,9 +241,9 @@ function UserTableRow({ user, currentUser, isSelected, setSelected, showModal, s
         }
     }
 
-    const editHandler = async () => {
-
-    }
+    const handleUpdateUserList = () => {
+        setShouldFetch(true); // Trigger refetching of data
+    };
 
     return (
         <tr className="border-b border-gray-200 hover:bg-gray-50 transition">
@@ -275,7 +275,7 @@ function UserTableRow({ user, currentUser, isSelected, setSelected, showModal, s
                 {
                     user.photo ? (
                         <img 
-                            src={user.photo} 
+                            src={`${user.photo}?v=${new Date(user.updated_at).getTime()}`} 
                             className="object-cover rounded-full w-10 h-10 border border-gray-300" 
                             alt={user.name}
                         />
@@ -317,14 +317,14 @@ function UserTableRow({ user, currentUser, isSelected, setSelected, showModal, s
 
             {/* Action Buttons */}
             <td className="flex py-3 items-center justify-end space-x-2">
-            <ModalForm 
-                title=  {<FaEdit className='text-xl'/>}
-                formTitle={"Edit Pengguna"}
-                customClass={"text-black hover:text-blue-800 transition px-3 py-3 me-3 border border-gray-300 rounded-md"}
-                fieldConfig={adminEditUserMap({ user })}
-                isEdit={user}
-                event={editHandler}
-            />
+                <ModalForm 
+                    title=  {<FaEdit className='text-xl'/>}
+                    formTitle={"Edit Pengguna"}
+                    customClass={"text-black hover:text-blue-800 transition px-3 py-3 me-3 border border-gray-300 rounded-md"}
+                    fieldConfig={adminEditUserMap({ user })}
+                    isEdit={true}
+                    event={handleUpdateUserList}
+                />
             {/* <button
                 onClick={editHandler}
                 className="text-black hover:text-blue-800 transition px-3 py-3 me-3 border border-gray-300 rounded-md"
@@ -432,17 +432,18 @@ function FormInputPasswordComponent({ field, index, onChange = () => {}  }) {
     )
 }
 
-function ModalForm({ title, formTitle = null, customClass = null, isEdit = null, fieldConfig, event = () => null }) {
+function ModalForm({ title, formTitle = null, customClass = null, isEdit = false, fieldConfig, event = () => null }) {
     const [modalContent, setModalContent] = useState(null);
     const [isModalOpen, setModalOpen] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
     const [imagePreview, setImagePreview] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [formData, setFormData] = useState({
+        id: fieldConfig.find(f => f.name === "id")?.defaultValue || "",
         is_admin: fieldConfig.find(f => f.name === "is_admin")?.defaultValue || "",
-        name: "",
-        email: "",
-        password: "",
+        name: fieldConfig.find(f => f.name === "name")?.defaultValue || "",
+        email: fieldConfig.find(f => f.name === "email")?.defaultValue || "",
+        password: fieldConfig.find(f => f.name === "password")?.defaultValue || "",
         password_confirmation: "",
         photo: null,
     });
@@ -468,8 +469,8 @@ function ModalForm({ title, formTitle = null, customClass = null, isEdit = null,
 
             const form = new FormData();
 
-            if(isEdit !== null) {
-                form.append("id", isEdit.id);
+            if(isEdit) {
+                form.append("id", formData.id);
             }
             form.append("is_admin", formData.is_admin);
             form.append("name", formData.name);
@@ -481,7 +482,7 @@ function ModalForm({ title, formTitle = null, customClass = null, isEdit = null,
                 form.append("photo", formData.photo);
             }
 
-            if(isEdit !== null) {
+            if(isEdit) {
                 const response = await safeFetch(API + "/users?_method=PATCH", {
                     method: "POST",
                     body: form,
@@ -521,12 +522,22 @@ function ModalForm({ title, formTitle = null, customClass = null, isEdit = null,
 
             event();
 
-            showModal(
-                <div className="flex flex-col gap-5">
-                    <h1 className="text-2xl font-bold text-center">Submit Successfull</h1>
-                    <p className="text-center">New User Added Successfully</p>
-                </div>
-            );
+            if(isEdit) {
+                showModal(
+                    <div className="flex flex-col gap-5">
+                        <h1 className="text-2xl font-bold text-center">Update Successfull</h1>
+                        <p className="text-center">User Updated!</p>
+                    </div>
+                );
+            } else {
+                showModal(
+                    <div className="flex flex-col gap-5">
+                        <h1 className="text-2xl font-bold text-center">Submit Successfull</h1>
+                        <p className="text-center">New User Added Successfully</p>
+                    </div>
+                );
+            }
+
 
         } catch (error) {
             alert("Error submitting form", error);
@@ -565,7 +576,7 @@ function ModalForm({ title, formTitle = null, customClass = null, isEdit = null,
             {isOpen && (
                 <div className="fixed inset-0 z-50 bg-black/30 flex items-center justify-center">
                     {/* Modal Content */}
-                    <div className="bg-white w-full max-w-[60%] p-6 rounded-lg shadow-lg relative" ref={modalRef}>
+                    <div className="bg-white w-full max-w-[90%] md:max-w-[40rem] max-h-[80%] overflow-y-scroll p-6 rounded-lg shadow-lg relative" ref={modalRef}>
 
                     <h2 className="text-xl font-semibold">{formTitle || "Tambah Pengguna"}</h2>
                     <p className='text-gray-500 mb-6 mt-1'>Pastikan data sudah benar sebelum disimpan</p>

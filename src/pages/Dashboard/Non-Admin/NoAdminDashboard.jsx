@@ -6,7 +6,7 @@ import {
   API, 
 } from "../../../components/barrel_module/Barrel.jsx";
 
-const NoAdminDashboard = ({ setActiveMenu, setImage, setPostID, filteredData = null }) => {
+const NoAdminDashboard = ({ setActiveMenu, setPostID, filteredData = null }) => {
   const [images, setImages] = useState([]);
 
   useEffect(() => {
@@ -33,7 +33,6 @@ const NoAdminDashboard = ({ setActiveMenu, setImage, setPostID, filteredData = n
   }, [filteredData]);
 
   const handleClick = (img) => {
-    setImage(img);
     setPostID(img.id);
     setActiveMenu("DetailPhoto");
   };

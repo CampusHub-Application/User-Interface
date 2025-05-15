@@ -45,6 +45,8 @@ export {
 export { 
     RiDeleteBin5Line, 
     RiUserLine,
+    RiUserAddLine,
+    RiCheckboxMultipleLine,
 } from "react-icons/ri";
 
 export {
@@ -77,6 +79,7 @@ export { default as MyPost } from '../../pages/Dashboard/Non-Admin/MyPost.jsx'
 export { default as UploadFoto } from '../../pages/Dashboard/Non-Admin/UploadFoto.jsx';
 export { default as DetailFoto } from '../../pages/Dashboard/Non-Admin/DetailFoto.jsx';
 export { default as Profile } from '../../pages/Dashboard/Profile.jsx';
+export { default as SomeonePost } from '../../pages/Dashboard/Non-Admin/SomeonePost.jsx';
 export { 
     default as Logo,
     SearchIcon,
