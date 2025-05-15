@@ -1,19 +1,21 @@
 FROM node:22.14.0-alpine
+WORKDIR /frontend
 
-COPY . /campushub/
-WORKDIR /campushub/
+ARG VITE_API_URL
+ARG VITE_SANCTUM_URL
+ARG VITE_WEB_AS_ADMIN
+ARG VITE_ENABLE_LOGIN
 
-RUN chown -R node:node /campushub/
-RUN chown -R node:node /tmp/
+ENV VITE_API_URL=${VITE_API_URL}
+ENV VITE_SANCTUM_URL=${VITE_SANCTUM_URL}
+ENV VITE_WEB_AS_ADMIN=${VITE_WEB_AS_ADMIN}
+ENV VITE_ENABLE_LOGIN=${VITE_ENABLE_LOGIN}
 
-RUN npm install -g npm@latest
+COPY package.json package-lock.json ./
+RUN npm install
 RUN npm install -g serve
-RUN npm audit fix --audit-level=none
+
+COPY . .
 RUN npm run build
 
-RUN rm -rf /tmp/* && rm -rf ~/.npm/
-RUN rm -rf /etc/localtime
-RUN ln -s /usr/share/zoneinfo/Asia/Jakarta /etc/localtime
-
-USER node
 CMD serve -s dist
